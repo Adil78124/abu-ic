@@ -110,16 +110,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   submenuToggles.forEach(toggle => {
     toggle.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        e.preventDefault();
-        const parent = toggle.closest('.has-submenu');
+      e.preventDefault();
+      const parent = toggle.closest('.has-submenu');
 
-        document.querySelectorAll('.has-submenu').forEach(item => {
-          if (item !== parent) item.classList.remove('active');
-        });
+      document.querySelectorAll('.has-submenu').forEach(item => {
+        if (item !== parent) item.classList.remove('active');
+      });
 
-        parent.classList.toggle('active');
-      }
+      parent.classList.toggle('active');
     });
   });
 

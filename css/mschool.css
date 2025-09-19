@@ -1,3 +1,32 @@
+/* УНИВЕРСАЛЬНЫЕ СТИЛИ ДЛЯ ПОДМЕНЮ - ПРИОРИТЕТ НАД ВСЕМИ ОСТАЛЬНЫМИ */
+.has-submenu.active .submenu {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  transition: all 0.15s ease !important; /* Быстрая анимация */
+}
+
+/* Быстрое открытие при наведении на десктопе */
+@media (min-width: 769px) {
+  .has-submenu:hover .submenu {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    transition: all 0.15s ease !important; /* Быстрая анимация */
+  }
+}
+
+/* Для мобильных устройств - flex layout */
+@media (max-width: 768px) {
+  .has-submenu.active .submenu {
+    display: flex !important;
+    flex-direction: column !important;
+    transition: all 0.15s ease !important; /* Быстрая анимация */
+  }
+}
+
 /*Обнуление*/
 *{padding:0;margin:0;border:0;}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
@@ -191,45 +220,6 @@ a{
     display: block !important;
   }
 
-  /* Стили для подменю */
-  .submenu {
-    display: none !important;
-    background: #333 !important;
-    margin: 10px 0 !important;
-    padding: 15px !important;
-    border-radius: 8px !important;
-  }
-
-  .has-submenu.active .submenu {
-    display: block !important;
-  }
-
-  .submenu li {
-    margin: 5px 0 !important;
-  }
-
-  .submenu a {
-    color: white !important;
-    font-size: 16px !important;
-    padding: 8px 15px !important;
-    display: block !important;
-    background: #555 !important;
-    border-radius: 4px !important;
-    text-decoration: none !important;
-  }
-
-  .submenu a:hover {
-    background: #666 !important;
-  }
-
-  /* Дополнительные стили для подменю */
-  .has-submenu .submenu-arrow {
-    transition: transform 0.3s ease;
-  }
-
-  .has-submenu.active .submenu-arrow {
-    transform: rotate(180deg);
-  }
 }
 
 
@@ -2032,14 +2022,13 @@ button.Teacher__title4 {
   top: 100%;
   left: 0;
   background-color: rgba(17, 17, 17, 0.9);
-  padding: 0; /* сбрасываем отступы, переносим в <a> */
+  padding: 0;
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-
   z-index: 1000;
   opacity: 0;
   transform: translateY(10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 .has-submenu:hover .submenu {
@@ -2050,7 +2039,7 @@ button.Teacher__title4 {
 
 .submenu li {
   white-space: nowrap;
-  width: 100%; /* ключевой момент */
+  width: 100%;
 }
 
 .submenu li a {
@@ -2060,46 +2049,18 @@ button.Teacher__title4 {
   color: white;
   font-size: 16px;
   background-color: transparent;
-  border-radius: 0; /* можно убрать округления */
+  border-radius: 0;
   text-decoration: none;
   text-align: left;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.15s ease;
   box-sizing: border-box;
 }
 
 .submenu li a:hover {
-  background-color: rgba(255, 255, 255, 0.1); /* белое полупрозрачное выделение на всю ширину */
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
-.submenu li {
-  white-space: nowrap;
-}
 
-.submenu li a {
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-color: transparent;
-  transition: background-color 0.3s ease;
-}
-
-@media (max-width: 768px) {
-  .has-submenu .submenu {
-    display: none;
-    position: static;
-    background-color: #1a1a1a;
-    width: 100%;
-    max-width: 100%;
-    padding: 0 0 0 16px; /* или 0, если не нужен отступ */
-    margin: 0;
-    border-radius: 6px;
-    box-shadow: none;
-    flex-direction: column;
-  }
-
-  .has-submenu.active .submenu {
-    display: flex !important;
-  }
-}
 
 
 
@@ -2627,15 +2588,52 @@ html, body {
   vertical-align: middle;
 }
 
-/* Поворот на мобильных (по клику) */
+/* Быстрое поворот стрелочек */
 .has-submenu.active .submenu-arrow {
   transform: rotate(180deg);
+  transition: transform 0.15s ease !important; /* Быстрая анимация */
 }
 
 /* Поворот на десктопах (при наведении) */
 @media (min-width: 769px) {
   .has-submenu:hover > .submenu-toggle .submenu-arrow {
     transform: rotate(180deg);
+    transition: transform 0.15s ease !important; /* Быстрая анимация */
+  }
+  
+  /* Подменю при клике на десктопе */
+  .menu__pages .has-submenu.active .submenu {
+    display: block !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    background: #222 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    padding: 10px 0 !important;
+    margin: 0 !important;
+    z-index: 1000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  .has-submenu.active .submenu-arrow {
+    transform: rotate(180deg);
+  }
+  
+  .has-submenu.active .submenu li a {
+    display: block !important;
+    padding: 12px 20px !important;
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    white-space: nowrap !important;
+  }
+  
+  .has-submenu.active .submenu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transition: background-color 0.1s ease !important; /* Очень быстрая анимация */
   }
 }
 

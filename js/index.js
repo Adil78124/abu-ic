@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  console.log('DOM загружен, инициализация JavaScript...');
   // === ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ ===
   const languages = ["KZ", "RU", "EN"];
   let currentIndex = 0;
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuBody = document.getElementById('menu-body');
   const menuPages = document.querySelector('.menu__pages');
   const submenuToggles = document.querySelectorAll('.submenu-toggle');
+  console.log('Найдено элементов submenu-toggle:', submenuToggles.length);
 
   // Функция для закрытия меню
   function closeMenu() {
@@ -86,15 +88,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
   submenuToggles.forEach(toggle => {
     toggle.addEventListener('click', (e) => {
-      if (window.innerWidth <= 768) {
-        e.preventDefault();
-        const parent = toggle.closest('.has-submenu');
+      e.preventDefault();
+      console.log('Клик по подменю:', toggle.textContent.trim());
+      const parent = toggle.closest('.has-submenu');
+      console.log('Родительский элемент найден:', parent);
 
-        document.querySelectorAll('.has-submenu').forEach(item => {
-          if (item !== parent) item.classList.remove('active');
-        });
+      document.querySelectorAll('.has-submenu').forEach(item => {
+        if (item !== parent) {
+          item.classList.remove('active');
+          console.log('Закрыто подменю:', item);
+        }
+      });
 
-        parent.classList.toggle('active');
+      parent.classList.toggle('active');
+      console.log('Подменю переключено. Активно:', parent.classList.contains('active'));
+      
+      // Дополнительная проверка
+      const submenu = parent.querySelector('.submenu');
+      if (submenu) {
+        console.log('Подменю элемент найден:', submenu);
+        console.log('Стили подменю:', window.getComputedStyle(submenu).display);
       }
     });
   });

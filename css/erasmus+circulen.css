@@ -1,4 +1,33 @@
 
+/* УНИВЕРСАЛЬНЫЕ СТИЛИ ДЛЯ ПОДМЕНЮ - ПРИОРИТЕТ НАД ВСЕМИ ОСТАЛЬНЫМИ */
+.has-submenu.active .submenu {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  transition: all 0.15s ease !important; /* Быстрая анимация */
+}
+
+/* Быстрое открытие при наведении на десктопе */
+@media (min-width: 769px) {
+  .has-submenu:hover .submenu {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    transition: all 0.15s ease !important; /* Быстрая анимация */
+  }
+}
+
+/* Для мобильных устройств - flex layout */
+@media (max-width: 768px) {
+  .has-submenu.active .submenu {
+    display: flex !important;
+    flex-direction: column !important;
+    transition: all 0.15s ease !important; /* Быстрая анимация */
+  }
+}
+
 /*Обнуление*/
 *{padding:0;margin:0;border:0;}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
@@ -2723,6 +2752,8 @@ html, body {
 
   .has-submenu.active .submenu {
     display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
   .submenu li {
@@ -2775,14 +2806,51 @@ html, body {
   vertical-align: middle;
 }
 
-/* Поворот на мобильных (по клику) */
+/* Быстрое поворот стрелочек */
 .has-submenu.active .submenu-arrow {
   transform: rotate(180deg);
+  transition: transform 0.15s ease !important; /* Быстрая анимация */
 }
 
 /* Поворот на десктопах (при наведении) */
 @media (min-width: 769px) {
   .has-submenu:hover > .submenu-toggle .submenu-arrow {
     transform: rotate(180deg);
+    transition: transform 0.15s ease !important; /* Быстрая анимация */
+  }
+  
+  /* Подменю при клике на десктопе */
+  .menu__pages .has-submenu.active .submenu {
+    display: block !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    background: #222 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    padding: 10px 0 !important;
+    margin: 0 !important;
+    z-index: 1000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  .has-submenu.active .submenu-arrow {
+    transform: rotate(180deg);
+  }
+  
+  .has-submenu.active .submenu li a {
+    display: block !important;
+    padding: 12px 20px !important;
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    white-space: nowrap !important;
+  }
+  
+  .has-submenu.active .submenu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    transition: background-color 0.1s ease !important; /* Очень быстрая анимация */
   }
 }

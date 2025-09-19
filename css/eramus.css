@@ -1,3 +1,32 @@
+/* УНИВЕРСАЛЬНЫЕ СТИЛИ ДЛЯ ПОДМЕНЮ - ПРИОРИТЕТ НАД ВСЕМИ ОСТАЛЬНЫМИ */
+.has-submenu.active .submenu {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  transition: all 0.15s ease !important; /* Быстрая анимация */
+}
+
+/* Быстрое открытие при наведении на десктопе */
+@media (min-width: 769px) {
+  .has-submenu:hover .submenu {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
+    transition: all 0.15s ease !important; /* Быстрая анимация */
+  }
+}
+
+/* Для мобильных устройств - flex layout */
+@media (max-width: 768px) {
+  .has-submenu.active .submenu {
+    display: flex !important;
+    flex-direction: column !important;
+    transition: all 0.15s ease !important; /* Быстрая анимация */
+  }
+}
+
 /*Обнуление*/More actions
 *{padding:0;margin:0;border:0;}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
@@ -65,37 +94,6 @@ a{
   fill: white;
 }
 /* Языковой переключатель (мобильный вид) */
-@media (max-width: 768px) {
-  .menu__row {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .menu__body {
-    display: none;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    background: black;
-    padding: 15px 0;
-  }
-
-  .menu__body.active {
-    display: flex;
-  }
-
-  .menu__pages {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .language-switcher {
-    justify-content: flex-end;
-    width: 100%;
-    margin-top: 10px;
-  }
-}
 
 
 .menu__item a {
@@ -124,29 +122,6 @@ a{
 
 
 /* --- МЕДИА --- */
-@media (max-width: 768px) {
-  .burger-button {
-    display: flex;
-  }
-
-  .menu__pages {
-    display: none;
-    flex-direction: column;
-    background: black;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    z-index: 999;
-  }
-
-  .menu__pages.active {
-    display: flex;
-  }
-
-
-}
 
 
 
@@ -169,34 +144,6 @@ a{
   border-radius: 2px;
 }
 
-/* Мобильный вид */
-@media (max-width: 768px) {
-  .burger-button {
-    display: flex;
-    margin-left: 60px;
-  }
-
-  .menu__pages {
-    position: absolute;
-    top: 99px;
-    left: 0;
-    right: 0;
-    background-color: black;
-    flex-direction: column;
-    align-items: flex-start;
-    padding:  20px 20px 30px 20px;
-    gap: 10px;
-    display: none;
-  }
-
-  .menu__pages.active {
-    display: flex;
-  }
-
-
-
-
-}
 
 
 
@@ -2087,15 +2034,17 @@ button.Teacher__title4 {
   vertical-align: middle;
 }
 
-/* Поворот на мобильных (по клику) */
+/* Быстрое поворот стрелочек */
 .has-submenu.active .submenu-arrow {
   transform: rotate(180deg);
+  transition: transform 0.15s ease !important; /* Быстрая анимация */
 }
 
 /* Поворот на десктопах (при наведении) */
 @media (min-width: 769px) {
   .has-submenu:hover > .submenu-toggle .submenu-arrow {
     transform: rotate(180deg);
+    transition: transform 0.15s ease !important; /* Быстрая анимация */
   }
 }
 
@@ -2400,5 +2349,67 @@ body {
   .menu {
     padding: 30px 10px 30px 10px !important; /* сверху, справа, снизу, слева */
     height: auto !important; /* чтобы высота подстраивалась под контент */
+  }
+}
+
+/* ========== МОБИЛЬНОЕ МЕНЮ - НОВЫЕ СТИЛИ ========== */
+@media (max-width: 768px) {
+  /* Показать кнопку бургера */
+  .burger-button {
+    display: flex !important;
+    margin-left: 60px;
+  }
+
+  /* Скрыть меню по умолчанию */
+  .menu__body {
+    display: none !important;
+    position: fixed !important;
+    top: 80px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background-color: black !important;
+    z-index: 1000 !important;
+    overflow-y: auto !important;
+    flex-direction: column !important;
+  }
+
+  /* Показать меню при активном состоянии */
+  .menu__body.active {
+    display: flex !important;
+  }
+
+  /* Стили для контейнера страниц */
+  .menu__pages {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    background-color: transparent !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 20px !important;
+    gap: 10px !important;
+    display: flex !important;
+    width: 100% !important;
+  }
+
+  /* Стили для элементов меню */
+  .menu__item {
+    width: 100% !important;
+  }
+
+  .menu__item a {
+    display: block !important;
+    width: 100% !important;
+    padding: 15px 0 !important;
+    font-size: 18px !important;
+    color: white !important;
+    text-decoration: none !important;
+  }
+
+  .menu__item.has-submenu {
+    flex-direction: column !important;
+    align-items: flex-start !important;
   }
 }

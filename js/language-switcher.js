@@ -6,6 +6,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("language-button");
   const label = document.getElementById("language-label");
 
+  // Функция сохранения языка в localStorage
+  function saveLanguage(lang) {
+    localStorage.setItem('selectedLanguage', lang);
+  }
+
+  // Функция загрузки языка из localStorage
+  function loadLanguage() {
+    const savedLanguage = localStorage.getItem('selectedLanguage');
+    return savedLanguage && ['RU', 'KZ', 'EN'].includes(savedLanguage) ? savedLanguage : 'RU';
+  }
+
   // Функция переключения языка
   function switchLanguage() {
     // Простое переключение по кругу
@@ -16,6 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       currentLanguage = 'RU';
     }
+    
+    // Сохраняем выбранный язык
+    saveLanguage(currentLanguage);
     
     // Обновляем кнопку
     label.textContent = currentLanguage;
@@ -53,9 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (button && label) {
     button.addEventListener("click", switchLanguage);
     
-    // Инициализация
-    currentLanguage = 'RU';
-    label.textContent = 'RU';
-    updatePageContent('RU');
+    // Инициализация - загружаем сохраненный язык
+    currentLanguage = loadLanguage();
+    label.textContent = currentLanguage;
+    updatePageContent(currentLanguage);
   }
 });
