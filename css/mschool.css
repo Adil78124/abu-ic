@@ -97,6 +97,7 @@ a{
   margin-left: auto; 
   display: flex;
   align-items: center;
+  margin-right: -20px;
 }
 
 .language-button {
@@ -2804,25 +2805,51 @@ body {
 
 /* ================= МЕНЮ ================= */
 .menu{
-  background-color:#000000;
-  width: auto;
-  height: 130px;
-  padding: 15px 15px 15px 15px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+    background-color:#000000;
+    width: auto;
+    height: 130px;
+    gap: 200px;
+    padding: 15px 15px 15px 15px;
 }
-@media (max-width: 768px) {
-  .menu {
-    padding: 30px 10px 30px 10px !important; /* сверху, справа, снизу, слева */
-    height: auto !important; /* чтобы высота подстраивалась под контент */
+.menu__logo,
+.logo__footer img {
+  width: 214px;
+  height: 49px;
+  object-fit: contain;
+  margin-left: -20px;
+}
+
+/* Для больших экранов (десктопов) */
+@media (min-width: 1025px) {
+  .menu__logo {
+    width: 257px;
+    height: 59px;
   }
 }
-.container__mschool_eramus_erasmus_circulen{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: wrap;
+
+/* Планшеты и средние экраны */
+@media (max-width: 1024px) {
+  .menu__logo{
+    max-width: 180px;
+    height: auto;
+  }
+}
+
+/* Маленькие экраны (телефоны) */
+@media (max-width: 768px) {
+  .menu__logo{
+    max-width: 290px;
+    height: 65px;
+  }
+}
+
+/* Очень маленькие телефоны */
+@media (max-width: 480px) {
+  .menu__logo,
+  .logo__footer img {
+    max-width: 220px;
+    height: 65px;
+  }
 }
 
 .menu__row {
@@ -2830,7 +2857,75 @@ body {
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
+  gap: 10px;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.menu__body {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.menu__pages {
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  font-size: 11px;
+  line-height: 14px;
+  gap: 4px; 
+  flex-wrap: wrap;
+  white-space: normal;
+  height: 100%;
+  justify-content: center;
+  align-content: center;
+}
+
+
+.language-switcher {
+  margin-left: auto; 
+  display: flex;
+  align-items: center;
+  margin-right: -20px;
+}
+
+.language-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 12px;
+}
+
+.language-button:hover {
+  opacity: 0.8;
+}  
+.icon-earth {
+  fill: white;
+}
+
+@media (max-width: 768px) {
+  .menu {
+    padding: 30px 10px 30px 10px !important; /* сверху, справа, снизу, слева */
+    height: auto !important; /* чтобы высота подстраивалась под контент */
+  }
+}
+
+.menu__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: 20px;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Для больших экранов (десктопов) */
@@ -2852,8 +2947,11 @@ body {
   color: #ffffff;
   font-size: 18px;
   line-height: 24px;
-  gap: 20px; 
-
+  gap: 15px; 
+  align-items: center;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
 }
 
 
@@ -2892,4 +2990,69 @@ body {
   .burger-button {
     display: none;
   }
+}
+
+/* ========== АДАПТИВНОСТЬ ДЛЯ НОУТБУКОВ ========== */
+@media (max-width: 1366px) {
+  .menu__pages {
+    font-size: 16px;
+    gap: 12px;
+  }
+  
+  .menu__item {
+    margin-right: 12px;
+  }
+  
+  .menu__row {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 1200px) {
+  .menu__pages {
+    font-size: 15px;
+    gap: 12px;
+  }
+  
+  .menu__item {
+    margin-right: 12px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .menu {
+    height: 90px;
+    padding: 12px 15px;
+  }
+  
+  .menu__pages {
+    font-size: 14px;
+    gap: 10px;
+  }
+  
+  .menu__item {
+    margin-right: 10px;
+  }
+  
+  .menu__logo {
+    width: 180px;
+    height: 42px;
+  }
+}
+
+/* Разрешение переноса текста */
+.menu__item a {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+}
+
+.language-switcher {
+  flex-shrink: 0;
+  margin-right: -20px;
 }
