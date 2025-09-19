@@ -1,4 +1,6 @@
-  /*Обнуление*/
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap');
+
+/*Обнуление*/
 *{padding:0;margin:0;border:0;}
 *,*:before,*:after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
 :focus,:active{outline:none;}
@@ -990,8 +992,6 @@ a{
 
 
 
-
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700&display=swap');
 
 .modal {
   font-family: 'Rubik', sans-serif;
@@ -2349,36 +2349,40 @@ a{
   }
 
   .has-submenu .submenu {
-    display: none;
+    display: none !important;
     position: static;
-    background-color: #1a1a1a;
-    width: fit-content;
-    max-width: 90%;
-    padding: 6px;
-    margin: 6px 0 0 0;
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #333 !important;
+    width: 100% !important;
+    padding: 15px !important;
+    margin: 10px 0 !important;
+    border-radius: 8px !important;
     flex-direction: column;
   }
 
   .has-submenu.active .submenu {
-    display: flex;
+    display: flex !important;
   }
 
   .submenu li {
-    width: auto; /* <--- добавь это */
+    width: 100% !important;
+    margin: 5px 0 !important;
   }
 
   .submenu li a {
-    display: inline-block; /* не block, чтобы не растягивалось */
-    width: fit-content; /* ширина только по контенту */
-    max-width: 100%;
-    padding: 8px 0 0 0 ;
-    font-size: 15px;
-    color: white;
+    display: block !important;
+    width: 100% !important;
+    color: white !important;
+    font-size: 16px !important;
+    padding: 8px 15px !important;
+    background: #555 !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
     white-space: nowrap;
     box-sizing: border-box;
-    background-color: transparent;
+  }
+
+  .submenu li a:hover {
+    background: #666 !important;
   }
 }
 

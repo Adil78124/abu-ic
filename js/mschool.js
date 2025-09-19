@@ -30,12 +30,83 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuPages = document.querySelector('.menu__pages');
   const submenuToggles = document.querySelectorAll('.submenu-toggle');
 
-  if (burgerBtn && menuBody && menuPages) {
-    burgerBtn.addEventListener('click', () => {
-      menuBody.classList.toggle('active');
-      menuPages.classList.toggle('active');
+  // Функция для закрытия меню
+  function closeMenu() {
+    menuBody.classList.remove('active');
+    menuPages.classList.remove('active');
+    menuBody.style.display = 'none';
+    document.querySelectorAll('.has-submenu.active').forEach(item => {
+      item.classList.remove('active');
     });
+    console.log('Меню принудительно закрыто');
   }
+
+  // Функция для открытия меню
+  function openMenu() {
+    menuBody.classList.add('active');
+    menuPages.classList.add('active');
+    menuBody.style.display = 'flex';
+    console.log('Меню принудительно открыто');
+  }
+
+  if (burgerBtn && menuBody && menuPages) {
+    console.log('Элементы найдены:', { burgerBtn, menuBody, menuPages });
+    
+    // Принудительно скрываем меню при загрузке
+    menuBody.style.display = 'none';
+    menuBody.classList.remove('active');
+    
+    // Удаляем все существующие обработчики
+    burgerBtn.removeEventListener('click', () => {});
+    
+    burgerBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      console.log('Бургер кликнут!');
+      console.log('Текущий display:', menuBody.style.display);
+      console.log('Содержит active:', menuBody.classList.contains('active'));
+      
+      if (menuBody.style.display === 'flex' || menuBody.classList.contains('active')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+  } else {
+    console.log('Элементы НЕ найдены:', { burgerBtn, menuBody, menuPages });
+  }
+
+  // === ЗАКРЫТИЕ МЕНЮ ПРИ КЛИКЕ НА ССЫЛКИ ===
+  const menuLinks = document.querySelectorAll('.menu__pages a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        closeMenu();
+      }
+    });
+  });
+
+  // === ЗАКРЫТИЕ МЕНЮ ПРИ КЛИКЕ ВНЕ МЕНЮ ===
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768) {
+      const isClickInsideMenu = menuBody.contains(e.target);
+      const isClickOnBurger = burgerBtn.contains(e.target);
+      
+      if (!isClickInsideMenu && !isClickOnBurger && menuBody.classList.contains('active')) {
+        closeMenu();
+        console.log('Меню закрыто по клику вне меню');
+      }
+    }
+  });
+
+  // === ДОПОЛНИТЕЛЬНОЕ ЗАКРЫТИЕ ПО ESC ===
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menuBody.classList.contains('active')) {
+      closeMenu();
+      console.log('Меню закрыто по ESC');
+    }
+  });
 
   submenuToggles.forEach(toggle => {
     toggle.addEventListener('click', (e) => {

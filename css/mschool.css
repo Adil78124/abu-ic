@@ -152,77 +152,92 @@ a{
 /* --- МЕДИА --- */
 @media (max-width: 768px) {
   .burger-button {
-    display: flex;
+    display: flex !important;
   }
 
-  .menu__pages {
+  .menu__body {
     display: none;
-    flex-direction: column;
-    background: black;
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    z-index: 999;
-  }
-
-  .menu__pages.active {
-    display: flex;
-  }
-
-
-}
-
-
-
-
-/* Скрыть бургер по умолчанию */
-.burger-button {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 25px;
-  height: 20px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 1001;
-}
-.burger-button span {
-  height: 3px;
-  background-color: white;
-  border-radius: 2px;
-}
-
-/* Мобильный вид */
-@media (max-width: 768px) {
-  .burger-button {
-    display: flex;
-    margin-left: 60px;
-  }
-
-  .menu__pages {
-    position: absolute;
-    top: 99px;
+    position: fixed;
+    top: 80px;
     left: 0;
     right: 0;
-    background-color: black;
+    bottom: 0;
+    background: black;
+    padding: 20px;
+    z-index: 9999;
     flex-direction: column;
-    align-items: flex-start;
-    padding:  20px 20px 30px 20px;
-    gap: 10px;
-    display: none;
+    overflow-y: auto;
   }
 
-  .menu__pages.active {
-    display: flex;
+  .menu__body.active {
+    display: flex !important;
   }
 
+  .menu__pages {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+  }
 
+  .menu__item {
+    display: block !important;
+  }
 
+  .menu__item a {
+    color: white !important;
+    font-size: 18px !important;
+    padding: 10px 0 !important;
+    display: block !important;
+  }
 
+  /* Стили для подменю */
+  .submenu {
+    display: none !important;
+    background: #333 !important;
+    margin: 10px 0 !important;
+    padding: 15px !important;
+    border-radius: 8px !important;
+  }
+
+  .has-submenu.active .submenu {
+    display: block !important;
+  }
+
+  .submenu li {
+    margin: 5px 0 !important;
+  }
+
+  .submenu a {
+    color: white !important;
+    font-size: 16px !important;
+    padding: 8px 15px !important;
+    display: block !important;
+    background: #555 !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
+  }
+
+  .submenu a:hover {
+    background: #666 !important;
+  }
+
+  /* Дополнительные стили для подменю */
+  .has-submenu .submenu-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .has-submenu.active .submenu-arrow {
+    transform: rotate(180deg);
+  }
 }
+
+
+
+
+/* Дублирующиеся стили удалены */
+
+/* Дублирующиеся стили удалены */
 
 
 
@@ -2082,7 +2097,7 @@ button.Teacher__title4 {
   }
 
   .has-submenu.active .submenu {
-    display: flex;
+    display: flex !important;
   }
 }
 
@@ -2863,5 +2878,20 @@ body {
   }
   .submenu {
     width: 100%;
+  }
+}
+
+/* Десктопная версия - меню всегда видно */
+@media (min-width: 769px) {
+  .menu__body {
+    display: flex !important;
+  }
+  
+  .menu__pages {
+    display: flex !important;
+  }
+  
+  .burger-button {
+    display: none;
   }
 }

@@ -2711,32 +2711,34 @@ html, body {
   }
 
   .has-submenu .submenu {
-    display: none;
+    display: none !important;
     position: static;
-    background-color: #1a1a1a;
-    width: fit-content;
-    max-width: 90%;
-    padding: 6px;
-    margin: 6px 0 0 0;
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #333 !important;
+    width: 100% !important;
+    padding: 15px !important;
+    margin: 10px 0 !important;
+    border-radius: 8px !important;
     flex-direction: column;
   }
 
   .has-submenu.active .submenu {
-    display: flex;
+    display: flex !important;
   }
 
   .submenu li {
-    width: auto; /* <--- добавь это */
+    width: 100% !important;
+    margin: 5px 0 !important;
   }
 
   .submenu li a {
-    display: inline-block; /* не block, чтобы не растягивалось */
-    width: fit-content; /* ширина только по контенту */
-    width: 180px;
-    padding: 8px 0 0 0 ;
-    font-size: 15px;
+    display: block !important;
+    width: 100% !important;
+    color: white !important;
+    font-size: 16px !important;
+    padding: 8px 15px !important;
+    background: #555 !important;
+    border-radius: 4px !important;
+    text-decoration: none !important;
     color: white;
     white-space: nowrap;
     box-sizing: border-box;

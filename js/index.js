@@ -30,12 +30,59 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuPages = document.querySelector('.menu__pages');
   const submenuToggles = document.querySelectorAll('.submenu-toggle');
 
-  if (burgerBtn && menuBody && menuPages) {
-    burgerBtn.addEventListener('click', () => {
-      menuBody.classList.toggle('active');
-      menuPages.classList.toggle('active');
+  // Функция для закрытия меню
+  function closeMenu() {
+    menuBody.classList.remove('active');
+    menuPages.classList.remove('active');
+    document.querySelectorAll('.has-submenu.active').forEach(item => {
+      item.classList.remove('active');
     });
   }
+
+  // Функция для открытия меню
+  function openMenu() {
+    menuBody.classList.add('active');
+    menuPages.classList.add('active');
+  }
+
+  if (burgerBtn && menuBody && menuPages) {
+    burgerBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      console.log('Бургер кликнут!');
+      
+      if (menuBody.classList.contains('active')) {
+        closeMenu();
+        console.log('Меню закрыто');
+      } else {
+        openMenu();
+        console.log('Меню открыто');
+      }
+    });
+  }
+
+  // === ЗАКРЫТИЕ МЕНЮ ПРИ КЛИКЕ НА ССЫЛКИ ===
+  const menuLinks = document.querySelectorAll('.menu__pages a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 768) {
+        closeMenu();
+      }
+    });
+  });
+
+  // === ЗАКРЫТИЕ МЕНЮ ПРИ КЛИКЕ ВНЕ МЕНЮ ===
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 768) {
+      const isClickInsideMenu = menuBody.contains(e.target);
+      const isClickOnBurger = burgerBtn.contains(e.target);
+      
+      if (!isClickInsideMenu && !isClickOnBurger && menuBody.classList.contains('active')) {
+        closeMenu();
+      }
+    }
+  });
 
   submenuToggles.forEach(toggle => {
     toggle.addEventListener('click', (e) => {
