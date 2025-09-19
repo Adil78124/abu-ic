@@ -1,0 +1,66 @@
+/* Языковой переключатель */
+.language-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 5px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.language-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 60px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.language-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.language-button:active {
+    transform: translateY(0);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .language-switcher {
+        top: 15px;
+        right: 15px;
+        padding: 4px;
+    }
+    
+    .language-button {
+        padding: 6px 12px;
+        font-size: 12px;
+        min-width: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .language-switcher {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .language-button {
+        padding: 5px 10px;
+        font-size: 11px;
+        min-width: 45px;
+    }
+}
+

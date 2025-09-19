@@ -1607,28 +1607,51 @@ a{
 /* ================= ФУТЕР ================= */
 .footer__ {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-wrap: wrap;
   background-color: #000000;
   color: #ffffff;
   font-size: 16px;
   margin-top: 56px;
+  width: 100%;
 }
 
 /* Контейнер с колонками */
 .footer__row {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   flex-wrap: wrap;
   padding: 56px 40px;
   gap: 24px;
+  width: 100%;
+  max-width: 100%;
 }
 
 /* Каждая колонка */
 .footer__column {
-  flex: 1 1 250px;
-  max-width: 400px;
+  flex: 1 1 300px;
   color: white;
+}
+
+/* Колонка навигации с двумя столбцами */
+.footer__navigation {
+  flex: 2 1 600px;
+}
+
+.footer__nav-links {
+  display: flex;
+  gap: 40px;
+}
+
+.footer__nav-left,
+.footer__nav-right {
+  flex: 1;
+}
+
+.footer__nav-left p,
+.footer__nav-right p {
+  margin: 4px 0;
+  line-height: 28px;
 }
 
 /* Логотип */
@@ -1687,6 +1710,15 @@ a{
 
   .footer__column {
     max-width: 100%;
+  }
+
+  .footer__navigation {
+    max-width: 100%;
+  }
+
+  .footer__nav-links {
+    flex-direction: column;
+    gap: 20px;
   }
 
   .stripe {
@@ -1985,11 +2017,11 @@ a{
     box-sizing: border-box;
   }
   .footer__container{
-    max-width: 1280px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 0px 20px;
     box-sizing: border-box;
-    margin: 40px;
+    width: 100%;
   }
   .ABU__container {
     max-width: 1280px;
@@ -2130,6 +2162,7 @@ a{
   height: 49px;
   object-fit: contain;
 }
+
 
 /* Для больших экранов (десктопов) */
 @media (min-width: 1025px) {

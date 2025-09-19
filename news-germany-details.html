@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Преподаватели ABU повышают квалификацию в Германии | CirculEC</title>
     <link rel="icon" type="img/abuicon" href="img/favicon.ico">
+    <link rel="stylesheet" href="css/language-switcher.css">
     <style>
         /* Основные стили */
         body {
@@ -190,9 +191,23 @@
                 font-size: 18px;
             }
         }
+        
+        /* Скрытие элементов при переключении языков */
+        [data-lang] {
+            display: none;
+        }
+        
+        [data-lang="ru"] {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <!-- Языковой переключатель -->
+    <div class="language-switcher">
+        <button class="language-button" id="language-button">RU</button>
+    </div>
+    
     <div class="news-detail-container">
         <div class="news-detail-card">
             <div class="carousel" id="carousel-germany">
@@ -222,29 +237,29 @@
             </div>
             
             <div class="news-detail-content">
-                <h1>Преподаватели ABU повышают квалификацию в Германии!</h1>
-                <span class="news-date">20 марта 2025</span>
+                <h1 data-ru="Преподаватели ABU повышают квалификацию в Германии!" data-en="ABU teachers improve their qualifications in Germany!" data-kz="ABU оқытушылары Германияда біліктілігін арттырады!">Преподаватели ABU повышают квалификацию в Германии!</h1>
+                <span class="news-date" data-ru="20 марта 2025" data-en="March 20, 2025" data-kz="2025 жылдың 20 наурызы">20 марта 2025</span>
                 <div class="news-full-text">
-                    <p>С 17 по 20 марта 2025 года заведующая Кафедрой прикладной биологии Жанылхан Букабаева и преподаватель кафедры Айым Турсынханова принимают участие в серии тренингов в рамках проекта ERASMUS+ CirculEC, финансируемого Европейским Союзом.</p>
+                    <p data-ru="С 17 по 20 марта 2025 года заведующая Кафедрой прикладной биологии Жанылхан Букабаева и преподаватель кафедры Айым Турсынханова принимают участие в серии тренингов в рамках проекта ERASMUS+ CirculEC, финансируемого Европейским Союзом." data-en="From March 17-20, 2025, Head of the Department of Applied Biology Zhanylhan Bukabayeva and department teacher Aiyim Tursynkhanova participate in a series of trainings within the ERASMUS+ CirculEC project funded by the European Union." data-kz="2025 жылдың 17-20 наурызы аралығында қолданбалы биология кафедрасының меңгерушісі Жанылхан Букабаева және кафедра оқытушысы Айым Тұрсынханова Еуропалық Одақ қаржыландыратын ERASMUS+ CirculEC жобасы аясындағы тренингтер сериясына қатысады.">С 17 по 20 марта 2025 года заведующая Кафедрой прикладной биологии Жанылхан Букабаева и преподаватель кафедры Айым Турсынханова принимают участие в серии тренингов в рамках проекта ERASMUS+ CirculEC, финансируемого Европейским Союзом.</p>
         
-                    <h3>Организатор тренинга</h3>
-                    <p>Тренинг проводится ведущими учеными и специалистами Университета прикладных наук Билефельда (FHM Bielefeld), с которым ABU подписал меморандум о сотрудничестве в 2024 году.</p>
+                    <h3 data-ru="Организатор тренинга" data-en="Training Organizer" data-kz="Тренинг ұйымдастырушысы">Организатор тренинга</h3>
+                    <p data-ru="Тренинг проводится ведущими учеными и специалистами Университета прикладных наук Билефельда (FHM Bielefeld), с которым ABU подписал меморандум о сотрудничестве в 2024 году." data-en="The training is conducted by leading scientists and specialists from Bielefeld University of Applied Sciences (FHM Bielefeld), with which ABU signed a cooperation memorandum in 2024." data-kz="Тренингті Билефельд қолданбалы ғылымдар университетінің (FHM Bielefeld) жетекші ғалымдары мен мамандары жүргізеді, онымен ABU 2024 жылы ынтымақтастық туралы меморандумға қол қойды.">Тренинг проводится ведущими учеными и специалистами Университета прикладных наук Билефельда (FHM Bielefeld), с которым ABU подписал меморандум о сотрудничестве в 2024 году.</p>
                     
-                    <h3>Программа тренинга</h3>
-                    <p>Программа тренинга включала воркшопы по следующим ключевым темам:</p>
-                    <ul>
+                    <h3 data-ru="Программа тренинга" data-en="Training Program" data-kz="Тренинг бағдарламасы">Программа тренинга</h3>
+                    <p data-ru="Программа тренинга включала воркшопы по следующим ключевым темам:" data-en="The training program included workshops on the following key topics:" data-kz="Тренинг бағдарламасы келесі негізгі тақырыптар бойынша воркшоптарды қамтыды:">Программа тренинга включала воркшопы по следующим ключевым темам:</p>
+                    <ul data-ru="<li>Экологический менеджмент</li><li>Циркулярная экономика</li><li>Климатический менеджмент</li>" data-en="<li>Environmental Management</li><li>Circular Economy</li><li>Climate Management</li>" data-kz="<li>Экологиялық менеджмент</li><li>Айналмалы экономика</li><li>Климаттық менеджмент</li>">
                         <li>Экологический менеджмент</li>
                         <li>Циркулярная экономика</li>
                         <li>Климатический менеджмент</li>
                     </ul>
                     
-                    <h3>Места проведения</h3>
-                    <p>Занятия проходили в таких городах, как Билефельд, Лемго и Берлин на базе ведущих инновационных предприятий Германии. Это позволило участникам получить уникальный опыт и познакомиться с передовыми европейскими подходами и технологиями.</p>
+                    <h3 data-ru="Места проведения" data-en="Venues" data-kz="Өткізу орындары">Места проведения</h3>
+                    <p data-ru="Занятия проходили в таких городах, как Билефельд, Лемго и Берлин на базе ведущих инновационных предприятий Германии. Это позволило участникам получить уникальный опыт и познакомиться с передовыми европейскими подходами и технологиями." data-en="Classes were held in cities such as Bielefeld, Lemgo and Berlin at leading innovative enterprises in Germany. This allowed participants to gain unique experience and get acquainted with advanced European approaches and technologies." data-kz="Сабақтар Билефельд, Лемго және Берлин сияқты қалаларда Германияның жетекші инновациялық кәсіпорындарында өтті. Бұл қатысушыларға бірегей тәжірибе алуға және жетекші еуропалық тәсілдер мен технологиялармен танысуға мүмкіндік берді.">Занятия проходили в таких городах, как Билефельд, Лемго и Берлин на базе ведущих инновационных предприятий Германии. Это позволило участникам получить уникальный опыт и познакомиться с передовыми европейскими подходами и технологиями.</p>
                     
-                    <h3>Результаты</h3>
-                    <p>Эти знания и навыки станут основой для внедрения новых образовательных практик в ABU!</p>
+                    <h3 data-ru="Результаты" data-en="Results" data-kz="Нәтижелер">Результаты</h3>
+                    <p data-ru="Эти знания и навыки станут основой для внедрения новых образовательных практик в ABU!" data-en="This knowledge and skills will become the basis for implementing new educational practices at ABU!" data-kz="Бұл білім мен дағдылар ABU-да жаңа білім беру тәжірибелерін енгізу үшін негіз болады!">Эти знания и навыки станут основой для внедрения новых образовательных практик в ABU!</p>
                     
-                    <a href="erasmus+circulen.html" class="back-link">← Вернуться к списку новостей</a>
+                    <a href="erasmus+circulen.html" class="back-link" data-ru="← Вернуться к списку новостей" data-en="← Back to news list" data-kz="← Жаңалықтар тізіміне оралу">← Вернуться к списку новостей</a>
                 </div>
             </div>
         </div>
@@ -351,6 +366,38 @@
             
             initCarousel();
         });
+        
+        // Языковой переключатель
+        const languages = ["RU", "KZ", "EN"];
+        let currentIndex = 0;
+        
+        const button = document.getElementById("language-button");
+        
+        function switchLanguage() {
+            currentIndex = (currentIndex + 1) % languages.length;
+            const currentLang = languages[currentIndex];
+            button.textContent = currentLang;
+            updatePageContent(currentLang);
+        }
+        
+        function updatePageContent(lang) {
+            const elements = document.querySelectorAll('[data-ru], [data-en], [data-kz]');
+            elements.forEach(element => {
+                const langData = element.getAttribute(`data-${lang.toLowerCase()}`);
+                if (langData) {
+                    if (langData.includes('<')) {
+                        element.innerHTML = langData;
+                    } else {
+                        element.textContent = langData;
+                    }
+                }
+            });
+        }
+        
+        if (button) {
+            button.addEventListener("click", switchLanguage);
+            updatePageContent('RU'); // Инициализация с русского
+        }
     </script>
 </body>
 </html>

@@ -141,19 +141,6 @@
         // startAutoSlide('carousel-fhm');
         // новая часть 
        document.addEventListener("DOMContentLoaded", () => {
-  // === ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ ===
-  const languages = ["KZ", "RU", "EN"];
-  let currentIndex = 0;
-
-  const button = document.getElementById("language-button");
-  const label = document.getElementById("language-label");
-
-  if (button && label) {
-    button.addEventListener("click", () => {
-      currentIndex = (currentIndex + 1) % languages.length;
-      label.textContent = languages[currentIndex];
-    });
-  }
 
   // === СЛАЙДЕР НОВОСТЕЙ ===
   const slider = document.querySelector(".news__slider-wrapper");

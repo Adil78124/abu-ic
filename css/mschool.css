@@ -1438,6 +1438,32 @@ button.Teacher__title4 {
     line-height: 1.6;
 }
 
+.director-info {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-left: 4px solid #005baa;
+    border-radius: 5px;
+}
+
+.director-info h3 {
+    color: #005baa;
+    font-size: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.director-info p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.director-info strong {
+    color: #005baa;
+    font-weight: bold;
+}
+
 .winners-section, .nominations-section {
     margin: 30px 0;
 }

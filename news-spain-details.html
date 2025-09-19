@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABU в Испании: международное сотрудничество и устойчивое развитие | CirculEC</title>
     <link rel="icon" type="img/abuicon" href="img/favicon.ico">
+    <link rel="stylesheet" href="css/language-switcher.css">
     <style>
         /* Основные стили */
         body {
@@ -190,9 +191,23 @@
                 font-size: 18px;
             }
         }
+        
+        /* Скрытие элементов при переключении языков */
+        [data-lang] {
+            display: none;
+        }
+        
+        [data-lang="ru"] {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <!-- Языковой переключатель -->
+    <div class="language-switcher">
+        <button class="language-button" id="language-button">RU</button>
+    </div>
+    
     <div class="news-detail-container">
         <div class="news-detail-card">
             <div class="carousel" id="carousel-spain">
@@ -216,24 +231,24 @@
             </div>
             
             <div class="news-detail-content">
-                <h1>ABU в Испании: международное сотрудничество и устойчивое развитие.</h1>
-                <span class="news-date">26 марта 2025</span>
+                <h1 data-ru="ABU в Испании: международное сотрудничество и устойчивое развитие." data-en="ABU in Spain: international cooperation and sustainable development." data-kz="ABU Испанияда: халықаралық ынтымақтастық және тұрақты даму.">ABU в Испании: международное сотрудничество и устойчивое развитие.</h1>
+                <span class="news-date" data-ru="26 марта 2025" data-en="March 26, 2025" data-kz="2025 жылдың 26 наурызы">26 марта 2025</span>
                 <div class="news-full-text">
-                    <p>Сотрудники Alikhan Bokeikhan University принимают участие в тренингах проекта Erasmus+ CirculEC, которые проходят с 24 по 27 марта 2025 года в одном из старейших университетов Европы и мира — Университете Сантьяго-де-Компостела (основан в 1495 году, входит в QS WUR 2025 на позициях 651–660 и THE WUR 2025 в диапазоне 601–800).</p>
+                    <p data-ru="Сотрудники Alikhan Bokeikhan University принимают участие в тренингах проекта Erasmus+ CirculEC, которые проходят с 24 по 27 марта 2025 года в одном из старейших университетов Европы и мира — Университете Сантьяго-де-Компостела (основан в 1495 году, входит в QS WUR 2025 на позициях 651–660 и THE WUR 2025 в диапазоне 601–800)." data-en="Alikhan Bokeikhan University staff participate in Erasmus+ CirculEC project trainings, which take place from March 24-27, 2025 at one of the oldest universities in Europe and the world - the University of Santiago de Compostela (founded in 1495, ranked 651-660 in QS WUR 2025 and 601-800 in THE WUR 2025)." data-kz="Әлихан Бөкейхан атындағы университет қызметкерлері 2025 жылдың 24-27 наурызы аралығында Еуропа мен әлемнің ең көне университеттерінің бірі - Сантьяго-де-Компостела Университетінде (1495 жылы құрылған, QS WUR 2025-те 651-660 орындарында және THE WUR 2025-те 601-800 диапазонында) өтетін Erasmus+ CirculEC жобасының тренингтеріне қатысады.">Сотрудники Alikhan Bokeikhan University принимают участие в тренингах проекта Erasmus+ CirculEC, которые проходят с 24 по 27 марта 2025 года в одном из старейших университетов Европы и мира — Университете Сантьяго-де-Компостела (основан в 1495 году, входит в QS WUR 2025 на позициях 651–660 и THE WUR 2025 в диапазоне 601–800).</p>
         
-                    <h3>Программа тренинга</h3>
-                    <p>В рамках тренинга представители изучают принципы циркулярной экономики, устойчивого предпринимательства и экологически ориентированных бизнес-моделей.</p>
+                    <h3 data-ru="Программа тренинга" data-en="Training Program" data-kz="Тренинг бағдарламасы">Программа тренинга</h3>
+                    <p data-ru="В рамках тренинга представители изучают принципы циркулярной экономики, устойчивого предпринимательства и экологически ориентированных бизнес-моделей." data-en="As part of the training, representatives study the principles of circular economy, sustainable entrepreneurship and environmentally oriented business models." data-kz="Тренинг аясында өкілдер айналмалы экономика, тұрақты кәсіпкерлік және экологиялық бағытталған бизнес-модельдердің принциптерін зерттейді.">В рамках тренинга представители изучают принципы циркулярной экономики, устойчивого предпринимательства и экологически ориентированных бизнес-моделей.</p>
                     
-                    <h3>Участники проекта</h3>
-                    <p>В мероприятии участвует делегация из 11 университетов Казахстана, Таджикистана, Узбекистана и Туркменистана, задействованных в проекте, финансируемом программой Erasmus+ CBHE Европейской комиссии.</p>
+                    <h3 data-ru="Участники проекта" data-en="Project Participants" data-kz="Жоба қатысушылары">Участники проекта</h3>
+                    <p data-ru="В мероприятии участвует делегация из 11 университетов Казахстана, Таджикистана, Узбекистана и Туркменистана, задействованных в проекте, финансируемом программой Erasmus+ CBHE Европейской комиссии." data-en="The event involves a delegation from 11 universities in Kazakhstan, Tajikistan, Uzbekistan and Turkmenistan, involved in the project funded by the European Commission's Erasmus+ CBHE program." data-kz="Іс-шараға Еуропалық комиссияның Erasmus+ CBHE бағдарламасы қаржыландыратын жобаға қатысушы Қазақстан, Тәжікстан, Өзбекстан және Түркіменстанның 11 университетінен делегация қатысады.">В мероприятии участвует делегация из 11 университетов Казахстана, Таджикистана, Узбекистана и Туркменистана, задействованных в проекте, финансируемом программой Erasmus+ CBHE Европейской комиссии.</p>
                     
-                    <h3>Международное сотрудничество</h3>
-                    <p>В 2024 году между ABU и USC был подписан меморандум о взаимопонимании, что укрепило двустороннее сотрудничество в области академической мобильности, научных исследований и обмена студентами.</p>
+                    <h3 data-ru="Международное сотрудничество" data-en="International Cooperation" data-kz="Халықаралық ынтымақтастық">Международное сотрудничество</h3>
+                    <p data-ru="В 2024 году между ABU и USC был подписан меморандум о взаимопонимании, что укрепило двустороннее сотрудничество в области академической мобильности, научных исследований и обмена студентами." data-en="In 2024, a memorandum of understanding was signed between ABU and USC, which strengthened bilateral cooperation in the field of academic mobility, scientific research and student exchange." data-kz="2024 жылы ABU мен USC арасында өзара түсіністік туралы меморандумға қол қойылды, бұл академиялық мобильділік, ғылыми зерттеулер және студенттер алмасу саласындағы екіжақты ынтымақтастықты нығайтты.">В 2024 году между ABU и USC был подписан меморандум о взаимопонимании, что укрепило двустороннее сотрудничество в области академической мобильности, научных исследований и обмена студентами.</p>
                     
-                    <h3>Об Университете Сантьяго-де-Компостела</h3>
-                    <p>Университет Сантьяго-де-Компостела — один из старейших университетов Европы, основанный в 1495 году. Сегодня он входит в рейтинги QS World University Rankings 2025 (позиции 651–660) и Times Higher Education World University Rankings 2025 (диапазон 601–800), что подтверждает его высокий академический уровень и международное признание.</p>
+                    <h3 data-ru="Об Университете Сантьяго-де-Компостела" data-en="About the University of Santiago de Compostela" data-kz="Сантьяго-де-Компостела Университеті туралы">Об Университете Сантьяго-де-Компостела</h3>
+                    <p data-ru="Университет Сантьяго-де-Компостела — один из старейших университетов Европы, основанный в 1495 году. Сегодня он входит в рейтинги QS World University Rankings 2025 (позиции 651–660) и Times Higher Education World University Rankings 2025 (диапазон 601–800), что подтверждает его высокий академический уровень и международное признание." data-en="The University of Santiago de Compostela is one of the oldest universities in Europe, founded in 1495. Today it is ranked in QS World University Rankings 2025 (positions 651-660) and Times Higher Education World University Rankings 2025 (range 601-800), which confirms its high academic level and international recognition." data-kz="Сантьяго-де-Компостела Университеті - Еуропаның ең көне университеттерінің бірі, 1495 жылы құрылған. Бүгін ол QS World University Rankings 2025 (651-660 орындары) және Times Higher Education World University Rankings 2025 (601-800 диапазоны) рейтингтеріне кіреді, бұл оның жоғары академиялық деңгейі мен халықаралық танылуын растайды.">Университет Сантьяго-де-Компостела — один из старейших университетов Европы, основанный в 1495 году. Сегодня он входит в рейтинги QS World University Rankings 2025 (позиции 651–660) и Times Higher Education World University Rankings 2025 (диапазон 601–800), что подтверждает его высокий академический уровень и международное признание.</p>
                     
-                    <a href="erasmus+circulen.html" class="back-link">← Вернуться к списку новостей</a>
+                    <a href="erasmus+circulen.html" class="back-link" data-ru="← Вернуться к списку новостей" data-en="← Back to news list" data-kz="← Жаңалықтар тізіміне оралу">← Вернуться к списку новостей</a>
                 </div>
             </div>
         </div>
@@ -340,6 +355,38 @@
             
             initCarousel();
         });
+        
+        // Языковой переключатель
+        const languages = ["RU", "KZ", "EN"];
+        let currentIndex = 0;
+        
+        const button = document.getElementById("language-button");
+        
+        function switchLanguage() {
+            currentIndex = (currentIndex + 1) % languages.length;
+            const currentLang = languages[currentIndex];
+            button.textContent = currentLang;
+            updatePageContent(currentLang);
+        }
+        
+        function updatePageContent(lang) {
+            const elements = document.querySelectorAll('[data-ru], [data-en], [data-kz]');
+            elements.forEach(element => {
+                const langData = element.getAttribute(`data-${lang.toLowerCase()}`);
+                if (langData) {
+                    if (langData.includes('<')) {
+                        element.innerHTML = langData;
+                    } else {
+                        element.textContent = langData;
+                    }
+                }
+            });
+        }
+        
+        if (button) {
+            button.addEventListener("click", switchLanguage);
+            updatePageContent('RU'); // Инициализация с русского
+        }
     </script>
 </body>
 </html>

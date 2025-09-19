@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Встреча в University of Naples Federico II | CirculEC</title>
     <link rel="icon" type="img/abuicon" href="img/favicon.ico">
+    <link rel="stylesheet" href="css/language-switcher.css">
     <style>
         /* Основные стили */
         body {
@@ -189,9 +190,23 @@
                 font-size: 18px;
             }
         }
+        
+        /* Скрытие элементов при переключении языков */
+        [data-lang] {
+            display: none;
+        }
+        
+        [data-lang="ru"] {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <!-- Языковой переключатель -->
+    <div class="language-switcher">
+        <button class="language-button" id="language-button">RU</button>
+    </div>
+    
     <div class="news-detail-container">
         <div class="news-detail-card">
             <div class="carousel" id="carousel-unf">
@@ -215,31 +230,31 @@
             </div>
             
             <div class="news-detail-content">
-                <h1>Встреча в University of Naples Federico II, 29.04.24</h1>
-                <span class="news-date">29 апреля 2024</span>
+                <h1 data-ru="Встреча в University of Naples Federico II, 29.04.24" data-en="Meeting at the University of Naples Federico II, 29.04" data-kz="University of Naples Federico II кездесу, 29.04">Встреча в University of Naples Federico II, 29.04.24</h1>
+                <span class="news-date" data-ru="29 апреля 2024" data-en="April 29, 2024" data-kz="2024 жылдың 29 сәуірі">29 апреля 2024</span>
                 <div class="news-full-text">
-                        <p>Университет Фридриха II с большим энтузиазмом приветствовал коллег из десяти университетов и исследовательских институтов Казахстана, Таджикистана, Туркменистана и Узбекистана в рамках нового проекта Erasmus+ CirculEC.</p>
+                        <p data-ru="Университет Фридриха II с большим энтузиазмом приветствовал коллег из десяти университетов и исследовательских институтов Казахстана, Таджикистана, Туркменистана и Узбекистана в рамках нового проекта Erasmus+ CirculEC." data-en="The University of Naples Federico II enthusiastically welcomed colleagues from ten universities and research institutes in Kazakhstan, Tajikistan, Turkmenistan and Uzbekistan as part of the new Erasmus+ CirculEC project." data-kz="Фридрих II университеті жаңа Erasmus+ CirculEC жобасы аясында Қазақстан, Тәжікстан, Түркіменстан және Өзбекстаннан келген он университет пен ғылыми-зерттеу институттарының әріптестерін үлкен ынтамен қарсы алды.">Университет Фридриха II с большим энтузиазмом приветствовал коллег из десяти университетов и исследовательских институтов Казахстана, Таджикистана, Туркменистана и Узбекистана в рамках нового проекта Erasmus+ CirculEC.</p>
         
-        <h3>Цели проекта</h3>
-        <p>Проект, который завершится в 2026 году, направлен на разработку инновационной магистерской программы по устойчивому развитию и циркулярной экономике. Программа будет использовать междисциплинарный подход, объединяющий знания из различных научных областей.</p>
+        <h3 data-ru="Цели проекта" data-en="Project objectives" data-kz="Жоба мақсаттары">Цели проекта</h3>
+        <p data-ru="Проект, который завершится в 2026 году, направлен на разработку инновационной магистерской программы по устойчивому развитию и циркулярной экономике. Программа будет использовать междисциплинарный подход, объединяющий знания из различных научных областей." data-en="The project, which will be completed in 2026, aims to develop an innovative master's program in sustainable development and circular economy. The program will use an interdisciplinary approach, combining knowledge from various scientific fields." data-kz="2026 жылы аяқталатын жоба тұрақты даму және айналмалы экономика бойынша инновациялық магистрлік бағдарламаны әзірлеуге бағытталған. Бағдарлама әртүрлі ғылыми салалардағы білімді біріктіретін пәнаралық көзқарасты қолданады.">Проект, который завершится в 2026 году, направлен на разработку инновационной магистерской программы по устойчивому развитию и циркулярной экономике. Программа будет использовать междисциплинарный подход, объединяющий знания из различных научных областей.</p>
         
-        <h3>Официальная встреча</h3>
-        <p>29 апреля в 10:30 в лаборатории TeMA кафедры гражданского строительства и окружающей среды состоялась первая встреча с азиатскими коллегами. Среди участников:</p>
-        <ul>
+        <h3 data-ru="Официальная встреча" data-en="Official meeting" data-kz="Ресми кездесу">Официальная встреча</h3>
+        <p data-ru="29 апреля в 10:30 в лаборатории TeMA кафедры гражданского строительства и окружающей среды состоялась первая встреча с азиатскими коллегами. Среди участников:" data-en="On April 29 at 10:30 a.m. in the TeMA laboratory of the Department of Civil Engineering and Environment, the first meeting with Asian colleagues took place. Participants included:" data-kz="29 сәуірде сағат 10:30-да Құрылыс және қоршаған ортаны қорғау кафедрасының TeMA зертханасында азиялық әріптестермен Италиядағы алғашқы кездесу өтті. Қатысушылар:">29 апреля в 10:30 в лаборатории TeMA кафедры гражданского строительства и окружающей среды состоялась первая встреча с азиатскими коллегами. Среди участников:</p>
+        <ul data-ru="<li>Ректоры Alikhan Bokeikhan University и КУ им. Уалиханова</li><li>Два проректора (ВКГТУ им. Серикбаева и Таджикского Государственного Коммерческого Университета)</li><li>Деканы факультетов участвующих университетов</li>" data-en="<li>Rectors of Alikhan Bokeikhan University and Ualikhanov University</li><li>Two vice-rectors (Serikbayev University and Tajik State Commercial University)</li><li>Deans of the participating universities</li>" data-kz="<li>Әлихан Бөкейхан атындағы университет пен Уәлиханов атындағы мемлекеттік университетінің ректорлары</li><li>Серікбаев атындағы ШҚМТУ және Тәжік мемлекеттік коммерциялық университетінің екі проректоры</li><li>Қатысушы университеттердің бірнеше факультет декандары</li>">
             <li>Ректоры Alikhan Bokeikhan University и КУ им. Уалиханова</li>
             <li>Два проректора (ВКГТУ им. Серикбаева и Таджикского Государственного Коммерческого Университета)</li>
             <li>Деканы факультетов участвующих университетов</li>
         </ul>
         
-        <h3>Мнение организаторов</h3>
+        <h3 data-ru="Мнение организаторов" data-en="Organizers' opinion" data-kz="Ұйымдастырушылардың пікірі">Мнение организаторов</h3>
          <blockquote>
-            <p>"Сотрудничество с университетами Центральной Азии представляет собой замечательную возможность для нашего университета и нашей кафедры передать не только знания, но и видения и способы подхода к научным исследованиям", - сказала профессор Кармела Гаргиуло, научный руководитель проекта вместе с инженером Херардо Карпентьери.</p>
-            <p>"Этот проект позволит нам обмениваться знаниями и опытом в стратегическом секторе, таком как устойчивое развитие, и укреплять связи с быстрорастущей географической областью."</p>
-            <cite>Профессор Кармела Гаргиуло и инженер Херардо Карпентьери</cite>
+            <p data-ru=""Сотрудничество с университетами Центральной Азии представляет собой замечательную возможность для нашего университета и нашей кафедры передать не только знания, но и видения и способы подхода к научным исследованиям", - сказала профессор Кармела Гаргиуло, научный руководитель проекта вместе с инженером Херардо Карпентьери." data-en=""Cooperation with Central Asian universities is a wonderful opportunity for our university and our department to share not only knowledge, but also visions and approaches to scientific research," said Professor Carmela Gargiulo, scientific director of the project together with engineer Gerardo Carpentieri." data-kz=""Орталық Азиядағы университеттермен ынтымақтастық біздің университет пен біздің бөлімше үшін тек білімді ғана емес, сонымен қатар ғылыми зерттеулерге көзқарастар мен тәсілдерді беру үшін тамаша мүмкіндік болып табылады" деді профессор Кармела Гарджуло және жобаның ғылыми директоры, инженер Жерардо Карпентиери.">"Сотрудничество с университетами Центральной Азии представляет собой замечательную возможность для нашего университета и нашей кафедры передать не только знания, но и видения и способы подхода к научным исследованиям", - сказала профессор Кармела Гаргиуло, научный руководитель проекта вместе с инженером Херардо Карпентьери.</p>
+            <p data-ru=""Этот проект позволит нам обмениваться знаниями и опытом в стратегическом секторе, таком как устойчивое развитие, и укреплять связи с быстрорастущей географической областью."" data-en=""This project will allow us to exchange knowledge and experience in a strategic sector such as sustainable development and strengthen ties with a rapidly growing geographical area."" data-kz=""Бұл жоба бізге тұрақты даму сияқты стратегиялық секторда білім мен тәжірибе алмасуға және жылдам дамып жатқан географиялық аймақпен байланысты нығайтуға мүмкіндік береді."">"Этот проект позволит нам обмениваться знаниями и опытом в стратегическом секторе, таком как устойчивое развитие, и укреплять связи с быстрорастущей географической областью."</p>
+            <cite data-ru="Профессор Кармела Гаргиуло и инженер Херардо Карпентьери" data-en="Professor Carmela Gargiulo and engineer Gerardo Carpentieri" data-kz="Профессор Кармела Гарджуло және инженер Жерардо Карпентиери">Профессор Кармела Гаргиуло и инженер Херардо Карпентьери</cite>
         </blockquote>
         
-        <p>Азиатские партнеры уже выразили готовность поддерживать дальнейшее сотрудничество с итальянским сообществом, расширяя синергию в области исследований, обучения и третьей миссии.</p>      
-                    <a href="erasmus+circulen.html" class="back-link">← Вернуться к списку новостей</a>
+        <p data-ru="Азиатские партнеры уже выразили готовность поддерживать дальнейшее сотрудничество с итальянским сообществом, расширяя синергию в области исследований, обучения и третьей миссии." data-en="Asian partners have already expressed their willingness to support further cooperation with the Italian community, expanding synergies in research, training, and the third mission." data-kz="Азиялық серіктестер итальяндық қоғамдастықпен одан әрі ынтымақтастықты қолдауға дайын екендіктерін, зерттеу, оқыту және үшінші миссия салаларындағы синергияны кеңейтуге дайын екендіктерін білдірді.">Азиатские партнеры уже выразили готовность поддерживать дальнейшее сотрудничество с итальянским сообществом, расширяя синергию в области исследований, обучения и третьей миссии.</p>      
+                    <a href="erasmus+circulen.html" class="back-link" data-ru="← Вернуться к списку новостей" data-en="← Back to news list" data-kz="← Жаңалықтар тізіміне оралу">← Вернуться к списку новостей</a>
                 </div>
             </div>
         </div>
@@ -346,6 +361,38 @@
             
             initCarousel();
         });
+        
+        // Языковой переключатель
+        const languages = ["RU", "KZ", "EN"];
+        let currentIndex = 0;
+        
+        const button = document.getElementById("language-button");
+        
+        function switchLanguage() {
+            currentIndex = (currentIndex + 1) % languages.length;
+            const currentLang = languages[currentIndex];
+            button.textContent = currentLang;
+            updatePageContent(currentLang);
+        }
+        
+        function updatePageContent(lang) {
+            const elements = document.querySelectorAll('[data-ru], [data-en], [data-kz]');
+            elements.forEach(element => {
+                const langData = element.getAttribute(`data-${lang.toLowerCase()}`);
+                if (langData) {
+                    if (langData.includes('<')) {
+                        element.innerHTML = langData;
+                    } else {
+                        element.textContent = langData;
+                    }
+                }
+            });
+        }
+        
+        if (button) {
+            button.addEventListener("click", switchLanguage);
+            updatePageContent('RU'); // Инициализация с русского
+        }
     </script>
 </body>
 </html>

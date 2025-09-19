@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Встреча в University of Santiago de Compostela | CirculEC</title>
     <link rel="icon" type="img/abuicon" href="img/favicon.ico">
+    <link rel="stylesheet" href="css/language-switcher.css">
     <style>
         /* Основные стили */
         body {
@@ -189,9 +190,23 @@
                 font-size: 18px;
             }
         }
+        
+        /* Скрытие элементов при переключении языков */
+        [data-lang] {
+            display: none;
+        }
+        
+        [data-lang="ru"] {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <!-- Языковой переключатель -->
+    <div class="language-switcher">
+        <button class="language-button" id="language-button">RU</button>
+    </div>
+    
     <div class="news-detail-container">
         <div class="news-detail-card">
             <div class="carousel" id="carousel-usc">
@@ -221,42 +236,42 @@
             </div>
             
             <div class="news-detail-content">
-                <h1>Встреча в University of Santiago de Compostela, 25-26.04.24</h1>
-                <span class="news-date">25-26 апреля 2024</span>
+                <h1 data-ru="Встреча в University of Santiago de Compostela, 25-26.04.24" data-en="Meeting at the University of Santiago de Compostela, April 25-26, 2024" data-kz="University of Santiago de Compostela-де кездесу, 22.04.24">Встреча в University of Santiago de Compostela, 25-26.04.24</h1>
+                <span class="news-date" data-ru="25-26 апреля 2024" data-en="April 25-26, 2024" data-kz="2024 жылдың 25-26 сәуірі">25-26 апреля 2024</span>
                 <div class="news-text">
-                                <p>В прошлый четверг, 25 и пятницу, 26 апреля, факультет экономики и делового администрирования Университета Сантьяго-де-Кампостела (University of Santiago de Campostela) посетила делегация из 11 университетов Казахстана, Таджикистана, Узбекистана и Туркменистана.</p>
+                                <p data-ru="В прошлый четверг, 25 и пятницу, 26 апреля, факультет экономики и делового администрирования Университета Сантьяго-де-Кампостела (University of Santiago de Campostela) посетила делегация из 11 университетов Казахстана, Таджикистана, Узбекистана и Туркменистана." data-en="Last Thursday, April 25, and Friday, April 26, the Faculty of Economics and Business Administration at the University of Santiago de Compostela welcomed a delegation from 11 universities in Kazakhstan, Tajikistan, Uzbekistan and Turkmenistan." data-kz="Өткен бейсенбі, 25 және жұма, 26 сәуірде Сантьяго-Де-Кампостела Университетінің экономика және іскерлік басқару факультетіне Қазақстан, Тәжікстан, Өзбекстан және Түркіменстанның 11 университетінен делегация барып қайтты.">В прошлый четверг, 25 и пятницу, 26 апреля, факультет экономики и делового администрирования Университета Сантьяго-де-Кампостела (University of Santiago de Campostela) посетила делегация из 11 университетов Казахстана, Таджикистана, Узбекистана и Туркменистана.</p>
         
-        <h3>О проекте CirculEC</h3>
-        <p>Этот визит был проведен в рамках проекта CirculEC, финансируемого программой Erasmus CBHE Европейской комиссии. Цель проекта - дать возможность этим 11 университетам Центральной Азии улучшить подготовку в области циркулярной экономики и устойчивого развития.</p>
+        <h3 data-ru="О проекте CirculEC" data-en="About the CirculEC project" data-kz="CirculEC жобасы туралы">О проекте CirculEC</h3>
+        <p data-ru="Этот визит был проведен в рамках проекта CirculEC, финансируемого программой Erasmus CBHE Европейской комиссии. Цель проекта - дать возможность этим 11 университетам Центральной Азии улучшить подготовку в области циркулярной экономики и устойчивого развития." data-en="This visit was conducted as part of the CirculEC project, funded by the European Commission's Erasmus CBHE program. The goal of the project is to enable these 11 universities in Central Asia to improve their training in circular economy and sustainable development." data-kz="Бұл сапар Еуропалық комиссияның Erasmus CBHE бағдарламасы қаржыландыратын CirculEC жобасы аясында өтті. Жобаның мақсаты - Орталық Азияның осы 11 университетіне айналмалы экономика және тұрақты даму саласындағы дайындықты жақсартуға мүмкіндік беру.">Этот визит был проведен в рамках проекта CirculEC, финансируемого программой Erasmus CBHE Европейской комиссии. Цель проекта - дать возможность этим 11 университетам Центральной Азии улучшить подготовку в области циркулярной экономики и устойчивого развития.</p>
         
-        <h3>Программа первого дня</h3>
-        <p>Первый день визита был посвящен:</p>
-        <ul>
+        <h3 data-ru="Программа первого дня" data-en="First day program" data-kz="Бірінші күн бағдарламасы">Программа первого дня</h3>
+        <p data-ru="Первый день визита был посвящен:" data-en="The first day of the visit was devoted to:" data-kz="Сапардың бірінші күні мынаған арналды:">Первый день визита был посвящен:</p>
+        <ul data-ru="<li>Обучению участников циркулярной экономике и устойчивому развитию</li><li>Изучению различных аспектов этой темы</li><li>Совместной сессии по определению потребностей университетов</li><li>Заключительной дискуссии</li>" data-en="<li>Training participants in circular economy and sustainable development</li><li>Studying various aspects of this topic</li><li>Joint session to identify university needs</li><li>Final discussion</li>" data-kz="<li>Қатысушыларды айналмалы экономика мен тұрақты дамуға үйрету</li><li>Осы тақырыптың әртүрлі аспектілерін зерттеу</li><li>Университеттер қажеттіліктерін анықтау бойынша бірлескен сессия</li><li>Қорытынды талқылау</li>">
             <li>Обучению участников циркулярной экономике и устойчивому развитию</li>
             <li>Изучению различных аспектов этой темы</li>
             <li>Совместной сессии по определению потребностей университетов</li>
             <li>Заключительной дискуссии</li>
         </ul>
         
-        <h3>Программа второго дня</h3>
-        <p>На второй день участники:</p>
-        <ul>
+        <h3 data-ru="Программа второго дня" data-en="Second day program" data-kz="Екінші күн бағдарламасы">Программа второго дня</h3>
+        <p data-ru="На второй день участники:" data-en="On the second day, participants:" data-kz="Екінші күні қатысушылар:">На второй день участники:</p>
+        <ul data-ru="<li>Посетили Центр водных технологий в CETAQUA - VIAQUA</li><li>Прослушали лекцию Терезы Алварьиньо, директора Центра, о деятельности и проектах компании CETAQUA</li><li>Провели встречу с Аной Ботас, менеджером VIRATEC, Clúster Gallego Soluciones Ambientales y Economía Circular (Галисийский кластер экологических решений и циркулярной экономики)</li><li>Обсудили потенциальные формы сотрудничества для взаимного обучения</li>" data-en="<li>Visited the Water Technology Center at CETAQUA - VIAQUA</li><li>Attended a lecture by Teresa Alvarinho, Director of the Center, on the activities and projects of CETAQUA</li><li>Met with Ana Botas, manager of VIRATEC, Clúster Gallego Soluciones Ambientales y Economía Circular (Galician Cluster for Environmental Solutions and Circular Economy)</li><li>Discussed potential forms of cooperation for mutual learning</li>" data-kz="<li>CETAQUA - VIAQUA су технологиясы орталығына барып қайтты</li><li>Орталықтың директоры Тереза Альвариньоның CETAQUA компаниясының қызметі мен жобалары туралы дәрісін тыңдады</li><li>VIRATEC, Clúster Gallego Soluciones Ambientales y Economía Circular (Қоршаған ортаны қорғау шешімдерінің Галисия кластері және айналмалы экономика) менеджері Ана Ботас қатысты</li><li>Өзара оқыту үшін ынтымақтастықтың әлеуетті нысандары туралы талқылады</li>">
             <li>Посетили Центр водных технологий в CETAQUA - VIAQUA</li>
             <li>Прослушали лекцию Терезы Алварьиньо, директора Центра, о деятельности и проектах компании CETAQUA</li>
             <li>Провели встречу с Аной Ботас, менеджером VIRATEC, Clúster Gallego Soluciones Ambientales y Economía Circular (Галисийский кластер экологических решений и циркулярной экономики)</li>
             <li>Обсудили потенциальные формы сотрудничества для взаимного обучения</li>
         </ul>
         
-        <h3>Итоги визита</h3>
-        <p>Мероприятие завершилось подведением итогов и продуктивными выводами:</p>
-        <ul>
+        <h3 data-ru="Итоги визита" data-en="Results of the visit" data-kz="Сапар нәтижелері">Итоги визита</h3>
+        <p data-ru="Мероприятие завершилось подведением итогов и продуктивными выводами:" data-en="The event ended with a summary of the results and productive conclusions:" data-kz="Іс-шара нәтижелерді қорытып, өнімді қорытындылармен аяқталды:">Мероприятие завершилось подведением итогов и продуктивными выводами:</p>
+        <ul data-ru="<li>Установлены профессиональные контакты между университетами</li><li>Определены направления для дальнейшего сотрудничества</li><li>Намечены пути внедрения принципов циркулярной экономики в образовательные программы</li>" data-en="<li>Professional contacts were established between universities</li><li>Areas for further cooperation were identified</li><li>Ways to implement circular economy principles in educational programs were outlined</li>" data-kz="<li>Университеттер арасында кәсіби байланыстар орнатылды</li><li>Одан әрі ынтымақтастық бағыттары анықталды</li><li>Айналмалы экономика принциптерін білім беру бағдарламаларына енгізу жолдары белгіленді</li>">
             <li>Установлены профессиональные контакты между университетами</li>
             <li>Определены направления для дальнейшего сотрудничества</li>
             <li>Намечены пути внедрения принципов циркулярной экономики в образовательные программы</li>
         </ul>
         
-        <p>Визит стал важным шагом в развитии международного сотрудничества в области устойчивого развития и циркулярной экономики.</p>
-                    <a href="erasmus+circulen.html" class="back-link">← Вернуться к списку новостей</a>
+        <p data-ru="Визит стал важным шагом в развитии международного сотрудничества в области устойчивого развития и циркулярной экономики." data-en="The visit was an important step in the development of international cooperation in the field of sustainable development and circular economy." data-kz="Сапар тұрақты даму және айналмалы экономика саласындағы халықаралық ынтымақтастықты дамытуда маңызды қадам болды.">Визит стал важным шагом в развитии международного сотрудничества в области устойчивого развития и циркулярной экономики.</p>
+                    <a href="erasmus+circulen.html" class="back-link" data-ru="← Вернуться к списку новостей" data-en="← Back to news list" data-kz="← Жаңалықтар тізіміне оралу">← Вернуться к списку новостей</a>
                 </div>
             </div>
         </div>
@@ -363,6 +378,38 @@
             
             initCarousel();
         });
+        
+        // Языковой переключатель
+        const languages = ["RU", "KZ", "EN"];
+        let currentIndex = 0;
+        
+        const button = document.getElementById("language-button");
+        
+        function switchLanguage() {
+            currentIndex = (currentIndex + 1) % languages.length;
+            const currentLang = languages[currentIndex];
+            button.textContent = currentLang;
+            updatePageContent(currentLang);
+        }
+        
+        function updatePageContent(lang) {
+            const elements = document.querySelectorAll('[data-ru], [data-en], [data-kz]');
+            elements.forEach(element => {
+                const langData = element.getAttribute(`data-${lang.toLowerCase()}`);
+                if (langData) {
+                    if (langData.includes('<')) {
+                        element.innerHTML = langData;
+                    } else {
+                        element.textContent = langData;
+                    }
+                }
+            });
+        }
+        
+        if (button) {
+            button.addEventListener("click", switchLanguage);
+            updatePageContent('RU'); // Инициализация с русского
+        }
     </script>
 </body>
 </html>
