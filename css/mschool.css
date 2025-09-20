@@ -1037,7 +1037,7 @@ button.Teacher__title4 {
     right: 0;
     width: 120px;
     height: 120px;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23005baa" fill-opacity="0.03"><path d="M50 0 L100 50 L50 100 L0 50 Z"/></svg>');
+    background: url('data:image/svg+xml;utf8,<svg xmlns="вhttp://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="%23005baa" fill-opacity="0.03"><path d="M50 0 L100 50 L50 100 L0 50 Z"/></svg>');
     background-size: contain;
 }
 

@@ -7,6 +7,19 @@
   transition: all 0.15s ease !important; /* Быстрая анимация */
 }
 
+/* Для мобильных устройств - flex layout */
+@media (max-width: 768px) {
+  .has-submenu.active .submenu {
+    display: flex !important;
+    flex-direction: column !important;
+    position: static !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: all 0.15s ease !important; /* Быстрая анимация */
+  }
+}
+
 /* Быстрое открытие при наведении на десктопе */
 @media (min-width: 769px) {
   .has-submenu:hover .submenu {
@@ -18,14 +31,6 @@
   }
 }
 
-/* Для мобильных устройств - flex layout */
-@media (max-width: 768px) {
-  .has-submenu.active .submenu {
-    display: flex !important;
-    flex-direction: column !important;
-    transition: all 0.15s ease !important; /* Быстрая анимация */
-  }
-}
 
 /*Обнуление*/More actions
 *{padding:0;margin:0;border:0;}
@@ -1606,23 +1611,13 @@ button.Teacher__title4 {
   padding: 0; /* сбрасываем отступы, переносим в <a> */
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-
   z-index: 1000;
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  min-width: 200px;
 }
 
-.has-submenu:hover .submenu {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.submenu li {
-  white-space: nowrap;
-  width: 100%; /* ключевой момент */
-}
 
 .submenu li a {
   display: block;
@@ -1653,46 +1648,6 @@ button.Teacher__title4 {
   transition: background-color 0.3s ease;
 }
 
-@media (max-width: 768px) {
-
-  .has-submenu .submenu {
-    display: none;
-    position: static;
-    background-color: #1a1a1a;
-    width: 100%;
-    max-width: 100%;
-    padding: 12px 20px; /* или 0, если не нужен отступ */
-    margin: 0;
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    flex-direction: column;
-    gap: 5px;
-  }
-  .has-submenu .submenu li a {
-    font-size: 17px !important; /* увеличенный размер шрифта */
-
-  }
-
-  .has-submenu.active .submenu {
-    display: flex;
-  }
-
-  .submenu li {
-    width: auto; 
-  }
-
-  .submenu li a {
-    display: inline-block; 
-    width: fit-content; 
-    width: 180px;
-    padding: 8px 0 0 0 ;
-    font-size: 15px;
-    color: white;
-    white-space: nowrap;
-    box-sizing: border-box;
-    background-color: transparent;
-  }
-}
 
 /* С 1200px до 1600px — сдвигаем влево */
 @media (min-width: 1200px) and (max-width: 1600px) {
@@ -2497,6 +2452,75 @@ body {
   .menu__item.has-submenu {
     flex-direction: column !important;
     align-items: flex-start !important;
+    width: 100% !important;
+  }
+
+  /* Стили для подменю в мобильной версии */
+  .has-submenu .submenu {
+    display: none !important;
+    position: static !important;
+    background-color: #1a1a1a !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 10px 0 0 0 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .has-submenu.active .submenu {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .submenu li {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .submenu li a {
+    display: block !important;
+    width: 100% !important;
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+    color: white !important;
+    white-space: normal !important;
+    box-sizing: border-box !important;
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+    transition: background-color 0.3s ease !important;
+  }
+
+  .submenu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Стили для стрелочек в мобильной версии */
+  .submenu-arrow {
+    margin-left: 8px !important;
+    width: 16px !important;
+    height: 16px !important;
+    transition: transform 0.3s ease !important;
+    vertical-align: middle !important;
+  }
+
+  .has-submenu.active .submenu-arrow {
+    transform: rotate(180deg) !important;
+  }
+
+  /* Дополнительные стили для мобильного подменю */
+  .submenu-toggle {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
   }
 }
 
@@ -2583,16 +2607,6 @@ body {
   min-width: 200px;
 }
 
-.has-submenu:hover .submenu {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.submenu li {
-  white-space: nowrap;
-  width: 100%;
-}
 
 .submenu li a {
   display: block;

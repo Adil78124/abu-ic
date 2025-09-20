@@ -67,7 +67,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // === ЗАКРЫТИЕ МЕНЮ ПРИ КЛИКЕ НА ССЫЛКИ ===
   const menuLinks = document.querySelectorAll('.menu__pages a');
   menuLinks.forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
+      // Не закрываем меню при клике на подменю-переключатели
+      if (link.classList.contains('submenu-toggle')) {
+        return;
+      }
+      
       if (window.innerWidth <= 768) {
         closeMenu();
       }
@@ -89,10 +94,17 @@ document.addEventListener("DOMContentLoaded", () => {
   submenuToggles.forEach(toggle => {
     toggle.addEventListener('click', (e) => {
       e.preventDefault();
+      e.stopPropagation();
       console.log('Клик по подменю:', toggle.textContent.trim());
       const parent = toggle.closest('.has-submenu');
       console.log('Родительский элемент найден:', parent);
 
+      if (!parent) {
+        console.log('Родительский элемент не найден!');
+        return;
+      }
+
+      // Закрываем все другие подменю
       document.querySelectorAll('.has-submenu').forEach(item => {
         if (item !== parent) {
           item.classList.remove('active');
@@ -100,6 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
+      // Переключаем текущее подменю
       parent.classList.toggle('active');
       console.log('Подменю переключено. Активно:', parent.classList.contains('active'));
       
@@ -108,6 +121,23 @@ document.addEventListener("DOMContentLoaded", () => {
       if (submenu) {
         console.log('Подменю элемент найден:', submenu);
         console.log('Стили подменю:', window.getComputedStyle(submenu).display);
+        console.log('Классы подменю:', submenu.className);
+        console.log('Классы родителя:', parent.className);
+        
+        // Принудительно применяем стили для мобильной версии
+        if (window.innerWidth <= 768) {
+          if (parent.classList.contains('active')) {
+            submenu.style.display = 'flex';
+            submenu.style.opacity = '1';
+            submenu.style.visibility = 'visible';
+            console.log('Принудительно показано подменю для мобильной версии');
+          } else {
+            submenu.style.display = 'none';
+            submenu.style.opacity = '0';
+            submenu.style.visibility = 'hidden';
+            console.log('Принудительно скрыто подменю для мобильной версии');
+          }
+        }
       }
     });
   });
@@ -115,7 +145,22 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener('resize', () => {
     if (window.innerWidth > 768) {
       menuPages?.classList.remove('active');
-      document.querySelectorAll('.submenu.active').forEach(sub => sub.classList.remove('active'));
+      document.querySelectorAll('.has-submenu.active').forEach(item => {
+        item.classList.remove('active');
+        const submenu = item.querySelector('.submenu');
+        if (submenu) {
+          submenu.style.display = '';
+          submenu.style.opacity = '';
+          submenu.style.visibility = '';
+        }
+      });
+    } else {
+      // Сбрасываем inline стили для мобильной версии
+      document.querySelectorAll('.submenu').forEach(submenu => {
+        submenu.style.display = '';
+        submenu.style.opacity = '';
+        submenu.style.visibility = '';
+      });
     }
   });
 
@@ -205,8 +250,9 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener('click', (e) => {
   const isInsideMenu = e.target.closest('.has-submenu');
   const isToggleButton = e.target.classList.contains('submenu-toggle');
+  const isSubmenuLink = e.target.closest('.submenu a');
 
-  if (!isInsideMenu && !isToggleButton) {
+  if (!isInsideMenu && !isToggleButton && !isSubmenuLink) {
     document.querySelectorAll('.has-submenu.active').forEach(item => {
       item.classList.remove('active');
     });
