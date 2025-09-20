@@ -7,6 +7,19 @@
   transition: all 0.15s ease !important; /* Быстрая анимация */
 }
 
+/* Принудительное сброс позиционирования для мобильных устройств */
+@media (max-width: 768px) {
+  .submenu {
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
 /* Для мобильных устройств - flex layout */
 @media (max-width: 768px) {
   .has-submenu.active .submenu {
@@ -17,6 +30,15 @@
     opacity: 1 !important;
     visibility: visible !important;
     transition: all 0.15s ease !important; /* Быстрая анимация */
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    background-color: #1a1a1a !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin-top: 0 !important;
   }
 }
 
@@ -1655,7 +1677,7 @@ button.Teacher__title4 {
 }
 
 
-/* С 1200px до 1600px — сдвигаем влево */
+/* С 1200px до 1600px — сдвигаем влево (только для десктопа) */
 @media (min-width: 1200px) and (max-width: 1600px) {
     .submenu {
         left: auto;
@@ -1664,7 +1686,7 @@ button.Teacher__title4 {
     }
 }
 
-/* Свыше 1600px — возвращаем стандартное поведение */
+/* Свыше 1600px — возвращаем стандартное поведение (только для десктопа) */
 @media (min-width: 1601px) {
     .submenu {
         left: 0;
@@ -2459,6 +2481,7 @@ body {
     flex-direction: column !important;
     align-items: flex-start !important;
     width: 100% !important;
+    position: relative !important;
   }
 
   /* Стили для подменю в мобильной версии */
@@ -2469,20 +2492,31 @@ body {
     width: 100% !important;
     max-width: 100% !important;
     padding: 0 !important;
-    margin: 10px 0 0 0 !important;
-    border-radius: 6px !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2) !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     flex-direction: column !important;
     gap: 0 !important;
     opacity: 1 !important;
     transform: none !important;
     transition: all 0.3s ease !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
   }
 
   .has-submenu.active .submenu {
     display: flex !important;
     opacity: 1 !important;
     visibility: visible !important;
+    flex-direction: column !important;
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    transform: none !important;
   }
 
   .submenu li {
@@ -2521,13 +2555,22 @@ body {
     transform: rotate(180deg) !important;
   }
 
-  /* Дополнительные стили для мобильного подменю */
+  /* Дополнительные стили для правильного позиционирования */
   .submenu-toggle {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
     width: 100% !important;
+    padding: 12px 20px !important;
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 0 !important;
   }
+
+  .submenu-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
 }
 
 /* ========== АДАПТИВНОСТЬ ДЛЯ НОУТБУКОВ ========== */

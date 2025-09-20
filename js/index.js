@@ -130,6 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
             submenu.style.display = 'flex';
             submenu.style.opacity = '1';
             submenu.style.visibility = 'visible';
+            submenu.style.position = 'static';
+            submenu.style.left = 'auto';
+            submenu.style.right = 'auto';
+            submenu.style.top = 'auto';
+            submenu.style.transform = 'none';
+            submenu.style.width = '100%';
+            submenu.style.maxWidth = '100%';
             console.log('Принудительно показано подменю для мобильной версии');
           } else {
             submenu.style.display = 'none';
@@ -160,6 +167,13 @@ document.addEventListener("DOMContentLoaded", () => {
         submenu.style.display = '';
         submenu.style.opacity = '';
         submenu.style.visibility = '';
+        submenu.style.position = '';
+        submenu.style.left = '';
+        submenu.style.right = '';
+        submenu.style.top = '';
+        submenu.style.transform = '';
+        submenu.style.width = '';
+        submenu.style.maxWidth = '';
       });
     }
   });
