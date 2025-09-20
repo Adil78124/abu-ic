@@ -281,8 +281,10 @@ a{
   align-items: center;
   justify-content: center;
   background-color: #F5F5F5;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   height: auto;
+  margin: 0 auto;
 }
 
 .Students__row {
@@ -299,7 +301,8 @@ a{
 }
 
 .Students__woman {
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   height: 700px;
   border-radius: 10px;
 }
@@ -522,8 +525,10 @@ button.Students__title2 {
   align-items: center;
   justify-content: center;
   background-color: #F5F5F5;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   height: auto;
+  margin: 0 auto;
 }
 
 .Teacher__row {
@@ -540,7 +545,8 @@ button.Students__title2 {
 }
 
 .Teacher__man {
-  width: 600px;
+  width: 100%;
+  max-width: 600px;
   height: 700px;
   border-radius: 10px;
 }
