@@ -216,10 +216,30 @@ a{
   .submenu {
     position: static;
     background: #222;
+    display: none;
+  }
+
+  .has-submenu.active .submenu {
+    display: block;
   }
 
   .submenu li a {
     color: white;
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+  }
+
+  .submenu li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .submenu-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .has-submenu.active .submenu-arrow {
+    transform: rotate(180deg);
   }
 }
 
