@@ -124,30 +124,134 @@ a{
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: relative;
+  }
+
+  .burger-button {
+    display: flex !important;
+    order: 2;
   }
 
   .menu__body {
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    padding: 80px 20px 20px 20px;
+    z-index: 1000;
     flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    background: black;
-    padding: 15px 0;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+    backdrop-filter: blur(10px);
   }
 
   .menu__body.active {
-    display: flex;
+    display: flex !important;
+  }
+
+  /* Предотвращение скролла при открытом меню */
+  body.menu-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
   }
 
   .menu__pages {
     flex-direction: column;
     width: 100%;
+    max-width: 400px;
+    gap: 0;
+  }
+
+  .menu__item {
+    width: 100%;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .menu__item:last-child {
+    border-bottom: none;
+  }
+
+  .menu__item a {
+    display: block;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 5px 0;
+  }
+
+  .menu__item a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+  }
+
+  .has-submenu {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .submenu {
+    position: static;
+    display: none;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin: 10px 0;
+    padding: 10px 0;
+    box-shadow: none;
+    opacity: 1;
+    transform: none;
+    width: 100%;
+  }
+
+  .has-submenu.active .submenu {
+    display: block !important;
+  }
+
+  .submenu li {
+    width: 100%;
+  }
+
+  .submenu li a {
+    padding: 12px 30px;
+    font-size: 16px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    margin: 2px 10px;
+    border-radius: 6px;
+  }
+
+  .submenu li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(3px);
   }
 
   .language-switcher {
-    justify-content: flex-end;
+    justify-content: center;
     width: 100%;
-    margin-top: 10px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .language-button {
+    font-size: 16px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .language-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
   }
 }
 
@@ -167,6 +271,10 @@ a{
   background: transparent;
   border: none;
   cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 .burger-button span {
@@ -174,6 +282,21 @@ a{
   height: 3px;
   background-color: white;
   border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Анимация бургер-меню */
+.burger-button.active span:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.burger-button.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger-button.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
 }
 
 
@@ -1752,6 +1875,7 @@ button.Teacher__title4 {
             width: 100%;
             margin: 0;
             padding: 40px 0 0;
+            margin-top: auto;
         }
 
         .footer__row {
@@ -2585,6 +2709,91 @@ body {
 /* Убираем горизонтальный скролл */
 html, body {
     overflow-x: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh;
+}
+
+/* Убираем белое пространство под футером */
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #f6f7f8;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100vh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Убираем лишние отступы у контейнера */
+.container {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Принудительно убираем все отступы после футера */
+.footer__ {
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Убираем любые отступы у последних элементов */
+.footer__bottom {
+    margin-bottom: 0 !important;
+    padding-bottom: 20px !important;
+}
+
+/* Принудительно убираем белое пространство под футером */
+* {
+    box-sizing: border-box;
+}
+
+/* Убираем все возможные отступы после футера */
+.footer__::after {
+    content: '';
+    display: block;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Убираем отступы у body и html */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+/* Убираем отступы у всех элементов после футера */
+.footer__ * {
+    margin-bottom: 0 !important;
+}
+
+/* Принудительно устанавливаем высоту страницы */
+body {
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .submenu-arrow {
@@ -3266,4 +3475,298 @@ body {
   .modal-text p {
     font-size: 14px;
   }
+}
+
+/* ================= СТИЛИ ДЛЯ СТРАНИЦЫ ДИРЕКТОРА ================= */
+.director-page {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0;
+}
+
+.director-page .page-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: #2c3e50;
+  margin-bottom: 50px;
+  padding-bottom: 25px;
+  position: relative;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.director-page .page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  border-radius: 2px;
+}
+
+.director-content {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.director-photo {
+  flex-shrink: 0;
+  width: 320px;
+  position: relative;
+}
+
+.director-photo::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  border-radius: 16px;
+  z-index: -1;
+  opacity: 0.1;
+}
+
+.director-photo img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.director-photo img:hover {
+  transform: scale(1.02);
+}
+
+.director-info-blocks {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.info-block {
+  padding: 30px;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border-radius: 12px;
+  position: relative;
+  line-height: 1.7;
+  text-align: left;
+  border-left: 5px solid #2563eb;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.info-block:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.1);
+}
+
+.info-block p {
+  margin-bottom: 18px;
+  font-size: 16px;
+  color: #374151;
+  text-align: justify;
+}
+
+.info-block p:last-child {
+  margin-bottom: 0;
+}
+
+.info-block strong {
+  color: #1e40af;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.info-block span {
+  color: #6b7280;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+  .director-content {
+    gap: 30px;
+    padding: 25px;
+  }
+  
+  .director-photo {
+    width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .director-page {
+    padding: 20px 15px;
+    margin: 20px auto;
+    border-radius: 16px;
+  }
+
+  .director-page .page-title {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  .director-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    padding: 20px;
+  }
+
+  .director-photo {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .director-info-blocks {
+    width: 100%;
+  }
+
+  .info-block {
+    padding: 20px;
+  }
+
+  .info-block p {
+    font-size: 15px;
+  }
+
+  .info-block strong {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .director-page {
+    padding: 15px 10px;
+    margin: 15px auto;
+  }
+
+  .director-page .page-title {
+    font-size: 24px;
+    margin-bottom: 25px;
+  }
+
+  .director-content {
+    padding: 15px;
+  }
+
+  .info-block {
+    padding: 15px;
+  }
+
+  .info-block p {
+    font-size: 14px;
+  }
+
+  .info-block strong {
+    font-size: 15px;
+  }
+
+  /* Дополнительные стили для очень маленьких экранов */
+  .menu__body {
+    padding: 70px 15px 20px 15px;
+  }
+
+  .menu__item a {
+    font-size: 16px;
+    padding: 12px 15px;
+  }
+
+  .submenu li a {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  .language-button {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  .burger-button {
+    padding: 6px;
+  }
+
+  .burger-button span {
+    width: 22px;
+    height: 2px;
+  }
+
+  /* Убираем белое пространство на мобильных */
+  body {
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .wrapper {
+    min-height: 100vh;
+  }
+
+  .footer__ {
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+/* КРИТИЧЕСКИ ВАЖНО: Убираем белое пространство под футером */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100% !important;
+    overflow-x: hidden !important;
+}
+
+body {
+    background: #f6f7f8 !important;
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.wrapper {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 100vh !important;
+}
+
+.footer__ {
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Убираем все возможные отступы */
+* {
+    box-sizing: border-box;
+}
+
+/* Принудительно убираем отступы у всех элементов */
+div, section, article, aside, nav, header, footer, main {
+    margin-bottom: 0 !important;
+}
+
+/* Убираем отступы у последнего элемента */
+.footer__bottom {
+    margin-bottom: 0 !important;
+    padding-bottom: 20px !important;
 }
