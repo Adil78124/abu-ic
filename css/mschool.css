@@ -178,19 +178,27 @@ a{
   }
 
   .menu__item a {
-    display: block;
-    padding: 15px 20px;
-    font-size: 18px;
-    font-weight: 500;
-    text-align: center;
-    transition: all 0.3s ease;
-    border-radius: 8px;
-    margin: 5px 0;
+    display: block !important;
+    padding: 15px 20px !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    text-align: center !important;
+    transition: all 0.3s ease !important;
+    border-radius: 8px !important;
+    margin: 5px 0 !important;
+    color: white !important;
+    text-decoration: none !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    line-height: 1.4 !important;
   }
 
   .menu__item a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px);
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: translateX(5px) !important;
+    color: white !important;
   }
 
   .has-submenu {
@@ -220,17 +228,26 @@ a{
   }
 
   .submenu li a {
-    padding: 12px 30px;
-    font-size: 16px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.05);
-    margin: 2px 10px;
-    border-radius: 6px;
+    padding: 12px 30px !important;
+    font-size: 16px !important;
+    text-align: center !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    margin: 2px 10px !important;
+    border-radius: 6px !important;
+    color: white !important;
+    text-decoration: none !important;
+    display: block !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    line-height: 1.4 !important;
   }
 
   .submenu li a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(3px);
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: translateX(3px) !important;
+    color: white !important;
   }
 
   .language-switcher {
@@ -252,6 +269,66 @@ a{
   .language-button:hover {
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.05);
+  }
+
+  /* Дополнительные стили для исправления отображения текста */
+  .menu__pages {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    gap: 0 !important;
+  }
+
+  .menu__item {
+    width: 100% !important;
+    margin-bottom: 0 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    display: block !important;
+  }
+
+  .menu__item:last-child {
+    border-bottom: none !important;
+  }
+
+  /* Принудительно исправляем отображение текста */
+  .menu__item a,
+  .menu__item a:visited,
+  .menu__item a:active,
+  .menu__item a:focus {
+    color: white !important;
+    text-decoration: none !important;
+    display: block !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    padding: 15px 20px !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+  }
+
+  /* Принудительно исправляем отображение текста в подменю */
+  .submenu li a,
+  .submenu li a:visited,
+  .submenu li a:active,
+  .submenu li a:focus {
+    color: white !important;
+    text-decoration: none !important;
+    display: block !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    padding: 12px 30px !important;
+    font-size: 16px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    margin: 2px 10px !important;
+    border-radius: 6px !important;
   }
 }
 
@@ -3688,13 +3765,31 @@ body {
   }
 
   .menu__item a {
-    font-size: 16px;
-    padding: 12px 15px;
+    font-size: 16px !important;
+    padding: 12px 15px !important;
+    color: white !important;
+    text-decoration: none !important;
+    display: block !important;
+    text-align: center !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    line-height: 1.4 !important;
   }
 
   .submenu li a {
-    font-size: 14px;
-    padding: 10px 20px;
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    color: white !important;
+    text-decoration: none !important;
+    display: block !important;
+    text-align: center !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto !important;
+    line-height: 1.4 !important;
   }
 
   .language-button {
