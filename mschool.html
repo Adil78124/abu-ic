@@ -319,8 +319,35 @@
     <script src="js/mschool.js"></script>
     <script src="js/language-switcher.js"></script>
     <script>
-        // Подменю функциональность
+        // Бургер-меню функциональность
         document.addEventListener('DOMContentLoaded', function() {
+            const burgerButton = document.getElementById('burger-button');
+            const menuBody = document.getElementById('menu-body');
+
+            // Открытие/закрытие бургер-меню
+            burgerButton.addEventListener('click', function() {
+                menuBody.classList.toggle('active');
+                burgerButton.classList.toggle('active');
+            });
+
+            // Закрытие меню при клике на ссылку
+            const menuLinks = document.querySelectorAll('.menu__body a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    menuBody.classList.remove('active');
+                    burgerButton.classList.remove('active');
+                });
+            });
+
+            // Закрытие меню при клике вне его
+            document.addEventListener('click', function(e) {
+                if (!menuBody.contains(e.target) && !burgerButton.contains(e.target)) {
+                    menuBody.classList.remove('active');
+                    burgerButton.classList.remove('active');
+                }
+            });
+
+            // Подменю функциональность
             const submenuToggles = document.querySelectorAll('.submenu-toggle');
 
             submenuToggles.forEach(toggle => {

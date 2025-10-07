@@ -172,77 +172,18 @@
             const burgerButton = document.getElementById('burger-button');
             const menuBody = document.getElementById('menu-body');
 
-            // Улучшенная поддержка мобильных устройств
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            
-            if (isMobile) {
-                // Отключаем зум при двойном тапе
-                let lastTouchEnd = 0;
-                document.addEventListener('touchend', function (event) {
-                    const now = (new Date()).getTime();
-                    if (now - lastTouchEnd <= 300) {
-                        event.preventDefault();
-                    }
-                    lastTouchEnd = now;
-                }, false);
-                
-                // Улучшаем производительность на мобильных
-                document.body.style.webkitTransform = 'translateZ(0)';
-                document.body.style.transform = 'translateZ(0)';
-            }
-
             // Открытие/закрытие бургер-меню
-            burgerButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
+            burgerButton.addEventListener('click', function() {
                 menuBody.classList.toggle('active');
                 burgerButton.classList.toggle('active');
-                
-                // Управление скроллом страницы
-                if (menuBody.classList.contains('active')) {
-                    document.body.classList.add('menu-open');
-                    // Блокируем скролл на мобильных
-                    if (isMobile) {
-                        document.body.style.position = 'fixed';
-                        document.body.style.width = '100%';
-                        document.body.style.top = '0';
-                    }
-                } else {
-                    document.body.classList.remove('menu-open');
-                    // Разблокируем скролл на мобильных
-                    if (isMobile) {
-                        document.body.style.position = '';
-                        document.body.style.width = '';
-                        document.body.style.top = '';
-                    }
-                }
             });
 
             // Закрытие меню при клике на ссылку
             const menuLinks = document.querySelectorAll('.menu__body a');
             menuLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
+                link.addEventListener('click', function() {
                     menuBody.classList.remove('active');
                     burgerButton.classList.remove('active');
-                    document.body.classList.remove('menu-open');
-                    
-                    // Разблокируем скролл на мобильных
-                    if (isMobile) {
-                        document.body.style.position = '';
-                        document.body.style.width = '';
-                        document.body.style.top = '';
-                    }
-                    
-                    // Небольшая задержка для плавного перехода
-                    setTimeout(() => {
-                        if (link.href && link.href !== '#') {
-                            window.location.href = link.href;
-                        }
-                    }, 100);
                 });
             });
 
@@ -251,42 +192,8 @@
                 if (!menuBody.contains(e.target) && !burgerButton.contains(e.target)) {
                     menuBody.classList.remove('active');
                     burgerButton.classList.remove('active');
-                    document.body.classList.remove('menu-open');
-                    
-                    // Разблокируем скролл на мобильных
-                    if (isMobile) {
-                        document.body.style.position = '';
-                        document.body.style.width = '';
-                        document.body.style.top = '';
-                    }
                 }
             });
-
-            // Дополнительная поддержка для мобильных устройств
-            if (isMobile) {
-                // Обработка свайпов
-                let startY = 0;
-                let endY = 0;
-                
-                document.addEventListener('touchstart', function(e) {
-                    startY = e.touches[0].clientY;
-                });
-                
-                document.addEventListener('touchend', function(e) {
-                    endY = e.changedTouches[0].clientY;
-                    const diff = startY - endY;
-                    
-                    // Если свайп вверх и меню открыто, закрываем его
-                    if (diff > 50 && menuBody.classList.contains('active')) {
-                        menuBody.classList.remove('active');
-                        burgerButton.classList.remove('active');
-                        document.body.classList.remove('menu-open');
-                        document.body.style.position = '';
-                        document.body.style.width = '';
-                        document.body.style.top = '';
-                    }
-                });
-            }
 
             // Подменю функциональность
             const submenuToggles = document.querySelectorAll('.submenu-toggle');

@@ -124,211 +124,30 @@ a{
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    position: relative;
-  }
-
-  .burger-button {
-    display: flex !important;
-    order: 2;
   }
 
   .menu__body {
     display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.95);
-    padding: 80px 20px 20px 20px;
-    z-index: 1000;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overflow-y: auto;
-    backdrop-filter: blur(10px);
+    align-items: flex-start;
+    width: 100%;
+    background: black;
+    padding: 15px 0;
   }
 
   .menu__body.active {
-    display: flex !important;
-  }
-
-  /* Предотвращение скролла при открытом меню */
-  body.menu-open {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
+    display: flex;
   }
 
   .menu__pages {
     flex-direction: column;
     width: 100%;
-    max-width: 400px;
-    gap: 0;
-  }
-
-  .menu__item {
-    width: 100%;
-    margin-bottom: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .menu__item:last-child {
-    border-bottom: none;
-  }
-
-  .menu__item a {
-    display: block !important;
-    padding: 15px 20px !important;
-    font-size: 18px !important;
-    font-weight: 500 !important;
-    text-align: center !important;
-    transition: all 0.3s ease !important;
-    border-radius: 8px !important;
-    margin: 5px 0 !important;
-    color: white !important;
-    text-decoration: none !important;
-    white-space: normal !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    hyphens: auto !important;
-    line-height: 1.4 !important;
-  }
-
-  .menu__item a:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-    transform: translateX(5px) !important;
-    color: white !important;
-  }
-
-  .has-submenu {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .submenu {
-    position: static;
-    display: none;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    margin: 10px 0;
-    padding: 10px 0;
-    box-shadow: none;
-    opacity: 1;
-    transform: none;
-    width: 100%;
-  }
-
-  .has-submenu.active .submenu {
-    display: block !important;
-  }
-
-  .submenu li {
-    width: 100%;
-  }
-
-  .submenu li a {
-    padding: 12px 30px !important;
-    font-size: 16px !important;
-    text-align: center !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    margin: 2px 10px !important;
-    border-radius: 6px !important;
-    color: white !important;
-    text-decoration: none !important;
-    display: block !important;
-    white-space: normal !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    hyphens: auto !important;
-    line-height: 1.4 !important;
-  }
-
-  .submenu li a:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
-    transform: translateX(3px) !important;
-    color: white !important;
   }
 
   .language-switcher {
-    justify-content: center;
+    justify-content: flex-end;
     width: 100%;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-  }
-
-  .language-button {
-    font-size: 16px;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-  }
-
-  .language-button:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.05);
-  }
-
-  /* Дополнительные стили для исправления отображения текста */
-  .menu__pages {
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    max-width: 400px !important;
-    gap: 0 !important;
-  }
-
-  .menu__item {
-    width: 100% !important;
-    margin-bottom: 0 !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-    display: block !important;
-  }
-
-  .menu__item:last-child {
-    border-bottom: none !important;
-  }
-
-  /* Принудительно исправляем отображение текста */
-  .menu__item a,
-  .menu__item a:visited,
-  .menu__item a:active,
-  .menu__item a:focus {
-    color: white !important;
-    text-decoration: none !important;
-    display: block !important;
-    white-space: normal !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    hyphens: auto !important;
-    line-height: 1.4 !important;
-    text-align: center !important;
-    padding: 15px 20px !important;
-    font-size: 18px !important;
-    font-weight: 500 !important;
-  }
-
-  /* Принудительно исправляем отображение текста в подменю */
-  .submenu li a,
-  .submenu li a:visited,
-  .submenu li a:active,
-  .submenu li a:focus {
-    color: white !important;
-    text-decoration: none !important;
-    display: block !important;
-    white-space: normal !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-    hyphens: auto !important;
-    line-height: 1.4 !important;
-    text-align: center !important;
-    padding: 12px 30px !important;
-    font-size: 16px !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    margin: 2px 10px !important;
-    border-radius: 6px !important;
+    margin-top: 10px;
   }
 }
 
@@ -376,6 +195,34 @@ a{
   transform: rotate(-45deg) translate(6px, -6px);
 }
 
+/* Стили для мобильного меню (как в index.css) */
+@media (max-width: 768px) {
+  .menu__pages {
+    display: none;
+    flex-direction: column;
+    background: black;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    z-index: 999;
+  }
+
+  .menu__pages.active {
+    display: flex;
+  }
+
+  .submenu {
+    position: static;
+    background: #222;
+  }
+
+  .submenu li a {
+    color: white;
+  }
+}
+
 
 
 
@@ -387,38 +234,25 @@ a{
 
   .menu__body {
     display: none;
-    position: fixed;
-    top: 80px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: black;
-    padding: 20px;
-    z-index: 9999;
     flex-direction: column;
-    overflow-y: auto;
+    align-items: flex-start;
+    width: 100%;
+    background: black;
+    padding: 15px 0;
   }
 
   .menu__body.active {
-    display: flex !important;
+    display: flex;
   }
 
   .menu__pages {
-    display: flex !important;
     flex-direction: column;
     width: 100%;
-    gap: 15px;
-  }
-
-  .menu__item {
-    display: block !important;
   }
 
   .menu__item a {
-    color: white !important;
-    font-size: 18px !important;
-    padding: 10px 0 !important;
-    display: block !important;
+    color: white;
+    text-decoration: none;
   }
 
 }
@@ -3866,169 +3700,3 @@ div, section, article, aside, nav, header, footer, main {
     padding-bottom: 20px !important;
 }
 
-/* ================= СПЕЦИАЛЬНЫЕ СТИЛИ ДЛЯ IPHONE И МОБИЛЬНЫХ УСТРОЙСТВ ================= */
-@media (max-width: 768px) {
-  /* Улучшенные стили для мобильного меню */
-  .menu__body {
-    background: rgba(0, 0, 0, 0.98) !important;
-    -webkit-overflow-scrolling: touch !important;
-    backdrop-filter: blur(15px) !important;
-    -webkit-backdrop-filter: blur(15px) !important;
-  }
-
-  .menu__item a {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -khtml-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.5px !important;
-  }
-
-  .submenu li a {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -khtml-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    color: #ffffff !important;
-    font-weight: 500 !important;
-  }
-
-  /* Улучшенные стили для бургер-кнопки */
-  .burger-button {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -khtml-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-  }
-
-  /* Улучшенные стили для языкового переключателя */
-  .language-button {
-    -webkit-tap-highlight-color: transparent !important;
-    -webkit-touch-callout: none !important;
-    -webkit-user-select: none !important;
-    -khtml-user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    user-select: none !important;
-    color: #ffffff !important;
-  }
-}
-
-/* Специальные стили для iPhone */
-@media only screen 
-  and (device-width: 375px) 
-  and (device-height: 812px) 
-  and (-webkit-device-pixel-ratio: 3) {
-  
-  .menu__body {
-    padding: 100px 15px 20px 15px !important;
-  }
-
-  .menu__item a {
-    padding: 20px 15px !important;
-    font-size: 19px !important;
-  }
-
-  .submenu li a {
-    padding: 18px 25px !important;
-    font-size: 17px !important;
-  }
-}
-
-/* Специальные стили для iPhone 12/13/14 */
-@media only screen 
-  and (device-width: 390px) 
-  and (device-height: 844px) 
-  and (-webkit-device-pixel-ratio: 3) {
-  
-  .menu__body {
-    padding: 100px 15px 20px 15px !important;
-  }
-
-  .menu__item a {
-    padding: 20px 15px !important;
-    font-size: 19px !important;
-  }
-
-  .submenu li a {
-    padding: 18px 25px !important;
-    font-size: 17px !important;
-  }
-}
-
-/* Специальные стили для iPhone 12/13/14 Pro Max */
-@media only screen 
-  and (device-width: 428px) 
-  and (device-height: 926px) 
-  and (-webkit-device-pixel-ratio: 3) {
-  
-  .menu__body {
-    padding: 100px 20px 20px 20px !important;
-  }
-
-  .menu__item a {
-    padding: 20px 20px !important;
-    font-size: 20px !important;
-  }
-
-  .submenu li a {
-    padding: 18px 30px !important;
-    font-size: 18px !important;
-  }
-}
-
-/* Специальные стили для Android устройств */
-@media only screen 
-  and (min-device-width: 360px) 
-  and (max-device-width: 768px) 
-  and (-webkit-min-device-pixel-ratio: 2) {
-  
-  .menu__body {
-    padding: 90px 15px 20px 15px !important;
-  }
-
-  .menu__item a {
-    padding: 18px 15px !important;
-    font-size: 18px !important;
-  }
-
-  .submenu li a {
-    padding: 16px 25px !important;
-    font-size: 16px !important;
-  }
-}
-
-/* Дополнительные стили для очень маленьких экранов */
-@media (max-width: 480px) {
-  .menu__body {
-    padding: 80px 10px 20px 10px !important;
-  }
-
-  .menu__item a {
-    padding: 16px 10px !important;
-    font-size: 16px !important;
-    margin: 3px 0 !important;
-  }
-
-  .submenu li a {
-    padding: 14px 20px !important;
-    font-size: 14px !important;
-    margin: 1px 5px !important;
-  }
-
-  .language-button {
-    font-size: 14px !important;
-    padding: 10px 15px !important;
-  }
-}
