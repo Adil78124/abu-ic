@@ -3865,3 +3865,170 @@ div, section, article, aside, nav, header, footer, main {
     margin-bottom: 0 !important;
     padding-bottom: 20px !important;
 }
+
+/* ================= СПЕЦИАЛЬНЫЕ СТИЛИ ДЛЯ IPHONE И МОБИЛЬНЫХ УСТРОЙСТВ ================= */
+@media (max-width: 768px) {
+  /* Улучшенные стили для мобильного меню */
+  .menu__body {
+    background: rgba(0, 0, 0, 0.98) !important;
+    -webkit-overflow-scrolling: touch !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+  }
+
+  .menu__item a {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .submenu li a {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+  }
+
+  /* Улучшенные стили для бургер-кнопки */
+  .burger-button {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+
+  /* Улучшенные стили для языкового переключателя */
+  .language-button {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    color: #ffffff !important;
+  }
+}
+
+/* Специальные стили для iPhone */
+@media only screen 
+  and (device-width: 375px) 
+  and (device-height: 812px) 
+  and (-webkit-device-pixel-ratio: 3) {
+  
+  .menu__body {
+    padding: 100px 15px 20px 15px !important;
+  }
+
+  .menu__item a {
+    padding: 20px 15px !important;
+    font-size: 19px !important;
+  }
+
+  .submenu li a {
+    padding: 18px 25px !important;
+    font-size: 17px !important;
+  }
+}
+
+/* Специальные стили для iPhone 12/13/14 */
+@media only screen 
+  and (device-width: 390px) 
+  and (device-height: 844px) 
+  and (-webkit-device-pixel-ratio: 3) {
+  
+  .menu__body {
+    padding: 100px 15px 20px 15px !important;
+  }
+
+  .menu__item a {
+    padding: 20px 15px !important;
+    font-size: 19px !important;
+  }
+
+  .submenu li a {
+    padding: 18px 25px !important;
+    font-size: 17px !important;
+  }
+}
+
+/* Специальные стили для iPhone 12/13/14 Pro Max */
+@media only screen 
+  and (device-width: 428px) 
+  and (device-height: 926px) 
+  and (-webkit-device-pixel-ratio: 3) {
+  
+  .menu__body {
+    padding: 100px 20px 20px 20px !important;
+  }
+
+  .menu__item a {
+    padding: 20px 20px !important;
+    font-size: 20px !important;
+  }
+
+  .submenu li a {
+    padding: 18px 30px !important;
+    font-size: 18px !important;
+  }
+}
+
+/* Специальные стили для Android устройств */
+@media only screen 
+  and (min-device-width: 360px) 
+  and (max-device-width: 768px) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+  
+  .menu__body {
+    padding: 90px 15px 20px 15px !important;
+  }
+
+  .menu__item a {
+    padding: 18px 15px !important;
+    font-size: 18px !important;
+  }
+
+  .submenu li a {
+    padding: 16px 25px !important;
+    font-size: 16px !important;
+  }
+}
+
+/* Дополнительные стили для очень маленьких экранов */
+@media (max-width: 480px) {
+  .menu__body {
+    padding: 80px 10px 20px 10px !important;
+  }
+
+  .menu__item a {
+    padding: 16px 10px !important;
+    font-size: 16px !important;
+    margin: 3px 0 !important;
+  }
+
+  .submenu li a {
+    padding: 14px 20px !important;
+    font-size: 14px !important;
+    margin: 1px 5px !important;
+  }
+
+  .language-button {
+    font-size: 14px !important;
+    padding: 10px 15px !important;
+  }
+}
