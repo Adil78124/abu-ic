@@ -226,6 +226,26 @@
     margin-bottom: 20px;
 }
 
+/* Стили для фотографии сотрудника */
+.staff-photo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.staff-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.staff-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
 .staff-avatar {
     background: linear-gradient(135deg, #005baa, #007bff);
     color: white;
@@ -253,6 +273,13 @@
 }
 
 .staff-degree {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+    font-weight: 500;
+}
+
+.staff-degree-translation {
     color: #666;
     font-size: 14px;
     margin: 0;
@@ -372,5 +399,13 @@
   
   .has-submenu.active .submenu li a:hover {
     background-color: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+/* Мобильная адаптация для фотографии сотрудника */
+@media (max-width: 768px) {
+  .staff-image {
+    width: 100%;
+    height: auto;
   }
 }
