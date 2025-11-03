@@ -53,5 +53,13 @@ function initializeSupabase() {
 }
 
 // Инициализируем сразу (скрипт загружается с defer)
-initializeSupabase();
+// Используем window.onload для гарантии загрузки библиотеки
+if (window.addEventListener) {
+    window.addEventListener('load', function() {
+        setTimeout(initializeSupabase, 100);
+    });
+} else {
+    // Fallback для старых браузеров
+    initializeSupabase();
+}
 

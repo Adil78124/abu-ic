@@ -12,6 +12,14 @@ class NewsAdmin {
         this.setupImageUpload();
         this.setupLanguageTabs();
         this.setCurrentDate();
+        
+        // Ждём инициализации Supabase перед загрузкой новостей
+        if (typeof supabase === 'undefined' || !supabase) {
+            console.log('Ожидание инициализации Supabase...');
+            await this.waitForSupabase(3000);
+        }
+        
+        // Загружаем новости
         await this.loadNewsFromSupabase();
         this.renderNewsList();
     }
@@ -43,13 +51,29 @@ class NewsAdmin {
         const migrateBtn = document.getElementById('migrateBtn');
         if (migrateBtn) {
             migrateBtn.addEventListener('click', async () => {
-                if (typeof window.migrateNewsToSupabase === 'function') {
-                    await window.migrateNewsToSupabase();
-                    // Обновляем список после миграции
-                    await this.loadNewsFromSupabase();
-                    this.renderNewsList();
-                } else {
-                    this.showNotification('Скрипт миграции не загружен', 'error');
+                try {
+                    // Проверяем инициализацию Supabase
+                    if (typeof supabase === 'undefined' || !supabase) {
+                        await this.waitForSupabase(3000);
+                        if (typeof supabase === 'undefined' || !supabase) {
+                            this.showNotification('Supabase не инициализирован. Проверьте консоль браузера.', 'error');
+                            return;
+                        }
+                    }
+
+                    if (typeof window.migrateNewsToSupabase === 'function') {
+                        this.showNotification('Начало миграции...', 'info');
+                        await window.migrateNewsToSupabase();
+                        // Обновляем список после миграции
+                        await this.loadNewsFromSupabase();
+                        this.renderNewsList();
+                    } else {
+                        console.error('Функция migrateNewsToSupabase не найдена');
+                        this.showNotification('Скрипт миграции не загружен. Проверьте консоль браузера.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Ошибка миграции:', error);
+                    this.showNotification('Ошибка миграции: ' + (error.message || error), 'error');
                 }
             });
         }
@@ -325,6 +349,14 @@ class NewsAdmin {
     }
 
     async addNews(formData) {
+        // Проверяем инициализацию Supabase
+        if (typeof supabase === 'undefined' || !supabase) {
+            await this.waitForSupabase(3000);
+            if (typeof supabase === 'undefined' || !supabase) {
+                throw new Error('Supabase не инициализирован');
+            }
+        }
+
         const imageFile = formData.get('image');
         const imageUrl = formData.get('imageUrl');
         
@@ -365,6 +397,8 @@ class NewsAdmin {
             ...multilangData
         });
         
+        console.log('Добавление новости в Supabase:', newsData);
+        
         // Вставляем новость в Supabase
         const { data, error } = await supabase
             .from('news')
@@ -373,9 +407,11 @@ class NewsAdmin {
             .single();
         
         if (error) {
+            console.error('Ошибка добавления новости:', error);
             throw error;
         }
         
+        console.log('Новость успешно добавлена:', data);
         return data;
     }
 
@@ -741,20 +777,48 @@ class NewsAdmin {
     // Работа с Supabase
     async loadNewsFromSupabase() {
         try {
+            // Проверяем, что supabase инициализирован
+            if (typeof supabase === 'undefined' || !supabase) {
+                console.error('Supabase не инициализирован');
+                // Пробуем подождать и инициализировать
+                await this.waitForSupabase();
+                if (typeof supabase === 'undefined' || !supabase) {
+                    throw new Error('Supabase клиент недоступен. Проверьте подключение скриптов.');
+                }
+            }
+
+            console.log('Загрузка новостей из Supabase...');
             const { data, error } = await supabase
                 .from('news')
                 .select('*')
                 .order('created_at', { ascending: false });
             
             if (error) {
+                console.error('Ошибка Supabase:', error);
                 throw error;
             }
             
+            console.log('Загружено новостей:', data?.length || 0);
             this.news = data || [];
+            
+            // Если новостей нет, это нормально - просто пустой список
+            if (this.news.length === 0) {
+                console.log('Новостей в базе данных нет');
+            }
         } catch (error) {
             console.error('Ошибка загрузки новостей из Supabase:', error);
-            this.showNotification('Ошибка загрузки новостей: ' + error.message, 'error');
+            this.showNotification('Ошибка загрузки новостей: ' + (error.message || error), 'error');
             this.news = [];
+        }
+    }
+
+    async waitForSupabase(maxWait = 5000) {
+        const startTime = Date.now();
+        while (typeof supabase === 'undefined' || !supabase) {
+            if (Date.now() - startTime > maxWait) {
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
         }
     }
 
