@@ -35,8 +35,11 @@ class NewsIntegration {
                 throw error;
             }
 
+            console.log('Получено данных из Supabase:', data?.length || 0);
+            
             // Если в Supabase есть новости, используем их
             if (data && data.length > 0) {
+                console.log('✓ Используем новости из Supabase');
                 // Преобразуем данные Supabase в формат для отображения
                 this.news = data.map(item => {
                     let contentData = {};
@@ -68,11 +71,13 @@ class NewsIntegration {
             }
 
             // Если в Supabase нет новостей, пробуем загрузить из localStorage
-            console.log('В Supabase нет новостей, пробуем загрузить из localStorage');
+            console.log('⚠ В Supabase нет новостей (пустая таблица), пробуем загрузить из localStorage');
             const localNews = this.loadNewsFromStorage();
             if (localNews && localNews.length > 0) {
-                console.log(`Загружено ${localNews.length} новостей из localStorage`);
+                console.log(`✓ Загружено ${localNews.length} новостей из localStorage как fallback`);
                 this.news = localNews;
+            } else {
+                console.log('В localStorage тоже нет новостей');
             }
 
         } catch (error) {

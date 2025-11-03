@@ -245,11 +245,15 @@ class NewsAdmin {
     async handleSubmit(e) {
         e.preventDefault();
         
+        console.log('=== Начало сохранения новости ===');
         const formData = new FormData(e.target);
         
         if (!this.validateFormData(formData)) {
+            console.log('Валидация не пройдена');
             return;
         }
+        
+        console.log('Валидация пройдена, начинаем сохранение...');
         
         try {
             // Показываем загрузку
@@ -258,18 +262,29 @@ class NewsAdmin {
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Сохранение...';
             submitBtn.disabled = true;
             
-            await this.addNews(formData);
+            console.log('Вызываем addNews...');
+            const result = await this.addNews(formData);
+            console.log('Результат добавления:', result);
             
+            console.log('Очищаем форму и перезагружаем новости...');
             this.resetForm();
             await this.loadNewsFromSupabase();
             this.renderNewsList();
+            
+            console.log('✓ Новость успешно сохранена!');
             this.showNotification('Новость успешно сохранена!', 'success');
             
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         } catch (error) {
-            console.error('Ошибка сохранения новости:', error);
-            this.showNotification('Ошибка при сохранении новости: ' + error.message, 'error');
+            console.error('✗ Ошибка сохранения новости:', error);
+            console.error('Детали ошибки:', {
+                message: error.message,
+                code: error.code,
+                details: error.details,
+                hint: error.hint
+            });
+            this.showNotification('Ошибка при сохранении новости: ' + (error.message || error), 'error');
             
             const submitBtn = e.target.querySelector('button[type="submit"]');
             submitBtn.innerHTML = '<i class="fas fa-save"></i> Сохранить новость';
@@ -397,8 +412,18 @@ class NewsAdmin {
             ...multilangData
         });
         
-        console.log('Добавление новости в Supabase:', newsData);
+        console.log('Добавление новости в Supabase:', {
+            title: newsData.title,
+            has_image: !!newsData.image_url,
+            content_length: newsData.content?.length
+        });
         
+        // Проверяем, что supabase доступен
+        if (!supabase) {
+            throw new Error('Supabase клиент не инициализирован');
+        }
+        
+        console.log('Выполняем INSERT запрос...');
         // Вставляем новость в Supabase
         const { data, error } = await supabase
             .from('news')
@@ -407,11 +432,16 @@ class NewsAdmin {
             .single();
         
         if (error) {
-            console.error('Ошибка добавления новости:', error);
+            console.error('✗ Ошибка Supabase при добавлении:', error);
+            console.error('Код ошибки:', error.code);
+            console.error('Сообщение:', error.message);
+            console.error('Детали:', error.details);
+            console.error('Подсказка:', error.hint);
             throw error;
         }
         
-        console.log('Новость успешно добавлена:', data);
+        console.log('✓ Новость успешно добавлена в Supabase:', data);
+        console.log('ID новой новости:', data.id);
         return data;
     }
 
