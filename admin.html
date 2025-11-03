@@ -143,6 +143,10 @@
                 <div class="section-header">
                     <h2><i class="fas fa-list"></i> Управление новостями</h2>
                     <div class="list-actions">
+                        <button class="btn btn-outline" id="migrateBtn" title="Перенести новости из localStorage в Supabase">
+                            <i class="fas fa-database"></i>
+                            Мигрировать старые новости
+                        </button>
                         <button class="btn btn-outline" id="refreshBtn">
                             <i class="fas fa-sync-alt"></i>
                             Обновить
@@ -290,6 +294,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Конфигурация Supabase -->
     <script src="js/supabase-config.js"></script>
+    <!-- Скрипт миграции (можно удалить после миграции) -->
+    <script src="js/migrate-news.js"></script>
     <script src="js/admin-news.js"></script>
 </body>
 </html>

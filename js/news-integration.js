@@ -1,18 +1,91 @@
 // Интеграция новостей из админ-панели с основной страницей
 class NewsIntegration {
     constructor() {
-        this.news = this.loadNewsFromStorage();
+        this.news = [];
         this.init();
     }
 
-    init() {
-        // Загружаем новости при загрузке страницы
+    async init() {
+        // Загружаем новости из Supabase при загрузке страницы
+        await this.loadNewsFromSupabase();
         this.loadNewsToPage();
         
-        // Обновляем новости каждые 30 секунд (для демонстрации)
-        setInterval(() => {
+        // Обновляем новости каждые 30 секунд
+        setInterval(async () => {
+            await this.loadNewsFromSupabase();
             this.loadNewsToPage();
         }, 30000);
+    }
+
+    async loadNewsFromSupabase() {
+        try {
+            // Проверяем, что Supabase инициализирован
+            if (typeof supabase === 'undefined') {
+                console.warn('Supabase не инициализирован, загружаем из localStorage как fallback');
+                this.news = this.loadNewsFromStorage();
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('news')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                throw error;
+            }
+
+            // Если в Supabase есть новости, используем их
+            if (data && data.length > 0) {
+                // Преобразуем данные Supabase в формат для отображения
+                this.news = data.map(item => {
+                    let contentData = {};
+                    try {
+                        contentData = typeof item.content === 'string' ? JSON.parse(item.content) : item.content;
+                    } catch (e) {
+                        contentData = { main: item.content || '', description: '' };
+                    }
+
+                    return {
+                        id: item.id,
+                        title: item.title,
+                        title_ru: contentData.title_ru || item.title,
+                        title_en: contentData.title_en || item.title,
+                        title_kz: contentData.title_kz || item.title,
+                        description: contentData.description || '',
+                        description_ru: contentData.description_ru || contentData.description || '',
+                        description_en: contentData.description_en || contentData.description || '',
+                        description_kz: contentData.description_kz || contentData.description || '',
+                        content: contentData.main || '',
+                        image: item.image_url || null,
+                        imageUrl: item.image_url || null,
+                        date: contentData.date || item.created_at,
+                        createdAt: item.created_at,
+                        updatedAt: item.updated_at
+                    };
+                });
+                return; // Успешно загрузили из Supabase
+            }
+
+            // Если в Supabase нет новостей, пробуем загрузить из localStorage
+            console.log('В Supabase нет новостей, пробуем загрузить из localStorage');
+            const localNews = this.loadNewsFromStorage();
+            if (localNews && localNews.length > 0) {
+                console.log(`Загружено ${localNews.length} новостей из localStorage`);
+                this.news = localNews;
+            }
+
+        } catch (error) {
+            console.error('Ошибка загрузки новостей из Supabase:', error);
+            // Fallback на localStorage если Supabase недоступен
+            const localNews = this.loadNewsFromStorage();
+            if (localNews && localNews.length > 0) {
+                console.log(`Используем ${localNews.length} новостей из localStorage как fallback`);
+                this.news = localNews;
+            } else {
+                this.news = [];
+            }
+        }
     }
 
     loadNewsFromStorage() {
@@ -20,7 +93,7 @@ class NewsIntegration {
             const stored = localStorage.getItem('abu_news');
             return stored ? JSON.parse(stored) : [];
         } catch (error) {
-            console.error('Ошибка загрузки новостей:', error);
+            console.error('Ошибка загрузки новостей из localStorage:', error);
             return [];
         }
     }

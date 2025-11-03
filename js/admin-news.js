@@ -39,6 +39,21 @@ class NewsAdmin {
         const previewBtn = document.getElementById('previewBtn');
         previewBtn.addEventListener('click', () => this.showPreview());
 
+        // Кнопка миграции старых новостей
+        const migrateBtn = document.getElementById('migrateBtn');
+        if (migrateBtn) {
+            migrateBtn.addEventListener('click', async () => {
+                if (typeof window.migrateNewsToSupabase === 'function') {
+                    await window.migrateNewsToSupabase();
+                    // Обновляем список после миграции
+                    await this.loadNewsFromSupabase();
+                    this.renderNewsList();
+                } else {
+                    this.showNotification('Скрипт миграции не загружен', 'error');
+                }
+            });
+        }
+
         // Кнопка обновления списка
         const refreshBtn = document.getElementById('refreshBtn');
         refreshBtn.addEventListener('click', async () => {
