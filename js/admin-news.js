@@ -27,7 +27,15 @@ class NewsAdmin {
     setupEventListeners() {
         // Форма добавления новости
         const newsForm = document.getElementById('newsForm');
-        newsForm.addEventListener('submit', (e) => this.handleSubmit(e));
+        if (!newsForm) {
+            console.error('Форма newsForm не найдена!');
+            return;
+        }
+        console.log('Привязываем обработчик формы...');
+        newsForm.addEventListener('submit', (e) => {
+            console.log('Событие submit формы вызвано!');
+            this.handleSubmit(e);
+        });
 
         // Форма редактирования новости
         const editForm = document.getElementById('editForm');
@@ -715,6 +723,7 @@ class NewsAdmin {
     }
 
     validateFormData(formData) {
+        console.log('=== Валидация формы ===');
         const title = formData.get('title');
         const date = formData.get('date');
         const description = formData.get('description');
@@ -722,29 +731,44 @@ class NewsAdmin {
         const imageFile = formData.get('image');
         const imageUrl = formData.get('imageUrl');
         
+        console.log('Данные формы:', {
+            title: title?.substring(0, 50),
+            date,
+            hasDescription: !!description,
+            hasContent: !!content,
+            hasImageFile: imageFile && imageFile.size > 0,
+            hasImageUrl: !!imageUrl
+        });
+        
         if (!title || !title.trim()) {
+            console.log('✗ Ошибка: Заголовок пустой');
             this.showNotification('Заголовок новости обязателен!', 'error');
             return false;
         }
         if (!date) {
+            console.log('✗ Ошибка: Дата не указана');
             this.showNotification('Дата публикации обязательна!', 'error');
             return false;
         }
         if (!description || !description.trim()) {
+            console.log('✗ Ошибка: Описание пустое');
             this.showNotification('Описание новости обязательно!', 'error');
             return false;
         }
         if (!content || !content.trim()) {
+            console.log('✗ Ошибка: Содержание пустое');
             this.showNotification('Содержание новости обязательно!', 'error');
             return false;
         }
         if ((!imageFile || imageFile.size === 0) && !imageUrl) {
             // Если редактируем, проверяем что уже есть изображение
             if (!this.currentEditId) {
-                this.showNotification('Необходимо добавить изображение!', 'error');
+                console.log('✗ Ошибка: Изображение не указано');
+                this.showNotification('Необходимо добавить изображение или URL изображения!', 'error');
                 return false;
             }
         }
+        console.log('✓ Валидация пройдена');
         return true;
     }
 
