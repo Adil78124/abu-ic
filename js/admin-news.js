@@ -56,6 +56,7 @@ class NewsAdmin {
         previewBtn.addEventListener('click', () => this.showPreview());
 
         // Кнопка миграции старых новостей
+        // Кнопка миграции старых новостей из localStorage
         const migrateBtn = document.getElementById('migrateBtn');
         if (migrateBtn) {
             migrateBtn.addEventListener('click', async () => {
@@ -82,6 +83,49 @@ class NewsAdmin {
                 } catch (error) {
                     console.error('Ошибка миграции:', error);
                     this.showNotification('Ошибка миграции: ' + (error.message || error), 'error');
+                }
+            });
+        }
+
+        // Кнопка массовой миграции всех новостей из HTML файлов
+        const migrateAllBtn = document.getElementById('migrateAllBtn');
+        if (migrateAllBtn) {
+            migrateAllBtn.addEventListener('click', async () => {
+                if (!confirm('Вы уверены, что хотите импортировать все существующие новости из HTML файлов в Supabase? Это может занять некоторое время.')) {
+                    return;
+                }
+                
+                try {
+                    // Проверяем инициализацию Supabase
+                    if (typeof supabase === 'undefined' || !supabase) {
+                        await this.waitForSupabase(3000);
+                        if (typeof supabase === 'undefined' || !supabase) {
+                            alert('Supabase не инициализирован. Подождите несколько секунд и попробуйте снова.');
+                            return;
+                        }
+                    }
+
+                    migrateAllBtn.disabled = true;
+                    migrateAllBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Импорт новостей...';
+
+                    // Вызываем функцию миграции
+                    if (typeof window.migrateAllNewsToSupabase === 'function') {
+                        await window.migrateAllNewsToSupabase();
+                    } else {
+                        throw new Error('Функция migrateAllNewsToSupabase не найдена');
+                    }
+
+                    // Перезагружаем список новостей
+                    await this.loadNewsFromSupabase();
+                    this.renderNewsList();
+                    
+                    migrateAllBtn.innerHTML = '<i class="fas fa-database"></i> Импортировать все существующие новости из HTML';
+                    migrateAllBtn.disabled = false;
+                } catch (error) {
+                    console.error('Ошибка при импорте новостей:', error);
+                    alert('Ошибка при импорте новостей: ' + error.message);
+                    migrateAllBtn.innerHTML = '<i class="fas fa-database"></i> Импортировать все существующие новости из HTML';
+                    migrateAllBtn.disabled = false;
                 }
             });
         }
