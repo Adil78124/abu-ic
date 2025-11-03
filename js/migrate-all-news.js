@@ -352,22 +352,22 @@ window.migrateAllNewsToSupabase = async function() {
             };
 
             // Подготавливаем данные для Supabase
+            // Вставляем новость в Supabase
+            // ВАЖНО: в таблице нет колонки 'date' - дата хранится в content JSON
             const newsData = {
                 title: news.title,
-                date: news.date,
                 description: news.description,
-                content: JSON.stringify(contentData),
+                content: JSON.stringify(contentData), // date хранится внутри contentData
                 image_url: getImageUrl(news.image_url),
-                author: 'Admin',
-                created_at: new Date().toISOString()
+                author: 'Admin'
+                // created_at будет установлен автоматически Supabase
             };
 
-            // Проверяем, существует ли уже такая новость (по заголовку и дате)
+            // Проверяем, существует ли уже такая новость (только по заголовку, так как date в content)
             const { data: existing } = await supabase
                 .from('news')
                 .select('id')
                 .eq('title', news.title)
-                .eq('date', news.date)
                 .maybeSingle();
 
             if (existing) {
