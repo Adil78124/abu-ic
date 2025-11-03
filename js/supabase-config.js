@@ -11,55 +11,55 @@ const SUPABASE_ANON_KEY = (typeof process !== 'undefined' && process.env && proc
 const STORAGE_BUCKET = 'news-images';
 
 // Инициализация Supabase клиента
-// Библиотека @supabase/supabase-js через CDN (jsdelivr) экспортирует через window.supabase
-// Используем проверку готовности и правильное имя объекта
+// Библиотека @supabase/supabase-js через CDN jsdelivr экспортирует через supabaseLib
 let supabase;
 
-function initializeSupabase() {
-    // Через CDN jsdelivr библиотека доступна через window.supabase или supabaseLib
-    // В версии 2 это может быть supabaseLib.createClient
-    
-    // Проверяем различные варианты экспорта
-    if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
-        // Вариант 1: напрямую через window.supabase
-        supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('Supabase инициализирован через window.supabase');
-    } else if (typeof supabaseLib !== 'undefined' && typeof supabaseLib.createClient === 'function') {
-        // Вариант 2: через supabaseLib (UMD экспорт)
-        supabase = supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('Supabase инициализирован через supabaseLib');
-    } else {
-        // Пробуем через некоторое время (библиотека может загружаться асинхронно)
-        let attempts = 0;
-        const maxAttempts = 20; // 1 секунда максимум
+(function initializeSupabase() {
+    // Функция инициализации, которая пытается найти библиотеку
+    function init() {
+        // Через jsdelivr CDN библиотека обычно экспортируется как supabaseLib
+        // Или может быть доступна через window.supabase
         
-        const checkLib = setInterval(function() {
-            attempts++;
-            
-            if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('Supabase инициализирован через window.supabase (с задержкой)');
-                clearInterval(checkLib);
-            } else if (typeof supabaseLib !== 'undefined' && typeof supabaseLib.createClient === 'function') {
+        if (typeof supabaseLib !== 'undefined') {
+            // Стандартный способ для CDN jsdelivr
+            try {
                 supabase = supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('Supabase инициализирован через supabaseLib (с задержкой)');
-                clearInterval(checkLib);
-            } else if (attempts >= maxAttempts) {
-                console.error('Не удалось загрузить Supabase библиотеку. Убедитесь, что скрипт подключен правильно.');
-                clearInterval(checkLib);
+                console.log('✓ Supabase инициализирован через supabaseLib');
+                return true;
+            } catch (e) {
+                console.error('Ошибка создания клиента Supabase:', e);
             }
-        }, 50);
+        } else if (typeof window.supabase !== 'undefined' && typeof window.supabase.createClient === 'function') {
+            // Альтернативный способ
+            try {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('✓ Supabase инициализирован через window.supabase');
+                return true;
+            } catch (e) {
+                console.error('Ошибка создания клиента Supabase:', e);
+            }
+        }
+        return false;
     }
-}
 
-// Инициализируем сразу (скрипт загружается с defer)
-// Используем window.onload для гарантии загрузки библиотеки
-if (window.addEventListener) {
-    window.addEventListener('load', function() {
-        setTimeout(initializeSupabase, 100);
-    });
-} else {
-    // Fallback для старых браузеров
-    initializeSupabase();
-}
+    // Пробуем инициализировать сразу
+    if (init()) {
+        return;
+    }
+
+    // Если не получилось, ждём загрузки библиотеки
+    let attempts = 0;
+    const maxAttempts = 30; // 1.5 секунды максимум
+    
+    const checkInterval = setInterval(function() {
+        attempts++;
+        
+        if (init()) {
+            clearInterval(checkInterval);
+        } else if (attempts >= maxAttempts) {
+            console.error('✗ Не удалось инициализировать Supabase. Проверьте подключение скрипта библиотеки.');
+            clearInterval(checkInterval);
+        }
+    }, 50);
+})();
 
