@@ -2,16 +2,17 @@
 
 class NewsAdmin {
     constructor() {
-        this.news = this.loadNewsFromStorage();
+        this.news = [];
         this.currentEditId = null;
         this.init();
     }
 
-    init() {
+    async init() {
         this.setupEventListeners();
         this.setupImageUpload();
         this.setupLanguageTabs();
         this.setCurrentDate();
+        await this.loadNewsFromSupabase();
         this.renderNewsList();
     }
 
@@ -20,13 +21,30 @@ class NewsAdmin {
         const newsForm = document.getElementById('newsForm');
         newsForm.addEventListener('submit', (e) => this.handleSubmit(e));
 
+        // Форма редактирования новости
+        const editForm = document.getElementById('editForm');
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await this.handleEditSubmit(e);
+        });
+
+        // Кнопка отмены редактирования
+        const cancelEditBtn = document.getElementById('cancelEdit');
+        cancelEditBtn.addEventListener('click', () => {
+            document.getElementById('editModal').style.display = 'none';
+            this.currentEditId = null;
+        });
+
         // Кнопка предварительного просмотра
         const previewBtn = document.getElementById('previewBtn');
         previewBtn.addEventListener('click', () => this.showPreview());
 
         // Кнопка обновления списка
         const refreshBtn = document.getElementById('refreshBtn');
-        refreshBtn.addEventListener('click', () => this.renderNewsList());
+        refreshBtn.addEventListener('click', async () => {
+            await this.loadNewsFromSupabase();
+            this.renderNewsList();
+        });
 
         // Модальные окна
         this.setupModalListeners();
@@ -34,6 +52,16 @@ class NewsAdmin {
         // URL изображения
         const imageUrlInput = document.getElementById('newsImageUrl');
         imageUrlInput.addEventListener('input', (e) => this.handleImageUrlChange(e));
+
+        // Изображение для редактирования
+        const editImageInput = document.getElementById('editImage');
+        const editImagePreview = document.getElementById('editImagePreview');
+        editImageInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                this.previewImage(file, editImagePreview);
+            }
+        });
     }
 
     setupImageUpload() {
@@ -126,14 +154,17 @@ class NewsAdmin {
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 const lang = tab.dataset.lang;
+                const container = tab.closest('.multilang-section');
                 
-                // Убираем активный класс со всех табов и панелей
-                tabs.forEach(t => t.classList.remove('active'));
-                panels.forEach(p => p.classList.remove('active'));
+                if (!container) return;
+                
+                // Убираем активный класс со всех табов и панелей в этом контейнере
+                container.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+                container.querySelectorAll('.lang-panel').forEach(p => p.classList.remove('active'));
                 
                 // Добавляем активный класс к выбранному табу и панели
                 tab.classList.add('active');
-                document.querySelector(`.lang-panel[data-lang="${lang}"]`).classList.add('active');
+                container.querySelector(`.lang-panel[data-lang="${lang}"]`)?.classList.add('active');
             });
         });
     }
@@ -172,83 +203,248 @@ class NewsAdmin {
         dateInput.value = today;
     }
 
-    handleSubmit(e) {
+    async handleSubmit(e) {
         e.preventDefault();
         
         const formData = new FormData(e.target);
-        const newsData = this.collectFormData(formData);
         
-        if (this.validateNewsData(newsData)) {
-            if (this.currentEditId) {
-                this.updateNews(this.currentEditId, newsData);
-            } else {
-                this.addNews(newsData);
-            }
+        if (!this.validateFormData(formData)) {
+            return;
+        }
+        
+        try {
+            // Показываем загрузку
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Сохранение...';
+            submitBtn.disabled = true;
+            
+            await this.addNews(formData);
             
             this.resetForm();
+            await this.loadNewsFromSupabase();
             this.renderNewsList();
             this.showNotification('Новость успешно сохранена!', 'success');
+            
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        } catch (error) {
+            console.error('Ошибка сохранения новости:', error);
+            this.showNotification('Ошибка при сохранении новости: ' + error.message, 'error');
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Сохранить новость';
+            submitBtn.disabled = false;
         }
     }
 
-    collectFormData(formData) {
+    async handleEditSubmit(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(e.target);
+        
+        if (!this.validateFormData(formData)) {
+            return;
+        }
+        
+        try {
+            // Показываем загрузку
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Сохранение...';
+            submitBtn.disabled = true;
+            
+            await this.updateNews(this.currentEditId, formData);
+            
+            document.getElementById('editModal').style.display = 'none';
+            this.currentEditId = null;
+            await this.loadNewsFromSupabase();
+            this.renderNewsList();
+            this.showNotification('Новость успешно обновлена!', 'success');
+            
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        } catch (error) {
+            console.error('Ошибка обновления новости:', error);
+            this.showNotification('Ошибка при обновлении новости: ' + error.message, 'error');
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Сохранить изменения';
+            submitBtn.disabled = false;
+        }
+    }
+
+    async uploadImageToStorage(file) {
+        if (!file || file.size === 0) {
+            return null;
+        }
+        
+        try {
+            // Генерируем уникальное имя файла
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+            const filePath = `news/${fileName}`;
+            
+            // Загружаем файл в Supabase Storage
+            const { data, error } = await supabase.storage
+                .from(STORAGE_BUCKET)
+                .upload(filePath, file, {
+                    cacheControl: '3600',
+                    upsert: false
+                });
+            
+            if (error) {
+                throw error;
+            }
+            
+            // Получаем публичный URL
+            const { data: urlData } = supabase.storage
+                .from(STORAGE_BUCKET)
+                .getPublicUrl(filePath);
+            
+            return urlData.publicUrl;
+        } catch (error) {
+            console.error('Ошибка загрузки изображения:', error);
+            throw new Error('Не удалось загрузить изображение: ' + error.message);
+        }
+    }
+
+    async addNews(formData) {
         const imageFile = formData.get('image');
         const imageUrl = formData.get('imageUrl');
         
-        return {
-            id: this.currentEditId || this.generateId(),
+        // Загружаем изображение если есть файл
+        let finalImageUrl = imageUrl || null;
+        if (imageFile && imageFile.size > 0) {
+            finalImageUrl = await this.uploadImageToStorage(imageFile);
+        }
+        
+        if (!finalImageUrl) {
+            throw new Error('Необходимо добавить изображение или URL изображения');
+        }
+        
+        // Формируем данные для Supabase
+        const newsData = {
             title: formData.get('title'),
-            date: formData.get('date'),
+            content: formData.get('content'), // Используем content как основной текст
+            image_url: finalImageUrl,
+            author: 'Admin'
+        };
+        
+        // Сохраняем многоязычные данные в JSON формате в поле content
+        // Или можно расширить таблицу в будущем
+        const multilangData = {
             description: formData.get('description'),
-            content: formData.get('content'),
-            image: imageFile && imageFile.size > 0 ? this.fileToBase64(imageFile) : null,
-            imageUrl: imageUrl || null,
-            // Многоязычные версии
             title_ru: formData.get('title_ru') || formData.get('title'),
             title_en: formData.get('title_en') || formData.get('title'),
             title_kz: formData.get('title_kz') || formData.get('title'),
             description_ru: formData.get('description_ru') || formData.get('description'),
             description_en: formData.get('description_en') || formData.get('description'),
             description_kz: formData.get('description_kz') || formData.get('description'),
-            createdAt: this.currentEditId ? this.news.find(n => n.id === this.currentEditId)?.createdAt : new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+            date: formData.get('date')
         };
-    }
-
-    fileToBase64(file) {
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => resolve(reader.result);
-            reader.readAsDataURL(file);
+        
+        // Сохраняем многоязычные данные в поле content как JSON
+        newsData.content = JSON.stringify({
+            main: formData.get('content'),
+            ...multilangData
         });
-    }
-
-    async addNews(newsData) {
-        if (newsData.image) {
-            newsData.image = await newsData.image;
+        
+        // Вставляем новость в Supabase
+        const { data, error } = await supabase
+            .from('news')
+            .insert([newsData])
+            .select()
+            .single();
+        
+        if (error) {
+            throw error;
         }
         
-        this.news.unshift(newsData);
-        this.saveNewsToStorage();
+        return data;
     }
 
-    async updateNews(id, newsData) {
-        const index = this.news.findIndex(n => n.id === id);
-        if (index !== -1) {
-            if (newsData.image) {
-                newsData.image = await newsData.image;
-            }
-            this.news[index] = { ...this.news[index], ...newsData };
-            this.saveNewsToStorage();
+    async updateNews(id, formData) {
+        const imageFile = formData.get('image');
+        const imageUrl = formData.get('imageUrl');
+        
+        // Загружаем изображение если есть новый файл
+        let finalImageUrl = imageUrl || null;
+        if (imageFile && imageFile.size > 0) {
+            finalImageUrl = await this.uploadImageToStorage(imageFile);
         }
+        
+        // Если нет нового изображения и нет URL, оставляем старое
+        const existingNews = this.news.find(n => n.id === id);
+        if (!finalImageUrl && existingNews) {
+            finalImageUrl = existingNews.image_url;
+        }
+        
+        if (!finalImageUrl) {
+            throw new Error('Необходимо добавить изображение или URL изображения');
+        }
+        
+        // Формируем данные для обновления
+        const newsData = {
+            title: formData.get('title'),
+            image_url: finalImageUrl,
+        };
+        
+        // Сохраняем многоязычные данные
+        const multilangData = {
+            description: formData.get('description'),
+            title_ru: formData.get('title_ru') || formData.get('title'),
+            title_en: formData.get('title_en') || formData.get('title'),
+            title_kz: formData.get('title_kz') || formData.get('title'),
+            description_ru: formData.get('description_ru') || formData.get('description'),
+            description_en: formData.get('description_en') || formData.get('description'),
+            description_kz: formData.get('description_kz') || formData.get('description'),
+            date: formData.get('date')
+        };
+        
+        newsData.content = JSON.stringify({
+            main: formData.get('content'),
+            ...multilangData
+        });
+        
+        // Обновляем новость в Supabase
+        const { data, error } = await supabase
+            .from('news')
+            .update(newsData)
+            .eq('id', id)
+            .select()
+            .single();
+        
+        if (error) {
+            throw error;
+        }
+        
+        return data;
     }
 
-    deleteNews(id) {
-        if (confirm('Вы уверены, что хотите удалить эту новость?')) {
+    async deleteNews(id) {
+        if (!confirm('Вы уверены, что хотите удалить эту новость?')) {
+            return;
+        }
+        
+        try {
+            // Удаляем новость из Supabase
+            const { error } = await supabase
+                .from('news')
+                .delete()
+                .eq('id', id);
+            
+            if (error) {
+                throw error;
+            }
+            
+            // Удаляем из локального массива
             this.news = this.news.filter(n => n.id !== id);
-            this.saveNewsToStorage();
             this.renderNewsList();
             this.showNotification('Новость удалена!', 'success');
+        } catch (error) {
+            console.error('Ошибка удаления новости:', error);
+            this.showNotification('Ошибка при удалении новости: ' + error.message, 'error');
         }
     }
 
@@ -257,6 +453,18 @@ class NewsAdmin {
         if (news) {
             this.currentEditId = id;
             this.populateEditForm(news);
+            // Инициализируем табы языков для формы редактирования
+            const editMultilangSection = document.querySelector('#editForm .multilang-section');
+            if (editMultilangSection) {
+                const editTabs = editMultilangSection.querySelectorAll('.lang-tab');
+                const editPanels = editMultilangSection.querySelectorAll('.lang-panel');
+                editTabs.forEach(t => t.classList.remove('active'));
+                editPanels.forEach(p => p.classList.remove('active'));
+                const firstTab = editTabs[0];
+                const firstPanel = editMultilangSection.querySelector('.lang-panel[data-lang="ru"]');
+                if (firstTab) firstTab.classList.add('active');
+                if (firstPanel) firstPanel.classList.add('active');
+            }
             document.getElementById('editModal').style.display = 'block';
         }
     }
@@ -264,50 +472,100 @@ class NewsAdmin {
     populateEditForm(news) {
         const editForm = document.getElementById('editForm');
         
+        // Парсим JSON из content если это объект
+        let contentData = {};
+        try {
+            contentData = typeof news.content === 'string' ? JSON.parse(news.content) : news.content;
+        } catch (e) {
+            contentData = { main: news.content || '', description: '' };
+        }
+        
         // Заполняем основную форму
         editForm.querySelector('[name="title"]').value = news.title || '';
-        editForm.querySelector('[name="date"]').value = news.date || '';
-        editForm.querySelector('[name="description"]').value = news.description || '';
-        editForm.querySelector('[name="content"]').value = news.content || '';
-        editForm.querySelector('[name="imageUrl"]').value = news.imageUrl || '';
+        editForm.querySelector('[name="date"]').value = contentData.date || '';
+        editForm.querySelector('[name="description"]').value = contentData.description || '';
+        editForm.querySelector('[name="content"]').value = contentData.main || '';
+        editForm.querySelector('[name="imageUrl"]').value = news.image_url || '';
         
         // Заполняем многоязычные поля
-        editForm.querySelector('[name="title_ru"]').value = news.title_ru || '';
-        editForm.querySelector('[name="title_en"]').value = news.title_en || '';
-        editForm.querySelector('[name="title_kz"]').value = news.title_kz || '';
-        editForm.querySelector('[name="description_ru"]').value = news.description_ru || '';
-        editForm.querySelector('[name="description_en"]').value = news.description_en || '';
-        editForm.querySelector('[name="description_kz"]').value = news.description_kz || '';
+        editForm.querySelector('[name="title_ru"]').value = contentData.title_ru || '';
+        editForm.querySelector('[name="title_en"]').value = contentData.title_en || '';
+        editForm.querySelector('[name="title_kz"]').value = contentData.title_kz || '';
+        editForm.querySelector('[name="description_ru"]').value = contentData.description_ru || '';
+        editForm.querySelector('[name="description_en"]').value = contentData.description_en || '';
+        editForm.querySelector('[name="description_kz"]').value = contentData.description_kz || '';
         
         // Показываем изображение если есть
-        if (news.image || news.imageUrl) {
+        if (news.image_url) {
             const imagePreview = editForm.querySelector('.image-preview');
-            const imageSrc = news.image || news.imageUrl;
-            imagePreview.innerHTML = `
-                <img src="${imageSrc}" alt="Текущее изображение">
-                <span>Текущее изображение</span>
-            `;
-            imagePreview.classList.add('has-image');
+            if (imagePreview) {
+                imagePreview.innerHTML = `
+                    <img src="${news.image_url}" alt="Текущее изображение">
+                    <span>Текущее изображение</span>
+                `;
+                imagePreview.classList.add('has-image');
+            }
         }
     }
 
     showPreview() {
         const formData = new FormData(document.getElementById('newsForm'));
-        const newsData = this.collectFormData(formData);
         
-        if (this.validateNewsData(newsData)) {
-            this.renderPreview(newsData);
+        if (this.validateFormData(formData)) {
+            const imageFile = formData.get('image');
+            const imageUrl = formData.get('imageUrl');
+            
+            let imageSrc = imageUrl || '';
+            if (imageFile && imageFile.size > 0) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.renderPreview({
+                        title: formData.get('title'),
+                        description: formData.get('description'),
+                        date: formData.get('date'),
+                        imageSrc: e.target.result
+                    });
+                };
+                reader.readAsDataURL(imageFile);
+                return;
+            }
+            
+            imageSrc = imageSrc || 'img/news_first_card.jpg';
+            this.renderPreview({
+                title: formData.get('title'),
+                description: formData.get('description'),
+                date: formData.get('date'),
+                imageSrc: imageSrc
+            });
+        }
+    }
+
+    async showPreviewById(id) {
+        const news = this.news.find(n => n.id === id);
+        if (news) {
+            let contentData = {};
+            try {
+                contentData = typeof news.content === 'string' ? JSON.parse(news.content) : news.content;
+            } catch (e) {
+                contentData = { description: '', date: news.created_at };
+            }
+            
+            this.renderPreview({
+                title: news.title,
+                description: contentData.description || '',
+                date: contentData.date || news.created_at,
+                imageSrc: news.image_url || 'img/news_first_card.jpg'
+            });
             document.getElementById('previewModal').style.display = 'block';
         }
     }
 
     renderPreview(newsData) {
         const previewContent = document.getElementById('previewContent');
-        const imageSrc = newsData.imageUrl || (newsData.image ? 'data:image/jpeg;base64,' + newsData.image : 'img/news_first_card.jpg');
         
         previewContent.innerHTML = `
             <div class="preview-news">
-                <img src="${imageSrc}" alt="${newsData.title}" class="preview-image">
+                <img src="${newsData.imageSrc}" alt="${newsData.title}" class="preview-image">
                 <div class="preview-content">
                     <h3 class="preview-title">${newsData.title}</h3>
                     <div class="preview-date">${this.formatDate(newsData.date)}</div>
@@ -315,6 +573,8 @@ class NewsAdmin {
                 </div>
             </div>
         `;
+        
+        document.getElementById('previewModal').style.display = 'block';
     }
 
     renderNewsList() {
@@ -330,16 +590,28 @@ class NewsAdmin {
             return;
         }
 
-        newsList.innerHTML = this.news.map(news => `
+        newsList.innerHTML = this.news.map(news => {
+            // Парсим content для получения description и date
+            let contentData = {};
+            try {
+                contentData = typeof news.content === 'string' ? JSON.parse(news.content) : news.content;
+            } catch (e) {
+                contentData = { description: '', date: news.created_at };
+            }
+            
+            const date = contentData.date || news.created_at;
+            const description = contentData.description || '';
+            
+            return `
             <div class="news-item">
                 <div class="news-item-header">
                     <div class="news-item-info">
                         <h4 class="news-item-title">${news.title}</h4>
-                        <div class="news-item-date">${this.formatDate(news.date)}</div>
-                        <p class="news-item-description">${news.description}</p>
+                        <div class="news-item-date">${this.formatDate(date)}</div>
+                        <p class="news-item-description">${description}</p>
                     </div>
-                    ${news.image || news.imageUrl ? `
-                        <img src="${news.image || news.imageUrl}" alt="${news.title}" class="news-item-image">
+                    ${news.image_url ? `
+                        <img src="${news.image_url}" alt="${news.title}" class="news-item-image">
                     ` : ''}
                 </div>
                 <div class="news-item-actions">
@@ -347,7 +619,7 @@ class NewsAdmin {
                         <i class="fas fa-edit"></i>
                         Редактировать
                     </button>
-                    <button class="btn btn-outline" onclick="newsAdmin.showPreview('${news.id}')">
+                    <button class="btn btn-outline" onclick="newsAdmin.showPreviewById('${news.id}')">
                         <i class="fas fa-eye"></i>
                         Просмотр
                     </button>
@@ -357,29 +629,40 @@ class NewsAdmin {
                     </button>
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
     }
 
-    validateNewsData(data) {
-        if (!data.title.trim()) {
+    validateFormData(formData) {
+        const title = formData.get('title');
+        const date = formData.get('date');
+        const description = formData.get('description');
+        const content = formData.get('content');
+        const imageFile = formData.get('image');
+        const imageUrl = formData.get('imageUrl');
+        
+        if (!title || !title.trim()) {
             this.showNotification('Заголовок новости обязателен!', 'error');
             return false;
         }
-        if (!data.date) {
+        if (!date) {
             this.showNotification('Дата публикации обязательна!', 'error');
             return false;
         }
-        if (!data.description.trim()) {
+        if (!description || !description.trim()) {
             this.showNotification('Описание новости обязательно!', 'error');
             return false;
         }
-        if (!data.content.trim()) {
+        if (!content || !content.trim()) {
             this.showNotification('Содержание новости обязательно!', 'error');
             return false;
         }
-        if (!data.image && !data.imageUrl) {
-            this.showNotification('Необходимо добавить изображение!', 'error');
-            return false;
+        if ((!imageFile || imageFile.size === 0) && !imageUrl) {
+            // Если редактируем, проверяем что уже есть изображение
+            if (!this.currentEditId) {
+                this.showNotification('Необходимо добавить изображение!', 'error');
+                return false;
+            }
         }
         return true;
     }
@@ -440,22 +723,23 @@ class NewsAdmin {
         return 'news_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     }
 
-    // Работа с localStorage
-    loadNewsFromStorage() {
+    // Работа с Supabase
+    async loadNewsFromSupabase() {
         try {
-            const stored = localStorage.getItem('abu_news');
-            return stored ? JSON.parse(stored) : [];
+            const { data, error } = await supabase
+                .from('news')
+                .select('*')
+                .order('created_at', { ascending: false });
+            
+            if (error) {
+                throw error;
+            }
+            
+            this.news = data || [];
         } catch (error) {
-            console.error('Ошибка загрузки новостей:', error);
-            return [];
-        }
-    }
-
-    saveNewsToStorage() {
-        try {
-            localStorage.setItem('abu_news', JSON.stringify(this.news));
-        } catch (error) {
-            console.error('Ошибка сохранения новостей:', error);
+            console.error('Ошибка загрузки новостей из Supabase:', error);
+            this.showNotification('Ошибка загрузки новостей: ' + error.message, 'error');
+            this.news = [];
         }
     }
 

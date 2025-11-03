@@ -186,13 +186,110 @@
                 </div>
                 <div class="modal-body">
                     <form id="editForm" class="news-form">
-                        <!-- Форма редактирования будет заполняться динамически -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="editTitle">Заголовок новости *</label>
+                                <input type="text" id="editTitle" name="title" required placeholder="Введите заголовок новости">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="editDate">Дата публикации *</label>
+                                <input type="date" id="editDate" name="date" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editDescription">Краткое описание *</label>
+                            <textarea id="editDescription" name="description" required placeholder="Введите краткое описание новости" rows="3"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editContent">Полный текст новости *</label>
+                            <textarea id="editContent" name="content" required placeholder="Введите полный текст новости" rows="8"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editImageUrl">URL изображения</label>
+                            <input type="url" id="editImageUrl" name="imageUrl" placeholder="https://example.com/image.jpg">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="editImage">Или загрузите новое изображение</label>
+                            <div class="image-upload-container">
+                                <input type="file" id="editImage" name="image" accept="image/*">
+                                <div class="image-preview" id="editImagePreview">
+                                    <i class="fas fa-image"></i>
+                                    <span>Выберите изображение (опционально)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Многоязычность -->
+                        <div class="multilang-section">
+                            <h3><i class="fas fa-globe"></i> Многоязычные версии</h3>
+                            
+                            <div class="lang-tabs">
+                                <button type="button" class="lang-tab active" data-lang="ru">Русский</button>
+                                <button type="button" class="lang-tab" data-lang="en">English</button>
+                                <button type="button" class="lang-tab" data-lang="kz">Қазақша</button>
+                            </div>
+
+                            <div class="lang-content">
+                                <div class="lang-panel active" data-lang="ru">
+                                    <div class="form-group">
+                                        <label>Заголовок (RU)</label>
+                                        <input type="text" name="title_ru" placeholder="Заголовок на русском">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Описание (RU)</label>
+                                        <textarea name="description_ru" placeholder="Описание на русском" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="lang-panel" data-lang="en">
+                                    <div class="form-group">
+                                        <label>Title (EN)</label>
+                                        <input type="text" name="title_en" placeholder="Title in English">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description (EN)</label>
+                                        <textarea name="description_en" placeholder="Description in English" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="lang-panel" data-lang="kz">
+                                    <div class="form-group">
+                                        <label>Тақырып (KZ)</label>
+                                        <input type="text" name="title_kz" placeholder="Тақырып қазақша">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Сипаттама (KZ)</label>
+                                        <textarea name="description_kz" placeholder="Сипаттама қазақша" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Сохранить изменения
+                            </button>
+                            <button type="button" class="btn btn-outline" id="cancelEdit">
+                                <i class="fas fa-times"></i>
+                                Отмена
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Конфигурация Supabase -->
+    <script src="js/supabase-config.js"></script>
     <script src="js/admin-news.js"></script>
 </body>
 </html>
