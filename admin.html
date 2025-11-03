@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель новостей - ABU</title>
+    <link rel="stylesheet" href="css/admin-news.css">
+    <link rel="icon" type="img/abuicon" href="img/favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Заголовок -->
+        <header class="admin-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="img/Logo-ABU.png" alt="ABU Logo" class="admin-logo">
+                    <h1>Админ-панель новостей</h1>
+                </div>
+                <div class="header-actions">
+                    <a href="erasmus+circulen.html" class="back-btn">
+                        <i class="fas fa-arrow-left"></i>
+                        Вернуться к сайту
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="admin-main">
+            <!-- Форма добавления новости -->
+            <section class="add-news-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-plus-circle"></i> Добавить новость</h2>
+                </div>
+                
+                <form id="newsForm" class="news-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newsTitle">Заголовок новости *</label>
+                            <input type="text" id="newsTitle" name="title" required placeholder="Введите заголовок новости">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newsDate">Дата публикации *</label>
+                            <input type="date" id="newsDate" name="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newsDescription">Краткое описание *</label>
+                        <textarea id="newsDescription" name="description" required placeholder="Введите краткое описание новости" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newsContent">Полный текст новости *</label>
+                        <textarea id="newsContent" name="content" required placeholder="Введите полный текст новости" rows="8"></textarea>
+                    </div>
+
+                    <!-- Загрузка изображения -->
+                    <div class="form-group">
+                        <label for="newsImage">Изображение новости *</label>
+                        <div class="image-upload-container">
+                            <input type="file" id="newsImage" name="image" accept="image/*" required>
+                            <div class="image-preview" id="imagePreview">
+                                <i class="fas fa-image"></i>
+                                <span>Выберите изображение</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- URL изображения (альтернатива загрузке) -->
+                    <div class="form-group">
+                        <label for="newsImageUrl">Или введите URL изображения</label>
+                        <input type="url" id="newsImageUrl" name="imageUrl" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <!-- Многоязычность -->
+                    <div class="multilang-section">
+                        <h3><i class="fas fa-globe"></i> Многоязычные версии</h3>
+                        
+                        <div class="lang-tabs">
+                            <button type="button" class="lang-tab active" data-lang="ru">Русский</button>
+                            <button type="button" class="lang-tab" data-lang="en">English</button>
+                            <button type="button" class="lang-tab" data-lang="kz">Қазақша</button>
+                        </div>
+
+                        <div class="lang-content">
+                            <div class="lang-panel active" data-lang="ru">
+                                <div class="form-group">
+                                    <label>Заголовок (RU)</label>
+                                    <input type="text" name="title_ru" placeholder="Заголовок на русском">
+                                </div>
+                                <div class="form-group">
+                                    <label>Описание (RU)</label>
+                                    <textarea name="description_ru" placeholder="Описание на русском" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="lang-panel" data-lang="en">
+                                <div class="form-group">
+                                    <label>Title (EN)</label>
+                                    <input type="text" name="title_en" placeholder="Title in English">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description (EN)</label>
+                                    <textarea name="description_en" placeholder="Description in English" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="lang-panel" data-lang="kz">
+                                <div class="form-group">
+                                    <label>Тақырып (KZ)</label>
+                                    <input type="text" name="title_kz" placeholder="Тақырып қазақша">
+                                </div>
+                                <div class="form-group">
+                                    <label>Сипаттама (KZ)</label>
+                                    <textarea name="description_kz" placeholder="Сипаттама қазақша" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Сохранить новость
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="previewBtn">
+                            <i class="fas fa-eye"></i>
+                            Предварительный просмотр
+                        </button>
+                        <button type="reset" class="btn btn-outline">
+                            <i class="fas fa-undo"></i>
+                            Очистить форму
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Список существующих новостей -->
+            <section class="news-list-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-list"></i> Управление новостями</h2>
+                    <div class="list-actions">
+                        <button class="btn btn-outline" id="refreshBtn">
+                            <i class="fas fa-sync-alt"></i>
+                            Обновить
+                        </button>
+                    </div>
+                </div>
+
+                <div class="news-list" id="newsList">
+                    <!-- Новости будут загружаться динамически -->
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Загрузка новостей...
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Модальное окно предварительного просмотра -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Предварительный просмотр новости</h3>
+                    <button class="close-btn" id="closePreview">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="previewContent">
+                    <!-- Контент предварительного просмотра -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно редактирования -->
+        <div id="editModal" class="modal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h3>Редактировать новость</h3>
+                    <button class="close-btn" id="closeEdit">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" class="news-form">
+                        <!-- Форма редактирования будет заполняться динамически -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin-news.js"></script>
+</body>
+</html>

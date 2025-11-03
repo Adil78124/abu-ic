@@ -1,0 +1,210 @@
+// Интеграция новостей из админ-панели с основной страницей
+class NewsIntegration {
+    constructor() {
+        this.news = this.loadNewsFromStorage();
+        this.init();
+    }
+
+    init() {
+        // Загружаем новости при загрузке страницы
+        this.loadNewsToPage();
+        
+        // Обновляем новости каждые 30 секунд (для демонстрации)
+        setInterval(() => {
+            this.loadNewsToPage();
+        }, 30000);
+    }
+
+    loadNewsFromStorage() {
+        try {
+            const stored = localStorage.getItem('abu_news');
+            return stored ? JSON.parse(stored) : [];
+        } catch (error) {
+            console.error('Ошибка загрузки новостей:', error);
+            return [];
+        }
+    }
+
+    loadNewsToPage() {
+        const newsContainer = document.querySelector('.news-container');
+        if (!newsContainer) return;
+
+        // Если новостей нет, показываем заглушку
+        if (this.news.length === 0) {
+            newsContainer.innerHTML = `
+                <div class="text-center" style="padding: 2rem; color: #6c757d;">
+                    <i class="fas fa-newspaper" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+                    <p>Новости загружаются...</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Сортируем новости по дате (новые сверху)
+        const sortedNews = [...this.news].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        // Отображаем только последние 6 новостей
+        const recentNews = sortedNews.slice(0, 6);
+
+        newsContainer.innerHTML = recentNews.map(news => `
+            <div class="news-card">
+                <a href="${this.getNewsDetailUrl(news)}" class="news-link">
+                    <div class="single-image">
+                        <img src="${this.getNewsImage(news)}" alt="${news.title}">
+                    </div>
+                    <div class="news-content">
+                        <div class="news-title" data-ru="${news.title_ru || news.title}" data-en="${news.title_en || news.title}" data-kz="${news.title_kz || news.title}">
+                            ${news.title_ru || news.title}
+                        </div>
+                        <span class="news-date" data-ru="${this.formatDate(news.date)}" data-en="${this.formatDateEn(news.date)}" data-kz="${this.formatDateKz(news.date)}">
+                            ${this.formatDate(news.date)}
+                        </span>
+                        <div class="news-text">
+                            <p data-ru="${news.description_ru || news.description}" data-en="${news.description_en || news.description}" data-kz="${news.description_kz || news.description}">
+                                ${news.description_ru || news.description}
+                            </p>
+                            <span class="read-more" data-ru="Читать подробнее →" data-en="Read more →" data-kz="Толығырақ оқу →">
+                                Читать подробнее →
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        `).join('');
+    }
+
+    getNewsImage(news) {
+        if (news.image) {
+            return news.image;
+        } else if (news.imageUrl) {
+            return news.imageUrl;
+        } else {
+            return 'img/news_first_card.jpg'; // Заглушка
+        }
+    }
+
+    getNewsDetailUrl(news) {
+        // Создаем URL для детальной страницы новости
+        const slug = this.createSlug(news.title);
+        return `news-detail-${slug}.html?id=${news.id}`;
+    }
+
+    createSlug(title) {
+        return title
+            .toLowerCase()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .trim('-');
+    }
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ru-RU', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+
+    formatDateEn(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+
+    formatDateKz(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('kk-KZ', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+
+    // Метод для получения новости по ID (для детальных страниц)
+    getNewsById(id) {
+        return this.news.find(news => news.id === id);
+    }
+
+    // Метод для создания детальной страницы новости
+    createNewsDetailPage(news) {
+        return `
+            <!DOCTYPE html>
+            <html lang="ru">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${news.title} - ABU</title>
+                <link rel="stylesheet" href="css/erasmus+circulen.css">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+                <link rel="icon" type="img/abuicon" href="img/favicon.ico">
+            </head>
+            <body>
+                <div class="wrapper">
+                    <div class="content">
+                        <!-- Навигация -->
+                        <div class="menu">
+                            <div class="container">
+                                <div class="menu__row">
+                                    <div class="logo__title">
+                                        <a href="index.html">
+                                            <img class="menu__logo" src="img/Logo-ABU.png" alt="ABU-logo">
+                                        </a>
+                                    </div>
+                                    <div class="header-actions" style="margin-left: auto;">
+                                        <a href="erasmus+circulen.html" style="background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.3); margin-right: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                            <i class="fas fa-arrow-left"></i>
+                                            Назад к новостям
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Контент новости -->
+                        <div class="news-detail-container" style="max-width: 800px; margin: 2rem auto; padding: 0 2rem;">
+                            <article class="news-detail">
+                                <header class="news-detail-header">
+                                    <h1 class="news-detail-title">${news.title}</h1>
+                                    <div class="news-detail-meta">
+                                        <span class="news-detail-date">${this.formatDate(news.date)}</span>
+                                    </div>
+                                </header>
+                                
+                                <div class="news-detail-image">
+                                    <img src="${this.getNewsImage(news)}" alt="${news.title}" style="width: 100%; height: 400px; object-fit: cover; border-radius: 12px; margin: 2rem 0;">
+                                </div>
+                                
+                                <div class="news-detail-content">
+                                    <div class="news-detail-description" style="font-size: 1.2rem; color: #6c757d; margin-bottom: 2rem; line-height: 1.6;">
+                                        ${news.description}
+                                    </div>
+                                    
+                                    <div class="news-detail-text" style="font-size: 1.1rem; line-height: 1.8; color: #333;">
+                                        ${news.content.replace(/\n/g, '<br>')}
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                
+                <script src="js/language-switcher.js"></script>
+            </body>
+            </html>
+        `;
+    }
+}
+
+// Инициализация при загрузке страницы
+let newsIntegration;
+document.addEventListener('DOMContentLoaded', () => {
+    newsIntegration = new NewsIntegration();
+});
+
+// Экспортируем для использования в других скриптах
+window.newsIntegration = newsIntegration;

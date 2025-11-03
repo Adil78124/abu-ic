@@ -4,11 +4,238 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/erasmus+circulen.css">
+    <link rel="stylesheet" href="css/admin-news.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Erasmus+ CirculEC</title>
     <link rel="icon" type="img/abuicon" href="img/favicon.ico">
 </head>
 <body>
-    <div class="wrapper">
+    <!-- Форма входа в админку (показывается первой) -->
+    <div id="adminLogin" class="admin-login-container" style="display: none;">
+        <div class="login-box">
+            <div class="login-header">
+                <img src="img/Logo-ABU.png" alt="ABU Logo" class="login-logo">
+                <h1>Вход в админ-панель</h1>
+                <p>Введите логин и пароль для доступа</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="adminLoginInput">
+                        <i class="fas fa-user"></i> Логин
+                    </label>
+                    <input type="text" id="adminLoginInput" name="login" required autocomplete="username" placeholder="Введите логин">
+                </div>
+                <div class="form-group">
+                    <label for="adminPasswordInput">
+                        <i class="fas fa-lock"></i> Пароль
+                    </label>
+                    <input type="password" id="adminPasswordInput" name="password" required autocomplete="current-password" placeholder="Введите пароль">
+                </div>
+                <div id="loginError" class="error-message" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary btn-block">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Войти
+                </button>
+            </form>
+            <div class="login-footer">
+                <a href="#" id="cancelLogin" class="cancel-link">
+                    <i class="fas fa-times"></i> Отмена
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Админ-панель (скрыта по умолчанию) -->
+    <div id="adminPanel" class="admin-container" style="display: none;">
+        <!-- Заголовок -->
+        <header class="admin-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <img src="img/Logo-ABU.png" alt="ABU Logo" class="admin-logo">
+                    <h1>Админ-панель новостей</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="back-btn logout-btn" id="logoutBtn" title="Выйти из админки">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Выйти
+                    </button>
+                    <a href="#" class="back-btn" id="backToSite">
+                        <i class="fas fa-arrow-left"></i>
+                        Вернуться к сайту
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Основной контент -->
+        <main class="admin-main">
+            <!-- Форма добавления новости -->
+            <section class="add-news-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-plus-circle"></i> Добавить новость</h2>
+                </div>
+                
+                <form id="newsForm" class="news-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newsTitle">Заголовок новости *</label>
+                            <input type="text" id="newsTitle" name="title" required placeholder="Введите заголовок новости">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newsDate">Дата публикации *</label>
+                            <input type="date" id="newsDate" name="date" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newsDescription">Краткое описание *</label>
+                        <textarea id="newsDescription" name="description" required placeholder="Введите краткое описание новости" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newsContent">Полный текст новости *</label>
+                        <textarea id="newsContent" name="content" required placeholder="Введите полный текст новости" rows="8"></textarea>
+                    </div>
+
+                    <!-- Загрузка изображения -->
+                    <div class="form-group">
+                        <label for="newsImage">Изображение новости *</label>
+                        <div class="image-upload-container">
+                            <input type="file" id="newsImage" name="image" accept="image/*" required>
+                            <div class="image-preview" id="imagePreview">
+                                <i class="fas fa-image"></i>
+                                <span>Выберите изображение</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- URL изображения (альтернатива загрузке) -->
+                    <div class="form-group">
+                        <label for="newsImageUrl">Или введите URL изображения</label>
+                        <input type="url" id="newsImageUrl" name="imageUrl" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <!-- Многоязычность -->
+                    <div class="multilang-section">
+                        <h3><i class="fas fa-globe"></i> Многоязычные версии</h3>
+                        
+                        <div class="lang-tabs">
+                            <button type="button" class="lang-tab active" data-lang="ru">Русский</button>
+                            <button type="button" class="lang-tab" data-lang="en">English</button>
+                            <button type="button" class="lang-tab" data-lang="kz">Қазақша</button>
+                        </div>
+
+                        <div class="lang-content">
+                            <div class="lang-panel active" data-lang="ru">
+                                <div class="form-group">
+                                    <label>Заголовок (RU)</label>
+                                    <input type="text" name="title_ru" placeholder="Заголовок на русском">
+                                </div>
+                                <div class="form-group">
+                                    <label>Описание (RU)</label>
+                                    <textarea name="description_ru" placeholder="Описание на русском" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="lang-panel" data-lang="en">
+                                <div class="form-group">
+                                    <label>Title (EN)</label>
+                                    <input type="text" name="title_en" placeholder="Title in English">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description (EN)</label>
+                                    <textarea name="description_en" placeholder="Description in English" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="lang-panel" data-lang="kz">
+                                <div class="form-group">
+                                    <label>Тақырып (KZ)</label>
+                                    <input type="text" name="title_kz" placeholder="Тақырып қазақша">
+                                </div>
+                                <div class="form-group">
+                                    <label>Сипаттама (KZ)</label>
+                                    <textarea name="description_kz" placeholder="Сипаттама қазақша" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Сохранить новость
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="previewBtn">
+                            <i class="fas fa-eye"></i>
+                            Предварительный просмотр
+                        </button>
+                        <button type="reset" class="btn btn-outline">
+                            <i class="fas fa-undo"></i>
+                            Очистить форму
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Список существующих новостей -->
+            <section class="news-list-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-list"></i> Управление новостями</h2>
+                    <div class="list-actions">
+                        <button class="btn btn-outline" id="refreshBtn">
+                            <i class="fas fa-sync-alt"></i>
+                            Обновить
+                        </button>
+                    </div>
+                </div>
+
+                <div class="news-list" id="newsList">
+                    <!-- Новости будут загружаться динамически -->
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        Загрузка новостей...
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Модальное окно предварительного просмотра -->
+        <div id="previewModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Предварительный просмотр новости</h3>
+                    <button class="close-btn" id="closePreview">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" id="previewContent">
+                    <!-- Контент предварительного просмотра -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Модальное окно редактирования -->
+        <div id="editModal" class="modal">
+            <div class="modal-content large">
+                <div class="modal-header">
+                    <h3>Редактировать новость</h3>
+                    <button class="close-btn" id="closeEdit">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" class="news-form">
+                        <!-- Форма редактирования будет заполняться динамически -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной контент страницы -->
+    <div id="mainContent" class="wrapper">
         <div class="content">
             <div class="menu">
                 <div class="container">
@@ -459,5 +686,317 @@
     </div>
     <script src="js/erasmuscirculen.js"></script>
     <script src="js/language-switcher.js"></script>
+    <script src="js/news-integration.js"></script>
+    <script src="js/admin-news.js"></script>
+    <script>
+        // Система авторизации админки
+        window.AdminAuth = (function() {
+            // Учетные данные (можно изменить)
+            const ADMIN_CREDENTIALS = {
+                login: 'admin',
+                password: 'admin123' // Рекомендуется изменить пароль!
+            };
+            
+            const AUTH_TOKEN_KEY = 'abu_admin_auth_token';
+            
+            // Функции для работы с сессией
+            function setAuthToken() {
+                const token = btoa(ADMIN_CREDENTIALS.login + ':' + Date.now());
+                localStorage.setItem(AUTH_TOKEN_KEY, token);
+                return token;
+            }
+            
+            function getAuthToken() {
+                return localStorage.getItem(AUTH_TOKEN_KEY);
+            }
+            
+            function clearAuthToken() {
+                localStorage.removeItem(AUTH_TOKEN_KEY);
+            }
+            
+            function isAuthenticated() {
+                return !!getAuthToken();
+            }
+            
+            // Функция проверки логина и пароля
+            function checkCredentials(login, password) {
+                return login === ADMIN_CREDENTIALS.login && 
+                       password === ADMIN_CREDENTIALS.password;
+            }
+            
+            // Показ/скрытие формы входа
+            function showLoginForm() {
+                const loginForm = document.getElementById('adminLogin');
+                if (loginForm) {
+                    loginForm.style.display = 'flex';
+                }
+            }
+            
+            function hideLoginForm() {
+                const loginForm = document.getElementById('adminLogin');
+                if (loginForm) {
+                    loginForm.style.display = 'none';
+                }
+            }
+            
+            // Показ/скрытие админки
+            function showAdminPanel() {
+                const adminPanel = document.getElementById('adminPanel');
+                if (adminPanel) {
+                    adminPanel.style.display = 'block';
+                    hideLoginForm();
+                }
+            }
+            
+            function hideAdminPanel() {
+                const adminPanel = document.getElementById('adminPanel');
+                if (adminPanel) {
+                    adminPanel.style.display = 'none';
+                }
+            }
+            
+            // Обработка формы входа
+            function setupLoginForm() {
+                const loginForm = document.getElementById('loginForm');
+                const errorDiv = document.getElementById('loginError');
+                
+                if (loginForm) {
+                    loginForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const login = document.getElementById('adminLoginInput').value.trim();
+                        const password = document.getElementById('adminPasswordInput').value;
+                        
+                        // Показываем ошибку если она была
+                        if (errorDiv) {
+                            errorDiv.style.display = 'none';
+                        }
+                        
+                        if (!login || !password) {
+                            if (errorDiv) {
+                                errorDiv.textContent = 'Пожалуйста, введите логин и пароль';
+                                errorDiv.style.display = 'block';
+                            }
+                            return;
+                        }
+                        
+                        // Проверяем учетные данные
+                        if (checkCredentials(login, password)) {
+                            // Сохраняем токен авторизации
+                            setAuthToken();
+                            
+                            // Скрываем форму входа и показываем админку
+                            hideLoginForm();
+                            showAdminPanel();
+                            
+                            // Инициализируем админку
+                            setTimeout(function() {
+                                if (typeof window.initNewsAdmin === 'function') {
+                                    window.initNewsAdmin();
+                                }
+                            }, 100);
+                        } else {
+                            // Показываем ошибку
+                            if (errorDiv) {
+                                errorDiv.textContent = 'Неверный логин или пароль';
+                                errorDiv.style.display = 'block';
+                            }
+                            // Очищаем поле пароля
+                            document.getElementById('adminPasswordInput').value = '';
+                        }
+                    });
+                }
+                
+                // Обработчик кнопки "Отмена"
+                const cancelBtn = document.getElementById('cancelLogin');
+                if (cancelBtn) {
+                    cancelBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        hideLoginForm();
+                        // Убираем хеш из URL и возвращаемся на основную страницу
+                        let path = window.location.pathname;
+                        if (!path || path.endsWith('/')) {
+                            path = 'erasmus+circulen.html';
+                        }
+                        window.location.href = path;
+                    });
+                }
+            }
+            
+            // Обработка выхода из админки
+            function setupLogout() {
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        if (confirm('Вы уверены, что хотите выйти из админки?')) {
+                            clearAuthToken();
+                            hideAdminPanel();
+                            showLoginForm();
+                            // Очищаем форму входа
+                            const loginForm = document.getElementById('loginForm');
+                            if (loginForm) {
+                                loginForm.reset();
+                            }
+                            // Убираем ошибки
+                            const errorDiv = document.getElementById('loginError');
+                            if (errorDiv) {
+                                errorDiv.style.display = 'none';
+                            }
+                            // Убираем хеш из URL
+                            let path = window.location.pathname;
+                            if (!path || path.endsWith('/')) {
+                                path = 'erasmus+circulen.html';
+                            }
+                            window.location.href = path;
+                        }
+                    });
+                }
+            }
+            
+            // Публичный API
+            return {
+                isAuthenticated: isAuthenticated,
+                showLoginForm: showLoginForm,
+                hideLoginForm: hideLoginForm,
+                showAdminPanel: showAdminPanel,
+                hideAdminPanel: hideAdminPanel,
+                setupLoginForm: setupLoginForm,
+                setupLogout: setupLogout,
+                clearAuthToken: clearAuthToken
+            };
+        })();
+        
+        // Проверка URL на наличие /admin и перенаправление
+        (function() {
+            // Сразу проверяем путь и перенаправляем если нужно (до загрузки DOM)
+            const currentPath = window.location.pathname;
+            const currentHash = window.location.hash;
+            
+            // Если путь содержит /admin и нет хеша - перенаправляем
+            if (currentPath.includes('/admin') && !currentHash) {
+                // Получаем базовый путь
+                let basePath = currentPath;
+                // Убираем /admin из конца или середины пути
+                if (basePath.endsWith('/admin')) {
+                    basePath = basePath.slice(0, -6); // убираем '/admin'
+                } else if (basePath.includes('/admin/')) {
+                    basePath = basePath.replace('/admin/', '/');
+                } else if (basePath.includes('/admin')) {
+                    basePath = basePath.replace('/admin', '');
+                }
+                
+                // Для файлового протокола (file://) сохраняем полный путь
+                if (window.location.protocol === 'file:') {
+                    // Для локальных файлов просто добавляем хеш к текущему URL
+                    const currentUrl = window.location.href;
+                    const urlWithoutAdmin = currentUrl.replace(/\/admin$/, '').replace(/\/admin(#|$)/, '$1');
+                    window.location.replace(urlWithoutAdmin + (urlWithoutAdmin.includes('#') ? '' : '#admin'));
+                } else {
+                    // Для HTTP/HTTPS используем относительный путь
+                    if (!basePath || basePath.endsWith('/') || !basePath.includes('.html')) {
+                        basePath = 'erasmus+circulen.html';
+                    }
+                    window.location.replace(basePath + '#admin');
+                }
+                return; // Прерываем выполнение скрипта
+            }
+            
+            // Функция проверки и переключения админки
+            function checkAdminPath() {
+                const hash = window.location.hash;
+                const isAdminPath = hash === '#admin' || hash === '#/admin';
+                
+                const adminPanel = document.getElementById('adminPanel');
+                const adminLogin = document.getElementById('adminLogin');
+                const mainContent = document.getElementById('mainContent');
+                
+                if (!adminPanel || !mainContent) {
+                    // Элементы еще не загружены, попробуем позже
+                    setTimeout(checkAdminPath, 50);
+                    return;
+                }
+                
+                if (isAdminPath) {
+                    // Скрываем основной контент
+                    mainContent.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    
+                    // Проверяем авторизацию
+                    if (window.AdminAuth && window.AdminAuth.isAuthenticated()) {
+                        // Пользователь авторизован - показываем админку
+                        adminPanel.style.display = 'block';
+                        if (adminLogin) adminLogin.style.display = 'none';
+                        
+                        // Инициализируем админку с небольшой задержкой
+                        setTimeout(function() {
+                            if (typeof window.initNewsAdmin === 'function') {
+                                window.initNewsAdmin();
+                            } else if (typeof NewsAdmin !== 'undefined' && !window.newsAdmin) {
+                                window.newsAdmin = new NewsAdmin();
+                            }
+                        }, 200);
+                    } else {
+                        // Пользователь не авторизован - показываем форму входа
+                        adminPanel.style.display = 'none';
+                        if (adminLogin) adminLogin.style.display = 'flex';
+                    }
+                } else {
+                    // Показываем основной контент, скрываем админку и форму входа
+                    adminPanel.style.display = 'none';
+                    if (adminLogin) adminLogin.style.display = 'none';
+                    mainContent.style.display = 'block';
+                }
+            }
+            
+            // Инициализация всех обработчиков
+            function initAdminSystem() {
+                // Настраиваем форму входа и выход
+                if (window.AdminAuth) {
+                    window.AdminAuth.setupLoginForm();
+                    window.AdminAuth.setupLogout();
+                }
+                
+                // Проверяем путь и авторизацию
+                checkAdminPath();
+            }
+            
+            // Запускаем проверку при загрузке DOM
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initAdminSystem);
+            } else {
+                // DOM уже загружен
+                initAdminSystem();
+            }
+            
+            // Проверяем при изменении хеша
+            window.addEventListener('hashchange', checkAdminPath);
+            
+            // Обработчик кнопки "Вернуться к сайту"
+            function setupBackButton() {
+                const backBtn = document.getElementById('backToSite');
+                if (backBtn) {
+                    backBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        // Переходим на основную страницу без хеша
+                        let path = window.location.pathname;
+                        if (!path || path.endsWith('/')) {
+                            path = 'erasmus+circulen.html';
+                        }
+                        window.location.href = path;
+                    });
+                } else {
+                    // Кнопка еще не загружена, попробуем позже
+                    setTimeout(setupBackButton, 100);
+                }
+            }
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', setupBackButton);
+            } else {
+                setupBackButton();
+            }
+        })();
+    </script>
 </body>
 </html>
