@@ -26,12 +26,16 @@ class NewsIntegration {
                 return;
             }
 
+            console.log('Запрос к Supabase: SELECT * FROM news...');
             const { data, error } = await supabase
                 .from('news')
                 .select('*')
                 .order('created_at', { ascending: false });
 
             if (error) {
+                console.error('Ошибка Supabase при запросе:', error);
+                console.error('Код ошибки:', error.code);
+                console.error('Сообщение:', error.message);
                 throw error;
             }
 
@@ -81,13 +85,24 @@ class NewsIntegration {
             }
 
         } catch (error) {
-            console.error('Ошибка загрузки новостей из Supabase:', error);
+            console.error('✗ Ошибка загрузки новостей из Supabase:', error);
+            
+            // Проверяем тип ошибки
+            if (error.message && error.message.includes('Failed to fetch')) {
+                console.error('Проблема сети при подключении к Supabase');
+                console.error('Проверьте:');
+                console.error('1. Интернет соединение');
+                console.error('2. Доступность Supabase: https://aeewpulwnamwavtejlzq.supabase.co');
+                console.error('3. CORS настройки в Supabase');
+            }
+            
             // Fallback на localStorage если Supabase недоступен
             const localNews = this.loadNewsFromStorage();
             if (localNews && localNews.length > 0) {
-                console.log(`Используем ${localNews.length} новостей из localStorage как fallback`);
+                console.log(`✓ Используем ${localNews.length} новостей из localStorage как fallback`);
                 this.news = localNews;
             } else {
+                console.log('В localStorage тоже нет новостей');
                 this.news = [];
             }
         }
