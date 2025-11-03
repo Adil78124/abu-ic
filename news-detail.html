@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новость - ABU</title>
+    <link rel="stylesheet" href="css/erasmus+circulen.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <style>
+        .news-detail-page {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .news-detail-header {
+            margin-bottom: 2rem;
+        }
+        .news-detail-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        .news-detail-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+        }
+        .news-detail-image {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+        .news-detail-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .news-detail-description {
+            font-size: 1.3rem;
+            color: #34495e;
+            font-weight: 500;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        .news-detail-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            white-space: pre-wrap;
+        }
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+        .loading {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #7f8c8d;
+        }
+        .loading i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+        }
+        .error {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #e74c3c;
+        }
+        .error i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="content">
+            <!-- Навигация -->
+            <div class="menu">
+                <div class="container">
+                    <div class="menu__row">
+                        <div class="logo__title">
+                            <a href="index.html">
+                                <img class="menu__logo" src="img/Logo-ABU.png" alt="ABU-logo">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Контент новости -->
+            <div class="news-detail-page">
+                <a href="erasmus+circulen.html" class="back-button">
+                    <i class="fas fa-arrow-left"></i>
+                    Назад к новостям
+                </a>
+                
+                <div id="newsDetailContent">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Загрузка новости...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/language-switcher.js"></script>
+    
+    <script>
+        // Загружаем новость по ID из URL параметров
+        async function loadNewsDetail() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const newsId = urlParams.get('id');
+            
+            if (!newsId) {
+                document.getElementById('newsDetailContent').innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h2>Новость не найдена</h2>
+                        <p>Не указан ID новости в URL</p>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                // Проверяем инициализацию Supabase
+                if (typeof supabase === 'undefined' || !supabase) {
+                    throw new Error('Supabase не инициализирован');
+                }
+
+                console.log('Загрузка новости с ID:', newsId);
+                
+                // Загружаем новость из Supabase
+                const { data, error } = await supabase
+                    .from('news')
+                    .select('*')
+                    .eq('id', newsId)
+                    .single();
+
+                if (error) {
+                    throw error;
+                }
+
+                if (!data) {
+                    throw new Error('Новость не найдена');
+                }
+
+                console.log('Новость загружена:', data);
+
+                // Парсим JSON из content
+                let contentData = {};
+                try {
+                    contentData = typeof data.content === 'string' ? JSON.parse(data.content) : data.content;
+                } catch (e) {
+                    contentData = { main: data.content || '', description: '' };
+                }
+
+                // Форматируем дату
+                const formatDate = (dateString) => {
+                    const date = new Date(dateString);
+                    return date.toLocaleDateString('ru-RU', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                };
+
+                const newsDate = contentData.date || data.created_at;
+
+                // Отображаем новость
+                document.getElementById('newsDetailContent').innerHTML = `
+                    <article class="news-detail">
+                        <header class="news-detail-header">
+                            <h1 class="news-detail-title">${data.title}</h1>
+                            <div class="news-detail-meta">
+                                <span><i class="fas fa-calendar"></i> ${formatDate(newsDate)}</span>
+                                <span><i class="fas fa-user"></i> ${data.author || 'Admin'}</span>
+                            </div>
+                        </header>
+                        
+                        ${data.image_url ? `
+                        <div class="news-detail-image">
+                            <img src="${data.image_url}" alt="${data.title}">
+                        </div>
+                        ` : ''}
+                        
+                        <div class="news-detail-content">
+                            ${contentData.description ? `
+                            <div class="news-detail-description">
+                                ${contentData.description}
+                            </div>
+                            ` : ''}
+                            
+                            <div class="news-detail-text">
+                                ${(contentData.main || '').replace(/\n/g, '<br>')}
+                            </div>
+                        </div>
+                    </article>
+                `;
+
+                // Обновляем title страницы
+                document.title = `${data.title} - ABU`;
+
+            } catch (error) {
+                console.error('Ошибка загрузки новости:', error);
+                document.getElementById('newsDetailContent').innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h2>Ошибка загрузки новости</h2>
+                        <p>${error.message || 'Не удалось загрузить новость'}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Запускаем загрузку после инициализации Supabase
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Ждём инициализации Supabase
+            let attempts = 0;
+            const checkSupabase = setInterval(() => {
+                attempts++;
+                if (typeof supabase !== 'undefined' && supabase) {
+                    clearInterval(checkSupabase);
+                    loadNewsDetail();
+                } else if (attempts > 30) {
+                    clearInterval(checkSupabase);
+                    document.getElementById('newsDetailContent').innerHTML = `
+                        <div class="error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h2>Ошибка инициализации</h2>
+                            <p>Не удалось подключиться к Supabase</p>
+                        </div>
+                    `;
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>
+

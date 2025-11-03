@@ -177,9 +177,8 @@ class NewsIntegration {
     }
 
     getNewsDetailUrl(news) {
-        // Создаем URL для детальной страницы новости
-        const slug = this.createSlug(news.title);
-        return `news-detail-${slug}.html?id=${news.id}`;
+        // Используем универсальную страницу для всех новостей
+        return `news-detail.html?id=${news.id}`;
     }
 
     createSlug(title) {
