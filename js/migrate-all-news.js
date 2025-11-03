@@ -353,11 +353,10 @@ window.migrateAllNewsToSupabase = async function() {
 
             // Подготавливаем данные для Supabase
             // Вставляем новость в Supabase
-            // ВАЖНО: в таблице нет колонки 'date' - дата хранится в content JSON
+            // ВАЖНО: в таблице нет колонок 'date' и 'description' - они хранятся в content JSON
             const newsData = {
                 title: news.title,
-                description: news.description,
-                content: JSON.stringify(contentData), // date хранится внутри contentData
+                content: JSON.stringify(contentData), // description и date хранятся внутри contentData
                 image_url: getImageUrl(news.image_url),
                 author: 'Admin'
                 // created_at будет установлен автоматически Supabase
