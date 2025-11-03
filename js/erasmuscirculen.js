@@ -73,6 +73,12 @@
             const carousel = document.getElementById(carouselId);
             const indicatorsContainer = document.getElementById(`indicators-${carouselId.split('-')[1]}`);
             
+            // Проверяем существование элемента
+            if (!indicatorsContainer) {
+                console.warn(`Indicators container not found for ${carouselId}`);
+                return;
+            }
+            
             // Очищаем существующие индикаторы
             indicatorsContainer.innerHTML = '';
             

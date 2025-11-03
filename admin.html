@@ -292,8 +292,8 @@
 
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Конфигурация Supabase -->
-    <script src="js/supabase-config.js"></script>
+    <!-- Конфигурация Supabase (загружается после библиотеки) -->
+    <script src="js/supabase-config.js" defer></script>
     <!-- Скрипт миграции (можно удалить после миграции) -->
     <script src="js/migrate-news.js"></script>
     <script src="js/admin-news.js"></script>
