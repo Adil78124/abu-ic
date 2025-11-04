@@ -51,9 +51,6 @@ class NewsAdmin {
             this.currentEditId = null;
         });
 
-        // Кнопка предварительного просмотра
-        const previewBtn = document.getElementById('previewBtn');
-        previewBtn.addEventListener('click', () => this.showPreview());
 
 
 
