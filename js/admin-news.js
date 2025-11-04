@@ -55,86 +55,24 @@ class NewsAdmin {
         const previewBtn = document.getElementById('previewBtn');
         previewBtn.addEventListener('click', () => this.showPreview());
 
-        // Кнопка миграции старых новостей
-        // Кнопка миграции старых новостей из localStorage
-        const migrateBtn = document.getElementById('migrateBtn');
-        if (migrateBtn) {
-            migrateBtn.addEventListener('click', async () => {
-                try {
-                    // Проверяем инициализацию Supabase
-                    if (typeof supabase === 'undefined' || !supabase) {
-                        await this.waitForSupabase(3000);
-                        if (typeof supabase === 'undefined' || !supabase) {
-                            this.showNotification('Supabase не инициализирован. Проверьте консоль браузера.', 'error');
-                            return;
-                        }
-                    }
 
-                    if (typeof window.migrateNewsToSupabase === 'function') {
-                        this.showNotification('Начало миграции...', 'info');
-                        await window.migrateNewsToSupabase();
-                        // Обновляем список после миграции
-                        await this.loadNewsFromSupabase();
-                        this.renderNewsList();
-                    } else {
-                        console.error('Функция migrateNewsToSupabase не найдена');
-                        this.showNotification('Скрипт миграции не загружен. Проверьте консоль браузера.', 'error');
-                    }
-                } catch (error) {
-                    console.error('Ошибка миграции:', error);
-                    this.showNotification('Ошибка миграции: ' + (error.message || error), 'error');
-                }
-            });
-        }
-
-        // Кнопка массовой миграции всех новостей из HTML файлов
-        const migrateAllBtn = document.getElementById('migrateAllBtn');
-        if (migrateAllBtn) {
-            migrateAllBtn.addEventListener('click', async () => {
-                if (!confirm('Вы уверены, что хотите импортировать все существующие новости из HTML файлов в Supabase? Это может занять некоторое время.')) {
-                    return;
-                }
-                
-                try {
-                    // Проверяем инициализацию Supabase
-                    if (typeof supabase === 'undefined' || !supabase) {
-                        await this.waitForSupabase(3000);
-                        if (typeof supabase === 'undefined' || !supabase) {
-                            alert('Supabase не инициализирован. Подождите несколько секунд и попробуйте снова.');
-                            return;
-                        }
-                    }
-
-                    migrateAllBtn.disabled = true;
-                    migrateAllBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Импорт новостей...';
-
-                    // Вызываем функцию миграции
-                    if (typeof window.migrateAllNewsToSupabase === 'function') {
-                        await window.migrateAllNewsToSupabase();
-                    } else {
-                        throw new Error('Функция migrateAllNewsToSupabase не найдена');
-                    }
-
-                    // Перезагружаем список новостей
-                    await this.loadNewsFromSupabase();
-                    this.renderNewsList();
-                    
-                    migrateAllBtn.innerHTML = '<i class="fas fa-database"></i> Импортировать все существующие новости из HTML';
-                    migrateAllBtn.disabled = false;
-                } catch (error) {
-                    console.error('Ошибка при импорте новостей:', error);
-                    alert('Ошибка при импорте новостей: ' + error.message);
-                    migrateAllBtn.innerHTML = '<i class="fas fa-database"></i> Импортировать все существующие новости из HTML';
-                    migrateAllBtn.disabled = false;
-                }
-            });
-        }
 
         // Кнопка обновления списка
         const refreshBtn = document.getElementById('refreshBtn');
         refreshBtn.addEventListener('click', async () => {
-            await this.loadNewsFromSupabase();
-            this.renderNewsList();
+            const originalText = refreshBtn.innerHTML;
+            refreshBtn.disabled = true;
+            refreshBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Загрузка...';
+            
+            try {
+                await this.loadNewsFromSupabase();
+                this.renderNewsList();
+                refreshBtn.innerHTML = originalText;
+                refreshBtn.disabled = false;
+            } catch (error) {
+                refreshBtn.innerHTML = originalText;
+                refreshBtn.disabled = false;
+            }
         });
 
         // Модальные окна
@@ -655,6 +593,7 @@ class NewsAdmin {
                     this.renderPreview({
                         title: formData.get('title'),
                         description: formData.get('description'),
+                        content: formData.get('content'),
                         date: formData.get('date'),
                         imageSrc: e.target.result
                     });
@@ -667,6 +606,7 @@ class NewsAdmin {
             this.renderPreview({
                 title: formData.get('title'),
                 description: formData.get('description'),
+                content: formData.get('content'),
                 date: formData.get('date'),
                 imageSrc: imageSrc
             });
@@ -686,6 +626,7 @@ class NewsAdmin {
             this.renderPreview({
                 title: news.title,
                 description: contentData.description || '',
+                content: contentData.main || '',
                 date: contentData.date || news.created_at,
                 imageSrc: news.image_url || 'img/news_first_card.jpg'
             });
@@ -696,13 +637,62 @@ class NewsAdmin {
     renderPreview(newsData) {
         const previewContent = document.getElementById('previewContent');
         
+        // Рендерим как карточку новости (как на сайте) + полная страница
         previewContent.innerHTML = `
-            <div class="preview-news">
-                <img src="${newsData.imageSrc}" alt="${newsData.title}" class="preview-image">
-                <div class="preview-content">
-                    <h3 class="preview-title">${newsData.title}</h3>
-                    <div class="preview-date">${this.formatDate(newsData.date)}</div>
-                    <p class="preview-description">${newsData.description}</p>
+            <div style="max-width: 1000px; margin: 0 auto;">
+                <h3 style="margin-bottom: 20px; color: #333;">Карточка новости (как на сайте):</h3>
+                <div class="news-card" style="margin-bottom: 30px;">
+                    <div class="single-image">
+                        <img src="${newsData.imageSrc}" alt="${newsData.title}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px 8px 0 0;">
+                    </div>
+                    <div class="news-content" style="padding: 20px;">
+                        <div class="news-title" style="font-size: 1.5rem; font-weight: 700; color: #2c3e50; margin-bottom: 10px;">
+                            ${newsData.title}
+                        </div>
+                        <span class="news-date" style="color: #7f8c8d; font-size: 0.9rem; display: block; margin-bottom: 15px;">
+                            ${this.formatDate(newsData.date)}
+                        </span>
+                        <div class="news-text">
+                            <p style="color: #555; line-height: 1.6; margin-bottom: 10px;">
+                                ${newsData.description || 'Описание новости'}
+                            </p>
+                            <span class="read-more" style="color: #3498db; font-weight: 600; cursor: pointer;">
+                                Читать подробнее →
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <hr style="margin: 30px 0; border: none; border-top: 2px solid #f0f0f0;">
+                
+                <h3 style="margin-bottom: 20px; color: #333;">Полная страница новости:</h3>
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 30px; border: 1px solid #e0e0e0;">
+                    <article class="news-detail">
+                        <header style="margin-bottom: 25px;">
+                            <h1 style="font-size: 2.5rem; font-weight: 700; color: #2c3e50; margin-bottom: 15px; line-height: 1.3;">
+                                ${newsData.title}
+                            </h1>
+                            <div style="display: flex; align-items: center; gap: 15px; color: #7f8c8d; margin-bottom: 20px;">
+                                <span><i class="fas fa-calendar"></i> ${this.formatDate(newsData.date)}</span>
+                                <span><i class="fas fa-user"></i> Admin</span>
+                            </div>
+                        </header>
+                        
+                        <div style="width: 100%; margin-bottom: 25px;">
+                            <img src="${newsData.imageSrc}" alt="${newsData.title}" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        </div>
+                        
+                        <div style="font-size: 1.1rem; line-height: 1.8; color: #2c3e50;">
+                            ${newsData.description ? `
+                            <div style="font-size: 1.3rem; color: #34495e; font-weight: 500; line-height: 1.6; margin-bottom: 20px;">
+                                ${newsData.description}
+                            </div>
+                            ` : ''}
+                            <div style="white-space: pre-wrap;">
+                                ${newsData.content || 'Полный текст новости будет здесь...'}
+                            </div>
+                        </div>
+                    </article>
                 </div>
             </div>
         `;
