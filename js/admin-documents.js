@@ -31,7 +31,7 @@ const PAGE_TITLES = {
     'mschool.html': 'Международная школа бизнеса',
     'director.html': 'Директор школы бизнеса',
     'eramus.html': 'Кредитная мобильность',
-    'erasmus+circulen.html': 'Erasmus + CirculEC',
+    'erasmus+circulec.html': 'Erasmus + CirculEC',
     'academic mobility.html': 'Академическая мобильность',
     'international_cooperation.html': 'Международное сотрудничество',
     'news-detail.html': 'Новости'

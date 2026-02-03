@@ -30,8 +30,7 @@ const DOCUMENTS_BUCKET = 'documents'; // Bucket для документов
 // Инициализация Supabase клиента
 // Библиотека @supabase/supabase-js через jsDelivr CDN экспортируется через window.supabase
 // Используем window.supabase для глобального доступа, чтобы избежать конфликтов
-// Не объявляем локальную переменную supabase, чтобы избежать ошибки "already declared"
-var supabase; // Используем var для избежания конфликтов при повторной загрузке скрипта
+// НЕ объявляем локальную переменную supabase - библиотека уже создает глобальную переменную
 
 (function initializeSupabase() {
     // Функция инициализации, которая пытается найти библиотеку
@@ -54,10 +53,10 @@ var supabase; // Используем var для избежания конфли
                 // Создаем клиент и сохраняем в window для глобального доступа
                 const client = supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 window.supabase = client;
-                supabase = client; // Для обратной совместимости
+                // НЕ присваиваем локальной переменной supabase - используем только window.supabase
                 
                 // Тестовый запрос для проверки ключа
-                supabase.from('document_usages').select('id').limit(1).then(({ error }) => {
+                window.supabase.from('document_usages').select('id').limit(1).then(({ error }) => {
                     if (error) {
                         if (error.code === 'PGRST303' || error.message?.includes('JWT expired')) {
                             console.error('[supabase-config] ⚠️⚠️⚠️ КРИТИЧЕСКАЯ ОШИБКА: JWT токен истек!');
@@ -80,7 +79,7 @@ var supabase; // Используем var для избежания конфли
         } else if (typeof supabaseLib !== 'undefined') {
             // Альтернативный способ (если библиотека экспортируется как supabaseLib)
             try {
-                supabase = supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                window.supabase = supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log('✓ Supabase инициализирован через supabaseLib');
                 return true;
             } catch (e) {
@@ -89,7 +88,7 @@ var supabase; // Используем var для избежания конфли
         } else if (typeof window.supabaseLib !== 'undefined') {
             // Еще один вариант
             try {
-                supabase = window.supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                window.supabase = window.supabaseLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log('✓ Supabase инициализирован через window.supabaseLib');
                 return true;
             } catch (e) {

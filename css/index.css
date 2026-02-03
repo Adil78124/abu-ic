@@ -1670,6 +1670,8 @@ a{
 .news__slider-wrapper {
   overflow-x: hidden; /* прячем полосу прокрутки */
   position: relative;
+  margin: 0 auto;
+  max-width: 1100px;
 }
 
 .news__block_main {
@@ -1843,6 +1845,13 @@ a{
 .ABU__brochure {
     background-color: #E9EAEF;
     width: auto;
+}
+
+.ABU__brochure__row {
+    margin: 0 auto;
+    max-width: 934px;
+    display: flex;
+    justify-content: center;
 }
 
 .ABU__brochure__body {

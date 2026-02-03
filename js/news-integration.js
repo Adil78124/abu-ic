@@ -8,6 +8,9 @@ class NewsIntegration {
     }
 
     async init() {
+        // Ждем инициализации Supabase (максимум 5 секунд)
+        await this.waitForSupabase(5000);
+        
         // Загружаем новости из Supabase при загрузке страницы
         await this.loadNewsFromSupabase();
         this.loadNewsToPage(1);
@@ -19,6 +22,16 @@ class NewsIntegration {
             // Сохраняем текущую страницу при обновлении
             this.loadNewsToPage(currentPage);
         }, 30000);
+    }
+
+    async waitForSupabase(maxWait = 5000) {
+        const startTime = Date.now();
+        while (typeof supabase === 'undefined' && (Date.now() - startTime) < maxWait) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        if (typeof supabase === 'undefined') {
+            console.warn('Supabase не инициализирован после ожидания, используем fallback');
+        }
     }
 
     async loadNewsFromSupabase() {
@@ -135,7 +148,10 @@ class NewsIntegration {
 
     loadNewsToPage(page = 1) {
         const newsContainer = document.querySelector('.news-container');
-        if (!newsContainer) return;
+        if (!newsContainer) {
+            console.warn('Контейнер .news-container не найден на странице');
+            return;
+        }
 
         // Если новостей нет, показываем заглушку
         if (this.news.length === 0) {
@@ -385,7 +401,7 @@ class NewsIntegration {
                                         </a>
                                     </div>
                                     <div class="header-actions" style="margin-left: auto;">
-                                        <a href="erasmus+circulen.html" style="background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.3); margin-right: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
+                                        <a href="erasmus+circulec.html" style="background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 8px; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.3); margin-right: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;">
                                             <i class="fas fa-arrow-left"></i>
                                             Назад к новостям
                                         </a>

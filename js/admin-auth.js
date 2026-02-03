@@ -33,8 +33,9 @@
             const start = Date.now();
 
             const check = () => {
-                if (typeof supabase !== 'undefined' && supabase) {
-                    resolve(supabase);
+                // Используем window.supabase вместо supabase
+                if (typeof window.supabase !== 'undefined' && window.supabase) {
+                    resolve(window.supabase);
                     return;
                 }
 
@@ -129,10 +130,10 @@
     }
 
     async function login(username, password) {
-        await ensureSupabaseReady();
+        const supabaseClient = await ensureSupabaseReady();
 
         // Вызываем RPC функцию для проверки учетных данных
-        const { data, error } = await supabase.rpc('verify_admin_credentials', {
+        const { data, error } = await supabaseClient.rpc('verify_admin_credentials', {
             p_username: username,
             p_password: password
         });
